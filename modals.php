@@ -114,8 +114,16 @@ require_once 'db.php';
                     </div>
                     <div class="mb-3">
     <label for="mobile_no" class="form-label">Mobile Number</label>
-    <input type="tel" class="form-control bg-dark text-white border-secondary" id="mobile_no" name="mobile_no" 
-           placeholder="Enter your mobile number">
+    <input 
+        type="tel" 
+        class="form-control bg-dark text-white border-secondary" 
+        id="mobile_no" 
+        name="mobile_no" 
+        maxlength="10" 
+        inputmode="numeric" 
+        placeholder="Enter your mobile number"
+        oninput="this.value = this.value.replace(/\D/g,'').slice(0,10);"
+    />
 </div>
                     <div class="mb-3 password-container">
                         <label for="modalRegisterPassword" class="form-label text-white">Password</label>
@@ -437,11 +445,11 @@ function setupFormSubmit(formId, successRedirect = null) {
             })
             .catch(error => {
                 console.error('Fetch error:', error);
-                
+                alert(error);
                 // More specific error messages
                 let errorMsg = 'An error occurred. Please try again.';
                 if (error.message.includes('JSON')) {
-                    errorMsg = 'Invalid response from server. Please try again.';
+                    errorMsg = 'Invalid response from server. Please try again.',error;
                 } else if (error.message.includes('HTTP')) {
                     errorMsg = 'Server error. Please try again later.';
                 } else if (error.message.includes('Network')) {

@@ -5,7 +5,9 @@ $dbname = 'Streamify';
 $username = 'root'; // Change as needed
 $password = ''; // Change as needed
 
-session_start();
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
 try {
     $conn = new mysqli($host, $username, $password, $dbname);
     

@@ -1,7 +1,6 @@
 <?php
 include "db.php";
 $user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
-$is_premium_user = isset($_SESSION['is_premium']) ? $_SESSION['is_premium'] : false;
 
 // Get content ID from GET
 $content_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -13,6 +12,15 @@ $watch_progress = 0;
 $is_scheduled = false;
 $time_until_release = null;
 $can_watch_video = false;
+
+//get user details
+if($user_id) {
+    $user_id = intval($user_id);
+    $user_stmt = $conn->prepare('SELECT is_premium FROM users WHERE user_id = ?');
+    $user_stmt->bind_param('i', $user_id);
+    $user_stmt->execute();
+    $is_premium_user = $user_stmt->get_result()->fetch_assoc()['is_premium'];
+}
 
 if ($content_id > 0) {
     // Fetch content
@@ -1167,7 +1175,7 @@ if ($is_scheduled) {
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>
                                             <p class="mb-0 text-muted small"><?= htmlspecialchars($episode['title']) ?></p>
                                         </div>
-                                        <span class="badge bg-secondary"><?= $episode['duration'] ?>m</span>
+                                        <span class="badge bg-secondary"><?= $episode['duration_minutes'] ?>m</span>
                                     </div>
                                     <?php if ($is_premium_user): ?>
                                         <div class="mt-2">
@@ -1906,7 +1914,7 @@ function initiateDownload(contentId, type, episodeId = null, episodeTitle = null
         body: formData
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.ok) {
             throw new Error('Network response was not ok');
         }
         return response.blob();
