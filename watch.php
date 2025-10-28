@@ -1169,7 +1169,8 @@ if ($is_scheduled) {
                             <?php foreach ($episodes as $index => $episode): ?>
                                 <div class="episode-item p-3 mb-2 <?= $index === 0 ? 'active' : '' ?>" 
                                      data-episode-id="<?= $episode['episode_id'] ?>" 
-                                     data-video-src="<?= "admin/" . htmlspecialchars($episode['video_path']) ?>">
+                                     data-video-src="<?= !empty($episode['video_path']) ? "admin/" . htmlspecialchars($episode['video_path']) : 'videos/default.mp4' ?>">
+
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>
@@ -1325,7 +1326,86 @@ if ($is_scheduled) {
         </div>
     </div>
 <?php endif; ?>
-        
+                <!-- Separate Category Sections -->
+        <?php if (!empty($categories)): ?>
+            <?php foreach ($categories as $index => $category): ?>
+                <?php
+                // Get category ID for the current category name
+                $cat_stmt = $conn->prepare("SELECT category_id FROM categories WHERE name = ?");
+                $cat_stmt->bind_param('s', $category);
+                $cat_stmt->execute();
+                $cat_result = $cat_stmt->get_result();
+                $current_category = $cat_result->fetch_assoc();
+                $cat_stmt->close();
+                
+                if ($current_category) {
+                    $current_category_id = $current_category['category_id'];
+                    
+                    // Fetch content from this specific category
+                    $cat_content_sql = "
+                        SELECT DISTINCT
+                            c.content_id,
+                            c.title,
+                            CONCAT('admin/', c.thumbnail_url) AS thumbnail_url,
+                            CONCAT('admin/', c.banner_url) AS banner_url,
+                            c.release_year,
+                            c.rating,
+                            c.content_type,
+                            c.is_premium,
+                            c.is_scheduled,
+                            c.schedule_date
+                        FROM content c
+                        JOIN content_categories cc ON cc.content_id = c.content_id
+                        WHERE cc.category_id = ?
+                        AND c.content_id != ?
+                        AND c.is_scheduled = 0
+                        GROUP BY c.content_id
+                        ORDER BY c.views DESC
+                        LIMIT 8
+                    ";
+                    
+                    $cat_content_stmt = $conn->prepare($cat_content_sql);
+                    $cat_content_stmt->bind_param('ii', $current_category_id, $content_id);
+                    $cat_content_stmt->execute();
+                    $cat_content_result = $cat_content_stmt->get_result();
+                    $category_content = $cat_content_result->fetch_all(MYSQLI_ASSOC);
+                    $cat_content_stmt->close();
+                    
+                    if (!empty($category_content)):
+                ?>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3 class="section-title">
+                                    <i class="bi bi-tag"></i> More <?= htmlspecialchars($category) ?> Content
+                                </h3>
+                                <div class="scroll-container">
+                                    <?php foreach ($category_content as $item): ?>
+                                        <div class="scroll-item">
+                                            <div class="movie-card position-relative">
+                                                <a href="watch.php?id=<?= $item['content_id'] ?>" class="text-decoration-none">
+                                                    <img src="<?= htmlspecialchars($item['thumbnail_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                                    <div class="card-badge"><?= $item['content_type'] === 'movie' ? 'Movie' : 'TV Show' ?></div>
+                                                    <?php if ($item['is_premium']): ?>
+                                                        <div class="premium-badge">PREMIUM</div>
+                                                    <?php endif; ?>
+                                                    <div class="card-body">
+                                                        <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
+                                                        <p class="card-text"><?= htmlspecialchars($item['release_year']) ?> • Rating: <?= $item['rating'] ?>/10</p>
+                                                        <small class="text-muted"><?= htmlspecialchars($category) ?></small>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                <?php 
+                    endif;
+                }
+                ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
         <!-- More Like This Section -->
         <?php if (!empty($related_content)): ?>
             <div class="row mt-4">
@@ -1348,6 +1428,225 @@ if ($is_scheduled) {
                                         <div class="card-body">
                                             <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
                                             <p class="card-text"><?= htmlspecialchars($item['release_year']) ?> • Rating: <?= $item['rating'] ?>/10</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+                <!-- Recently Added Section -->
+        <?php
+        // Fetch recently added content
+        $recent_stmt = $conn->prepare("
+            SELECT 
+                content_id,
+                title,
+                CONCAT('admin/', thumbnail_url) AS thumbnail_url,
+                CONCAT('admin/', banner_url) AS banner_url,
+                release_year,
+                rating,
+                content_type,
+                is_premium,
+                is_scheduled,
+                schedule_date,
+                created_at
+            FROM content 
+            WHERE is_scheduled = 0
+            ORDER BY created_at DESC 
+            LIMIT 10
+        ");
+        $recent_stmt->execute();
+        $recent_result = $recent_stmt->get_result();
+        $recent_content = $recent_result->fetch_all(MYSQLI_ASSOC);
+        $recent_stmt->close();
+        ?>
+        
+        <?php if (!empty($recent_content)): ?>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h3 class="section-title"><i class="bi bi-clock"></i> Recently Added</h3>
+                    <div class="scroll-container">
+                        <?php foreach ($recent_content as $item): ?>
+                            <div class="scroll-item">
+                                <div class="movie-card position-relative">
+                                    <a href="watch.php?id=<?= $item['content_id'] ?>" class="text-decoration-none">
+                                        <img src="<?= htmlspecialchars($item['thumbnail_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                        <?php if ($item['is_scheduled']): ?>
+                                            <div class="scheduled-badge">COMING SOON</div>
+                                        <?php else: ?>
+                                            <div class="card-badge"><?= $item['content_type'] === 'movie' ? 'Movie' : 'TV Show' ?></div>
+                                        <?php endif; ?>
+                                        <?php if ($item['is_premium']): ?>
+                                            <div class="premium-badge">PREMIUM</div>
+                                        <?php endif; ?>
+                                        <div class="card-body">
+                                            <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
+                                            <p class="card-text"><?= htmlspecialchars($item['release_year']) ?> • Rating: <?= $item['rating'] ?>/10</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Trending Now Section -->
+        <?php
+        // Fetch trending content (most viewed in last 30 days)
+        $trending_stmt = $conn->prepare("
+            SELECT 
+                content_id,
+                title,
+                CONCAT('admin/', thumbnail_url) AS thumbnail_url,
+                CONCAT('admin/', banner_url) AS banner_url,
+                release_year,
+                rating,
+                content_type,
+                is_premium,
+                is_scheduled,
+                schedule_date,
+                views
+            FROM content 
+            WHERE is_scheduled = 0
+            ORDER BY views DESC 
+            LIMIT 10
+        ");
+        $trending_stmt->execute();
+        $trending_result = $trending_stmt->get_result();
+        $trending_content = $trending_result->fetch_all(MYSQLI_ASSOC);
+        $trending_stmt->close();
+        ?>
+        
+        <?php if (!empty($trending_content)): ?>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h3 class="section-title"><i class="bi bi-fire"></i> Trending Now</h3>
+                    <div class="scroll-container">
+                        <?php foreach ($trending_content as $item): ?>
+                            <div class="scroll-item">
+                                <div class="movie-card position-relative">
+                                    <a href="watch.php?id=<?= $item['content_id'] ?>" class="text-decoration-none">
+                                        <img src="<?= htmlspecialchars($item['thumbnail_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                        <?php if ($item['is_scheduled']): ?>
+                                            <div class="scheduled-badge">COMING SOON</div>
+                                        <?php else: ?>
+                                            <div class="card-badge"><?= $item['content_type'] === 'movie' ? 'Movie' : 'TV Show' ?></div>
+                                        <?php endif; ?>
+                                        <?php if ($item['is_premium']): ?>
+                                            <div class="premium-badge">PREMIUM</div>
+                                        <?php endif; ?>
+                                        <div class="card-body">
+                                            <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
+                                            <p class="card-text"><?= htmlspecialchars($item['release_year']) ?> • <?= number_format($item['views']) ?> views</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Premium Content Section -->
+        <?php
+        // Fetch premium content
+        $premium_stmt = $conn->prepare("
+            SELECT 
+                content_id,
+                title,
+                CONCAT('admin/', thumbnail_url) AS thumbnail_url,
+                CONCAT('admin/', banner_url) AS banner_url,
+                release_year,
+                rating,
+                content_type,
+                is_premium,
+                is_scheduled,
+                schedule_date
+            FROM content 
+            WHERE is_premium = 1 AND is_scheduled = 0
+            ORDER BY views DESC 
+            LIMIT 10
+        ");
+        $premium_stmt->execute();
+        $premium_result = $premium_stmt->get_result();
+        $premium_content = $premium_result->fetch_all(MYSQLI_ASSOC);
+        $premium_stmt->close();
+        ?>
+        
+        <?php if (!empty($premium_content)): ?>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h3 class="section-title"><i class="bi bi-star-fill text-warning"></i> Premium Content</h3>
+                    <div class="scroll-container">
+                        <?php foreach ($premium_content as $item): ?>
+                            <div class="scroll-item">
+                                <div class="movie-card position-relative">
+                                    <a href="watch.php?id=<?= $item['content_id'] ?>" class="text-decoration-none">
+                                        <img src="<?= htmlspecialchars($item['thumbnail_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                        <div class="card-badge"><?= $item['content_type'] === 'movie' ? 'Movie' : 'TV Show' ?></div>
+                                        <div class="premium-badge">PREMIUM</div>
+                                        <div class="card-body">
+                                            <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
+                                            <p class="card-text"><?= htmlspecialchars($item['release_year']) ?> • Rating: <?= $item['rating'] ?>/10</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Coming Soon Section -->
+        <?php
+        // Fetch scheduled/coming soon content
+        $scheduled_stmt = $conn->prepare("
+            SELECT 
+                content_id,
+                title,
+                CONCAT('admin/', thumbnail_url) AS thumbnail_url,
+                CONCAT('admin/', banner_url) AS banner_url,
+                release_year,
+                rating,
+                content_type,
+                is_premium,
+                is_scheduled,
+                schedule_date
+            FROM content 
+            WHERE is_scheduled = 1 AND schedule_date > NOW()
+            ORDER BY schedule_date ASC 
+            LIMIT 10
+        ");
+        $scheduled_stmt->execute();
+        $scheduled_result = $scheduled_stmt->get_result();
+        $scheduled_content = $scheduled_result->fetch_all(MYSQLI_ASSOC);
+        $scheduled_stmt->close();
+        ?>
+        
+        <?php if (!empty($scheduled_content)): ?>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h3 class="section-title"><i class="bi bi-clock-history"></i> Coming Soon</h3>
+                    <div class="scroll-container">
+                        <?php foreach ($scheduled_content as $item): ?>
+                            <div class="scroll-item">
+                                <div class="movie-card position-relative">
+                                    <a href="watch.php?id=<?= $item['content_id'] ?>" class="text-decoration-none">
+                                        <img src="<?= htmlspecialchars($item['thumbnail_url']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
+                                        <div class="scheduled-badge">COMING SOON</div>
+                                        <?php if ($item['is_premium']): ?>
+                                            <div class="premium-badge">PREMIUM</div>
+                                        <?php endif; ?>
+                                        <div class="card-body">
+                                            <h6 class="card-title"><?= htmlspecialchars($item['title']) ?></h6>
+                                            <p class="card-text">Releases: <?= date('M j, Y', strtotime($item['schedule_date'])) ?></p>
                                         </div>
                                     </a>
                                 </div>
