@@ -1,0 +1,35 @@
+Request Method: POST
+POST data: Array
+(
+)
+
+FILES data: Array
+(
+)
+
+Action received: none
+=== NEW REQUEST ===
+Time: 2025-10-08 09:00:34
+POST Keys: action, title, description, categories, release_year, duration, publish_option, schedule_date, rating, content_type
+FILES Keys: thumbnail, banner, video
+Processing: Cov (movie)
+File uploaded successfully: Thumbnails/Cov_thumbnail.jpg
+Thumbnail uploaded: Thumbnails/Cov_thumbnail.jpg
+File uploaded successfully: Banners/Cov_banner.jpg
+Banner uploaded: Banners/Cov_banner.jpg
+File uploaded successfully: Videos/Cov.mp4
+Video uploaded: Videos/Cov.mp4
+=== NEW REQUEST ===
+Time: 2025-10-08 09:00:39
+POST Keys: action, title, description, categories, release_year, duration, publish_option, schedule_date, rating, content_type
+FILES Keys: thumbnail, banner, video
+Processing: Cov (movie)
+File uploaded successfully: Thumbnails/Cov_thumbnail.jpg
+Thumbnail uploaded: Thumbnails/Cov_thumbnail.jpg
+File uploaded successfully: Banners/Cov_banner.jpg
+Banner uploaded: Banners/Cov_banner.jpg
+File uploaded successfully: Videos/Cov.mp4
+Video uploaded: Videos/Cov.mp4
+=== NEW REQUEST ===
+=== NEW REQUEST ===
+=== NEW REQUEST ===
