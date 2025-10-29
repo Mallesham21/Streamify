@@ -71,15 +71,17 @@ $total_pages = ceil($total_content / $limit);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popular & Trending | Streamify</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
-    
+
     <style>
         :root {
             --streamify-primary: #b13bff;
@@ -92,42 +94,47 @@ $total_pages = ceil($total_content / $limit);
             --streamify-card-bg: rgba(255, 255, 255, 0.05);
             --streamify-card-border: rgba(255, 255, 255, 0.1);
         }
-        
+
         body {
             background: linear-gradient(135deg, var(--streamify-dark) 0%, #2a1b3d 100%);
             color: var(--streamify-text);
             min-height: 100vh;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        
-        /* Hero Section */
-      .hero-section {
-    background: linear-gradient(135deg, rgba(177, 59, 255, 0.1) 0%, rgba(0, 204, 255, 0.1) 100%);
-    border-radius: 20px;
-    padding: 3rem 2rem;
-    margin-bottom: 3rem;
-    position: relative;
-    overflow: hidden;
-    width: 100%; /* Added to ensure full width */
-    box-sizing: border-box; /* Added to include padding in width calculation */
-}
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
-    pointer-events: none;
-}
-       .hero-content {
-    position: relative;
-    z-index: 2;
-    width: 100%; /* Added to ensure full width */
-}
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(177, 59, 255, 0.1) 0%, rgba(0, 204, 255, 0.1) 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            /* Added to ensure full width */
+            box-sizing: border-box;
+            /* Added to include padding in width calculation */
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            /* Added to ensure full width */
+        }
+
         /* Section Titles */
         .section-title {
             color: var(--streamify-text);
@@ -137,7 +144,7 @@ $total_pages = ceil($total_content / $limit);
             border-bottom: 2px solid var(--streamify-primary);
             display: inline-block;
         }
-        
+
         /* Scroll Container */
         .scroll-container {
             display: flex;
@@ -149,31 +156,31 @@ $total_pages = ceil($total_content / $limit);
             margin-bottom: 2rem;
             scroll-behavior: smooth;
         }
-        
+
         .scroll-container::-webkit-scrollbar {
             height: 8px;
         }
-        
+
         .scroll-container::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
-        
+
         .scroll-container::-webkit-scrollbar-thumb {
             background: var(--streamify-primary);
             border-radius: 10px;
         }
-        
+
         .scroll-item {
             flex: 0 0 auto;
             width: 250px;
             transition: transform 0.3s ease;
         }
-        
+
         .scroll-item:hover {
             transform: translateY(-5px);
         }
-        
+
         /* Content Cards */
         .content-card {
             background: var(--streamify-card-bg);
@@ -185,24 +192,24 @@ $total_pages = ceil($total_content / $limit);
             position: relative;
             cursor: pointer;
         }
-        
+
         .content-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border-color: var(--streamify-primary);
         }
-        
+
         .content-card img {
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
             width: 100%;
         }
-        
+
         .content-card:hover img {
             transform: scale(1.05);
         }
-        
+
         .card-badge {
             position: absolute;
             top: 10px;
@@ -215,7 +222,7 @@ $total_pages = ceil($total_content / $limit);
             font-weight: 600;
             z-index: 2;
         }
-        
+
         .movie-badge {
             position: absolute;
             top: 10px;
@@ -228,7 +235,7 @@ $total_pages = ceil($total_content / $limit);
             font-weight: 600;
             z-index: 2;
         }
-        
+
         .tv-badge {
             position: absolute;
             top: 10px;
@@ -241,7 +248,7 @@ $total_pages = ceil($total_content / $limit);
             font-weight: 600;
             z-index: 2;
         }
-        
+
         .premium-badge {
             position: absolute;
             top: 12px;
@@ -260,22 +267,25 @@ $total_pages = ceil($total_content / $limit);
             backdrop-filter: blur(10px);
             animation: shimmer 3s infinite;
         }
-        
+
         @keyframes shimmer {
-            0%, 100% {
+
+            0%,
+            100% {
                 background: linear-gradient(135deg, #ffd700 0%, #ff6b00 100%);
                 box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
             }
+
             50% {
                 background: linear-gradient(135deg, #ffed4e 0%, #ff8533 100%);
                 box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
             }
         }
-        
+
         .card-body {
             padding: 1rem;
         }
-        
+
         .card-title {
             color: var(--streamify-text);
             font-weight: 600;
@@ -285,13 +295,13 @@ $total_pages = ceil($total_content / $limit);
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
+
         .card-text {
             color: var(--streamify-text-muted);
             font-size: 0.85rem;
             margin-bottom: 0;
         }
-        
+
         /* Stats Cards */
         .stats-card {
             background: rgba(255, 255, 255, 0.05);
@@ -301,23 +311,23 @@ $total_pages = ceil($total_content / $limit);
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .stats-card:hover {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-5px);
         }
-        
+
         .stats-number {
             font-size: 2rem;
             font-weight: 800;
             color: var(--streamify-primary);
         }
-        
+
         .stats-label {
             color: var(--streamify-text-muted);
             font-size: 0.9rem;
         }
-        
+
         /* Grid Layout */
         .content-grid {
             display: grid;
@@ -325,21 +335,21 @@ $total_pages = ceil($total_content / $limit);
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
-        
+
         .grid-item {
             transition: transform 0.3s ease;
         }
-        
+
         .grid-item:hover {
             transform: translateY(-5px);
         }
-        
+
         /* Pagination */
         .pagination {
             justify-content: center;
             margin: 2rem 0;
         }
-        
+
         .page-link {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -347,53 +357,54 @@ $total_pages = ceil($total_content / $limit);
             margin: 0 0.2rem;
             border-radius: 10px;
         }
-        
+
         .page-link:hover {
             background: var(--streamify-primary);
             border-color: var(--streamify-primary);
             color: white;
         }
-        
+
         .page-item.active .page-link {
             background: var(--streamify-primary);
             border-color: var(--streamify-primary);
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .scroll-item {
                 width: 220px;
             }
-            
+
             .content-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 gap: 1rem;
             }
-            
+
             .hero-section {
                 padding: 2rem 1rem;
             }
-            
+
             .section-title {
                 font-size: 1.5rem;
             }
         }
-        
+
         @media (max-width: 576px) {
             .scroll-item {
                 width: 180px;
             }
-            
+
             .content-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
-            
+
             .content-card img {
                 height: 120px;
             }
         }
     </style>
 </head>
+
 <body class="pt-5">
     <?php include "header.php"; ?>
 
@@ -404,8 +415,9 @@ $total_pages = ceil($total_content / $limit);
                 <h1 class="display-4 fw-bold mb-3">
                     <i class="bi bi-fire me-3"></i>Popular & Trending
                 </h1>
-                <p class="lead mb-4">Discover what everyone is watching - the most popular and trending content right now</p>
-                
+                <p class="lead mb-4">Discover what everyone is watching - the most popular and trending content right
+                    now</p>
+
                 <!-- Quick Stats -->
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
@@ -416,7 +428,8 @@ $total_pages = ceil($total_content / $limit);
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <div class="stats-number"><?php echo number_format(array_sum(array_column($popular_content, 'views'))); ?></div>
+                            <div class="stats-number">
+                                <?php echo number_format(array_sum(array_column($popular_content, 'views'))); ?></div>
                             <div class="stats-label">Total Views</div>
                         </div>
                     </div>
@@ -433,7 +446,7 @@ $total_pages = ceil($total_content / $limit);
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Navigation -->
                 <div class="d-flex gap-2 justify-content-center flex-wrap">
                     <a href="movies.php" class="btn btn-streamify">
@@ -456,7 +469,7 @@ $total_pages = ceil($total_content / $limit);
                 <span class="badge bg-danger ms-2">Live</span>
             </h3>
             <p class="text-muted mb-4">What's hot this week - the most watched content in the last 7 days</p>
-            
+
             <div class="scroll-container">
                 <?php foreach ($trending_content as $item): ?>
                     <div class="scroll-item">
@@ -470,16 +483,15 @@ $total_pages = ceil($total_content / $limit);
                             <?php if ($item['is_premium']): ?>
                                 <span class="premium-badge">Premium</span>
                             <?php endif; ?>
-                            
-                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo htmlspecialchars($item['title']); ?>"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
-                            
+
+                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" class="card-img-top"
+                                alt="<?php echo htmlspecialchars($item['title']); ?>"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
+
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($item['title']); ?></h5>
                                 <p class="card-text">
-                                    <?php echo htmlspecialchars($item['categories']); ?> | 
+                                    <?php echo htmlspecialchars($item['categories']); ?> |
                                     <?php echo $item['release_year']; ?>
                                 </p>
                                 <div class="d-flex align-items-center">
@@ -504,7 +516,7 @@ $total_pages = ceil($total_content / $limit);
                 <span class="badge bg-warning ms-2">8.0+ Rating</span>
             </h3>
             <p class="text-muted mb-4">Critically acclaimed content with the highest ratings</p>
-            
+
             <div class="scroll-container">
                 <?php foreach ($top_rated_content as $item): ?>
                     <div class="scroll-item">
@@ -518,16 +530,15 @@ $total_pages = ceil($total_content / $limit);
                             <?php if ($item['is_premium']): ?>
                                 <span class="premium-badge">Premium</span>
                             <?php endif; ?>
-                            
-                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo htmlspecialchars($item['title']); ?>"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
-                            
+
+                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" class="card-img-top"
+                                alt="<?php echo htmlspecialchars($item['title']); ?>"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
+
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($item['title']); ?></h5>
                                 <p class="card-text">
-                                    <?php echo htmlspecialchars($item['categories']); ?> | 
+                                    <?php echo htmlspecialchars($item['categories']); ?> |
                                     <?php echo $item['release_year']; ?>
                                 </p>
                                 <div class="d-flex align-items-center">
@@ -566,16 +577,15 @@ $total_pages = ceil($total_content / $limit);
                             <?php if ($item['is_premium']): ?>
                                 <span class="premium-badge">Premium</span>
                             <?php endif; ?>
-                            
-                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" 
-                                 class="card-img-top" 
-                                 alt="<?php echo htmlspecialchars($item['title']); ?>"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
-                            
+
+                            <img src="<?php echo htmlspecialchars($item['thumbnail_url']); ?>" class="card-img-top"
+                                alt="<?php echo htmlspecialchars($item['title']); ?>"
+                                onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 300 400\' fill=\'%23333\'%3E%3Crect width=\'300\' height=\'400\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'white\'%3ENo Image%3C/text%3E%3C/svg%3E'">
+
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($item['title']); ?></h5>
                                 <p class="card-text">
-                                    <?php echo htmlspecialchars($item['categories']); ?> | 
+                                    <?php echo htmlspecialchars($item['categories']); ?> |
                                     <?php echo $item['release_year']; ?>
                                 </p>
                                 <div class="d-flex align-items-center">
@@ -637,9 +647,9 @@ $total_pages = ceil($total_content / $limit);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Add smooth scrolling to scroll containers
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const scrollContainers = document.querySelectorAll('.scroll-container');
-            
+
             scrollContainers.forEach(container => {
                 let isDown = false;
                 let startX;
@@ -673,4 +683,5 @@ $total_pages = ceil($total_content / $limit);
         });
     </script>
 </body>
+
 </html>
