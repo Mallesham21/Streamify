@@ -12,6 +12,8 @@ $watch_progress = 0;
 $is_scheduled = false;
 $time_until_release = null;
 $can_watch_video = false;
+// Ensure this is always defined to avoid undefined variable notices when user is not logged in
+$is_premium_user = false;
 
 //get user details
 if($user_id) {
@@ -886,6 +888,21 @@ if ($is_scheduled) {
             min-height: 250px;
         }
     }
+    /* Instagram share button styling */
+    .insta-bg {
+        background: linear-gradient(45deg, #f58529 0%, #dd2a7b 50%, #8134af 100%);
+        color: #fff !important;
+        border: none !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(129,52,175,0.25);
+        transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .insta-bg:hover {
+        filter: brightness(0.95);
+        transform: translateY(-2px);
+    }
     </style>
 </head>
 <body class="pt-5">
@@ -1169,12 +1186,11 @@ if ($is_scheduled) {
                             <?php foreach ($episodes as $index => $episode): ?>
                                 <div class="episode-item p-3 mb-2 <?= $index === 0 ? 'active' : '' ?>" 
                                      data-episode-id="<?= $episode['episode_id'] ?>" 
-                                     data-video-src="<?= !empty($episode['video_path']) ? "admin/" . htmlspecialchars($episode['video_path']) : 'videos/default.mp4' ?>">
-
+                                     data-video-src="<?= "admin/" . htmlspecialchars($episode['video_path']) ?>">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>
-                                            <p class="mb-0 text-muted small"><?= htmlspecialchars($episode['title']) ?></p>
+                                            <p class="mb-0 small text-light opacity-75"><?= htmlspecialchars($episode['title']) ?></p>
                                         </div>
                                         <span class="badge bg-secondary"><?= $episode['duration_minutes'] ?>m</span>
                                     </div>
