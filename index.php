@@ -703,7 +703,7 @@ foreach ($allCategories as $category) {
                 <span class="premium-badge">Premium</span>
               <?php endif; ?>
               
-              <img src="<?= htmlspecialchars("admin/" . $row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top"
+              <img src="<?= htmlspecialchars($row['thumbnail_url'] ? "admin/" . $row['thumbnail_url'] : 'admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top"
                 alt="<?= htmlspecialchars($row['title']) ?>">
 
               <div class="card-body">
@@ -725,7 +725,7 @@ foreach ($allCategories as $category) {
       </div>
     <?php endif; ?>
 
-    <!-- Trending Now -->
+      <!-- Trending Now -->
     <h3 class="section-title fw-bold">Trending Now <i class="bi bi-fire"></i></h3>
     <div class="scroll-container">
       <?php foreach ($trending as $row): ?>
@@ -748,10 +748,8 @@ foreach ($allCategories as $category) {
               echo "<span class=\"card-badge\">{$badge}</span>";
             ?>
 
-            <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top"
-              alt="<?= htmlspecialchars($row['title']) ?>">
-
-            <div class="card-body">
+            <img src="<?= htmlspecialchars($row['thumbnail_url'] ? "admin/" . $row['thumbnail_url'] : 'admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top"
+              alt="<?= htmlspecialchars($row['title']) ?>">            <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
               <p class="card-text">
                 <?= htmlspecialchars($row['categories']) ?> |
@@ -776,7 +774,7 @@ foreach ($allCategories as $category) {
                 <span class="premium-badge">Premium</span>
               <?php endif; ?>
 
-              <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top"
+              <img src="<?= htmlspecialchars($row['thumbnail_url'] ? "admin/" . $row['thumbnail_url'] : 'admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top"
                 alt="<?= htmlspecialchars($row['title']) ?>">
 
               <!-- ✅ Progress bar BELOW the image -->
@@ -810,8 +808,8 @@ foreach ($allCategories as $category) {
             <?php if ($row['is_premium']): ?>
               <span class="premium-badge">Premium</span>
             <?php endif; ?>
-            
-            <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top"
+
+            <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'Admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top"
               alt="<?= htmlspecialchars($row['title']) ?>">
             <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
@@ -833,7 +831,7 @@ foreach ($allCategories as $category) {
               <span class="premium-badge">Premium</span>
             <?php endif; ?>
             
-            <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']) ?>">
+            <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'Admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']) ?>">
             <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
               <p class="card-text"><?= htmlspecialchars($row['categories']) ?> | <?= $row['release_year'] ?></p>
@@ -860,7 +858,7 @@ foreach ($allCategories as $category) {
                   <span class="premium-badge">Premium</span>
                 <?php endif; ?>
                 
-                <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'default-thumbnail.jpg') ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']) ?>">
+                <img src="<?= htmlspecialchars("admin/" .$row['thumbnail_url'] ?: 'Admin/thumbnails/default-thumbnail.jpg') ?>" class="card-img-top" alt="<?= htmlspecialchars($row['title']) ?>">
                 <div class="card-body">
                   <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
                   <p class="card-text">

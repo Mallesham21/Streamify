@@ -54,19 +54,20 @@ $conn->close();
 <form id="editContentForm" method="POST" action="update_content.php" enctype="multipart/form-data">
     <input type="hidden" name="content_id" value="<?php echo $content['content_id']; ?>">
     <input type="hidden" name="action" value="update_content">
-    
+
     <!-- Step 1: Basic Information -->
     <div class="step-content" id="editStep1-content">
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="edit_title" class="form-label">Title *</label>
-                    <input type="text" class="form-control" id="edit_title" name="title" 
-                           value="<?php echo htmlspecialchars($content['title']); ?>" required>
+                    <input type="text" class="form-control" id="edit_title" name="title"
+                        value="<?php echo htmlspecialchars($content['title']); ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="edit_description" class="form-label">Description</label>
-                    <textarea class="form-control" id="edit_description" name="description" rows="3"><?php echo htmlspecialchars($content['description']); ?></textarea>
+                    <textarea class="form-control" id="edit_description" name="description"
+                        rows="3"><?php echo htmlspecialchars($content['description']); ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="edit_categories" class="form-label">Categories</label>
@@ -75,10 +76,10 @@ $conn->close();
                         // Reset categories result pointer
                         $categories_result->data_seek(0);
                         while($category = $categories_result->fetch_assoc()): ?>
-                            <option value="<?php echo $category['category_id']; ?>" 
-                                <?php echo in_array($category['category_id'], $content_category_ids) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($category['name']); ?>
-                            </option>
+                        <option value="<?php echo $category['category_id']; ?>"
+                            <?php echo in_array($category['category_id'], $content_category_ids) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($category['name']); ?>
+                        </option>
                         <?php endwhile; ?>
                     </select>
                     <small class="form-text text-muted">Hold Ctrl to select multiple categories</small>
@@ -101,13 +102,13 @@ $conn->close();
                 </div>
                 <div class="mb-3">
                     <label for="edit_duration" class="form-label">Duration (minutes)</label>
-                    <input type="number" class="form-control" id="edit_duration" name="duration" 
-                           value="<?php echo $content['duration']; ?>" min="1">
+                    <input type="number" class="form-control" id="edit_duration" name="duration"
+                        value="<?php echo $content['duration']; ?>" min="1">
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="edit_featured" name="featured" value="1" 
-                               <?php echo $content['featured'] ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" id="edit_featured" name="featured" value="1"
+                            <?php echo $content['featured'] ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="edit_featured">
                             Featured Content
                         </label>
@@ -115,45 +116,51 @@ $conn->close();
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="edit_is_premium" name="is_premium" value="1" 
-                               <?php echo $content['is_premium'] ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="checkbox" id="edit_is_premium" name="is_premium" value="1"
+                            <?php echo $content['is_premium'] ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="edit_is_premium">
                             Premium Content (Only for subscribed users)
                         </label>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Publish Status *</label>
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="publish_option" id="edit_publish_now" 
-                                   value="now" <?php echo !$content['is_scheduled'] ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="edit_publish_now">
-                                Published Now
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="publish_option" id="edit_schedule_later" 
-                                   value="schedule" <?php echo $content['is_scheduled'] ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="edit_schedule_later">
-                                Schedule for Later
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3" id="edit_schedule_date_container" 
-                     style="<?php echo $content['is_scheduled'] ? '' : 'display: none;'; ?>">
-                    <label for="edit_schedule_date" class="form-label">Schedule Date & Time</label>
-                    <input type="datetime-local" class="form-control" id="edit_schedule_date" name="schedule_date"
-                           value="<?php echo $content['release_date'] ? date('Y-m-d\TH:i', strtotime($content['release_date'])) : ''; ?>">
-                </div>
+              <div class="mb-3">
+    <label class="form-label">Publish Status *</label>
+    <div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="publish_option" id="edit_publish_now"
+                value="now" <?php echo !$content['is_scheduled'] ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="edit_publish_now">
+                Published Now
+            </label>
+        </div>
+        <?php if ($content['is_scheduled']): ?>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="publish_option" id="edit_schedule_later"
+                value="schedule" <?php echo $content['is_scheduled'] ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="edit_schedule_later">
+                Schedule for Later
+            </label>
+        </div>
+        <?php else: ?>
+        <div class="alert alert-info mt-2">
+            <small><i class="fas fa-info-circle me-1"></i> This content is already published. Scheduling changes are not available.</small>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="mb-3" id="edit_schedule_date_container"
+    style="<?php echo $content['is_scheduled'] ? '' : 'display: none;'; ?>">
+    <label for="edit_schedule_date" class="form-label">Schedule Date & Time</label>
+    <input type="datetime-local" class="form-control" id="edit_schedule_date" name="schedule_date"
+        value="<?php echo $content['schedule_date'] ? date('Y-m-d\TH:i', strtotime($content['schedule_date'])) : ''; ?>">
+</div>
                 <div class="mb-3">
                     <label for="edit_rating" class="form-label">Rating (0-10)</label>
-                    <input type="number" class="form-control" id="edit_rating" name="rating" 
-                           value="<?php echo $content['rating']; ?>" min="0" max="10" step="0.1">
+                    <input type="number" class="form-control" id="edit_rating" name="rating"
+                        value="<?php echo $content['rating']; ?>" min="0" max="10" step="0.1">
                 </div>
                 <div class="mb-3">
-</div>
+                </div>
             </div>
         </div>
     </div>
@@ -167,13 +174,15 @@ $conn->close();
                     <div class="mb-3">
                         <label for="edit_content_type" class="form-label">Content Type *</label>
                         <select class="form-select" id="edit_content_type" name="content_type" required>
-                            <option value="movie" <?php echo $content['content_type'] === 'movie' ? 'selected' : ''; ?>>Movie</option>
-                            <option value="tv_show" <?php echo $content['content_type'] === 'tv_show' ? 'selected' : ''; ?>>TV Show</option>
+                            <option value="movie" <?php echo $content['content_type'] === 'movie' ? 'selected' : ''; ?>>
+                                Movie</option>
+                            <option value="tv_show"
+                                <?php echo $content['content_type'] === 'tv_show' ? 'selected' : ''; ?>>TV Show</option>
                         </select>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-6">
                 <div class="media-section">
                     <h5>Images</h5>
@@ -182,14 +191,14 @@ $conn->close();
                         <input type="file" class="form-control" id="edit_thumbnail" name="thumbnail" accept="image/*">
                         <?php if ($content['thumbnail_url']): ?>
                         <div class="mt-2">
-                            <img src="<?php echo $content['thumbnail_url']; ?>" alt="Current Thumbnail" 
-                                 class="file-preview" id="current_edit_thumbnail">
+                            <img src="<?php echo $content['thumbnail_url']; ?>" alt="Current Thumbnail"
+                                class="file-preview" id="current_edit_thumbnail">
                             <small class="form-text text-muted">Current thumbnail</small>
                         </div>
                         <?php endif; ?>
                         <div class="mt-2">
-                            <img id="edit_thumbnail_preview" src="" alt="New Thumbnail Preview" 
-                                 class="file-preview" style="display: none; max-height: 150px;">
+                            <img id="edit_thumbnail_preview" src="" alt="New Thumbnail Preview" class="file-preview"
+                                style="display: none; max-height: 150px;">
                         </div>
                     </div>
                     <div class="mb-3">
@@ -197,28 +206,28 @@ $conn->close();
                         <input type="file" class="form-control" id="edit_banner" name="banner" accept="image/*">
                         <?php if ($content['banner_url']): ?>
                         <div class="mt-2">
-                            <img src="<?php echo $content['banner_url']; ?>" alt="Current Banner" 
-                                 class="file-preview" id="current_edit_banner">
+                            <img src="<?php echo $content['banner_url']; ?>" alt="Current Banner" class="file-preview"
+                                id="current_edit_banner">
                             <small class="form-text text-muted">Current banner</small>
                         </div>
                         <?php endif; ?>
                         <div class="mt-2">
-                            <img id="edit_banner_preview" src="" alt="New Banner Preview" 
-                                 class="file-preview" style="display: none; max-height: 150px;">
+                            <img id="edit_banner_preview" src="" alt="New Banner Preview" class="file-preview"
+                                style="display: none; max-height: 150px;">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-6">
                 <div class="media-section">
                     <h5 id="edit_video_section_title">
                         <?php echo $content['content_type'] === 'movie' ? 'Video File' : 'Episodes'; ?>
                     </h5>
-                    
+
                     <!-- Video for Movies -->
-                    <div class="mb-3" id="edit_video_container" 
-                         style="<?php echo $content['content_type'] === 'movie' ? '' : 'display: none;'; ?>">
+                    <div class="mb-3" id="edit_video_container"
+                        style="<?php echo $content['content_type'] === 'movie' ? '' : 'display: none;'; ?>">
                         <label for="edit_video" class="form-label">Video File</label>
                         <input type="file" class="form-control" id="edit_video" name="video" accept="video/*">
                         <?php if ($content['video_path']): ?>
@@ -231,15 +240,16 @@ $conn->close();
                         </div>
                         <?php endif; ?>
                         <div class="mt-2">
-                            <video id="edit_video_preview" controls class="file-preview" style="display: none; max-height: 150px;">
+                            <video id="edit_video_preview" controls class="file-preview"
+                                style="display: none; max-height: 150px;">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
                     </div>
-                    
+
                     <!-- Episodes for TV Shows -->
-                    <div id="edit_episodes_container" 
-                         style="<?php echo $content['content_type'] === 'tv_show' ? '' : 'display: none;'; ?>">
+                    <div id="edit_episodes_container"
+                        style="<?php echo $content['content_type'] === 'tv_show' ? '' : 'display: none;'; ?>">
                         <label class="form-label">Episodes</label>
                         <div id="edit_episodes_list" class="episode-list">
                             <?php foreach ($episodes as $episode): ?>
@@ -248,33 +258,34 @@ $conn->close();
                                     <strong>Episode <?php echo $episode['episode_number']; ?></strong>
                                     <div class="row mt-2">
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control form-control-sm" 
-                                                   name="episode_titles[<?php echo $episode['episode_id']; ?>]" 
-                                                   value="<?php echo htmlspecialchars($episode['title']); ?>" 
-                                                   placeholder="Episode Title" required>
+                                            <input type="text" class="form-control form-control-sm"
+                                                name="episode_titles[<?php echo $episode['episode_id']; ?>]"
+                                                value="<?php echo htmlspecialchars($episode['title']); ?>"
+                                                placeholder="Episode Title" required>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="number" class="form-control form-control-sm" 
-                                                   name="episode_durations[<?php echo $episode['episode_id']; ?>]" 
-                                                   value="<?php echo $episode['duration_minutes']; ?>" 
-                                                   placeholder="Duration (min)" min="1" required>
+                                            <input type="number" class="form-control form-control-sm"
+                                                name="episode_durations[<?php echo $episode['episode_id']; ?>]"
+                                                value="<?php echo $episode['duration_minutes']; ?>"
+                                                placeholder="Duration (min)" min="1" required>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="date" class="form-control form-control-sm" 
-                                                   name="episode_dates[<?php echo $episode['episode_id']; ?>]" 
-                                                   value="<?php echo $episode['release_date']; ?>">
+                                            <input type="date" class="form-control form-control-sm"
+                                                name="episode_dates[<?php echo $episode['episode_id']; ?>]"
+                                                value="<?php echo $episode['release_date']; ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="file" class="form-control form-control-sm" 
-                                                   name="episode_videos[<?php echo $episode['episode_id']; ?>]" 
-                                                   accept="video/*">
+                                            <input type="file" class="form-control form-control-sm"
+                                                name="episode_videos[<?php echo $episode['episode_id']; ?>]"
+                                                accept="video/*">
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-12">
-                                            <textarea class="form-control form-control-sm" 
-                                                      name="episode_descriptions[<?php echo $episode['episode_id']; ?>]" 
-                                                      placeholder="Episode Description" rows="2"><?php echo htmlspecialchars($episode['description']); ?></textarea>
+                                            <textarea class="form-control form-control-sm"
+                                                name="episode_descriptions[<?php echo $episode['episode_id']; ?>]"
+                                                placeholder="Episode Description"
+                                                rows="2"><?php echo htmlspecialchars($episode['description']); ?></textarea>
                                         </div>
                                     </div>
                                     <?php if ($episode['video_path']): ?>
@@ -359,18 +370,19 @@ $conn->close();
             <div class="col-md-6">
                 <h6>Media Preview</h6>
                 <div class="content-preview mb-3">
-                    <img id="edit_review_thumbnail" src="<?php echo $content['thumbnail_url']; ?>" 
-                         alt="Thumbnail Preview" style="width: 100%; max-height: 150px; object-fit: cover;">
+                    <img id="edit_review_thumbnail" src="<?php echo $content['thumbnail_url']; ?>"
+                        alt="Thumbnail Preview" style="width: 100%; max-height: 150px; object-fit: cover;">
                 </div>
                 <?php if ($content['banner_url']): ?>
                 <div class="content-preview">
-                    <img id="edit_review_banner" src="<?php echo $content['banner_url']; ?>" 
-                         alt="Banner Preview" style="width: 100%; max-height: 150px; object-fit: cover;">
+                    <img id="edit_review_banner" src="<?php echo $content['banner_url']; ?>" alt="Banner Preview"
+                        style="width: 100%; max-height: 150px; object-fit: cover;">
                 </div>
                 <?php endif; ?>
             </div>
         </div>
-        <div id="edit_review_episodes_section" style="<?php echo $content['content_type'] === 'tv_show' ? '' : 'display: none;'; ?>">
+        <div id="edit_review_episodes_section"
+            style="<?php echo $content['content_type'] === 'tv_show' ? '' : 'display: none;'; ?>">
             <h6>Episodes</h6>
             <div id="edit_review_episodes" class="episode-list"></div>
         </div>
@@ -380,7 +392,8 @@ $conn->close();
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" id="editPrevStepBtn" style="display: none;">Previous</button>
     <button type="button" class="btn btn-primary" id="editNextStepBtn">Next</button>
-    <button type="submit" form="editContentForm" class="btn btn-success" id="editSubmitBtn" style="display: none;">Update Content</button>
+    <button type="submit" form="editContentForm" class="btn btn-success" id="editSubmitBtn"
+        style="display: none;">Update Content</button>
 </div>
 
 <script>
@@ -394,17 +407,17 @@ $(document).ready(function() {
             updateEditStepProgress();
         }
     });
-    
+
     $('#editPrevStepBtn').on('click', function() {
         editCurrentStep--;
         updateEditStepProgress();
     });
-    
+
     // Content type change handler
     $('#edit_content_type').on('change', function() {
         updateEditMediaVisibility();
     });
-    
+
     // Publish option change handler
     $('input[name="publish_option"]').on('change', function() {
         if ($('#edit_schedule_later').is(':checked')) {
@@ -413,7 +426,7 @@ $(document).ready(function() {
             $('#edit_schedule_date_container').hide();
         }
     });
-    
+
     // File preview handlers
     $('#edit_thumbnail').on('change', function(e) {
         const file = e.target.files[0];
@@ -426,7 +439,7 @@ $(document).ready(function() {
             reader.readAsDataURL(file);
         }
     });
-    
+
     $('#edit_banner').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -438,7 +451,7 @@ $(document).ready(function() {
             reader.readAsDataURL(file);
         }
     });
-    
+
     $('#edit_video').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -447,7 +460,7 @@ $(document).ready(function() {
             $('#current_edit_video').hide();
         }
     });
-    
+
     // Add episode button for edit modal
     $('#addEditEpisodeBtn').on('click', function() {
         const episodeNumber = $('#edit_episodes_list .episode-item').length + 1;
@@ -484,7 +497,7 @@ $(document).ready(function() {
         `;
         $('#edit_episodes_list').append(episodeItem);
     });
-    
+
     // Remove episode button for edit modal
     $(document).on('click', '.remove-edit-episode', function() {
         $(this).closest('.episode-item').remove();
@@ -514,7 +527,7 @@ function updateEditMediaVisibility() {
 function updateEditStepProgress() {
     // Update step indicators
     $('.step').removeClass('active completed');
-    
+
     for (let i = 1; i <= 3; i++) {
         if (i < editCurrentStep) {
             $('#editStep' + i).addClass('completed');
@@ -522,11 +535,11 @@ function updateEditStepProgress() {
             $('#editStep' + i).addClass('active');
         }
     }
-    
+
     // Show/hide step content
     $('.step-content').hide();
     $('#editStep' + editCurrentStep + '-content').show();
-    
+
     // Update buttons
     if (editCurrentStep === 1) {
         $('#editPrevStepBtn').hide();
@@ -545,7 +558,7 @@ function updateEditStepProgress() {
 }
 
 function validateEditStep(step) {
-    switch(step) {
+    switch (step) {
         case 1:
             const title = $('#edit_title').val().trim();
             if (!title) {
@@ -553,14 +566,14 @@ function validateEditStep(step) {
                 $('#edit_title').focus();
                 return false;
             }
-            
+
             const releaseYear = $('#edit_release_year').val();
             if (!releaseYear) {
                 alert('Please select a release year.');
                 $('#edit_release_year').focus();
                 return false;
             }
-            
+
             if ($('#edit_schedule_later').is(':checked') && !$('#edit_schedule_date').val()) {
                 alert('Please select a schedule date.');
                 $('#edit_schedule_date').focus();
@@ -572,15 +585,16 @@ function validateEditStep(step) {
             const contentType = $('#edit_content_type').val();
             if (contentType === 'tv_show') {
                 let allEpisodesValid = true;
-                $('#edit_episodes_list input[name^="episode_titles"], #edit_episodes_list input[name^="new_episode_titles"]').each(function() {
-                    if (!$(this).val().trim()) {
-                        alert('Please fill in all episode titles.');
-                        $(this).focus();
-                        allEpisodesValid = false;
-                        return false; // break the loop
-                    }
-                });
-                
+                $('#edit_episodes_list input[name^="episode_titles"], #edit_episodes_list input[name^="new_episode_titles"]')
+                    .each(function() {
+                        if (!$(this).val().trim()) {
+                            alert('Please fill in all episode titles.');
+                            $(this).focus();
+                            allEpisodesValid = false;
+                            return false; // break the loop
+                        }
+                    });
+
                 return allEpisodesValid;
             }
             return true;
@@ -594,53 +608,55 @@ function updateEditReviewStep() {
     $('#edit_review_title').text($('#edit_title').val());
     $('#edit_review_content_type').text($('#edit_content_type').val() === 'movie' ? 'Movie' : 'TV Show');
     $('#edit_review_description').text($('#edit_description').val() || 'No description');
-    
+
     // Get selected category names
     const selectedCategories = [];
     $('#edit_categories option:selected').each(function() {
         selectedCategories.push($(this).text());
     });
     $('#edit_review_categories').text(selectedCategories.join(', ') || 'None');
-    
+
     $('#edit_review_release_year').text($('#edit_release_year').val());
     $('#edit_review_duration').text(($('#edit_duration').val() || '0') + ' minutes');
     $('#edit_review_featured').text($('#edit_featured').is(':checked') ? 'Yes' : 'No');
     $('#edit_review_premium').text($('#edit_is_premium').is(':checked') ? 'Yes' : 'No');
-    
+
     const publishOption = $('input[name="publish_option"]:checked').val();
     $('#edit_review_publish_option').text(publishOption === 'now' ? 'Published Now' : 'Scheduled for Later');
-    
+
     if (publishOption === 'schedule') {
         $('#edit_review_schedule_date').text($('#edit_schedule_date').val() || 'Not set');
     } else {
         $('#edit_review_schedule_date').text('Immediate');
     }
-    
+
     $('#edit_review_rating').text($('#edit_rating').val() || 'Not set');
     // Update media previews
     const newThumbnailPreview = $('#edit_thumbnail_preview').attr('src');
     if (newThumbnailPreview) {
         $('#edit_review_thumbnail').attr('src', newThumbnailPreview);
     }
-    
+
     const newBannerPreview = $('#edit_banner_preview').attr('src');
     if (newBannerPreview) {
         $('#edit_review_banner').attr('src', newBannerPreview);
     }
-    
+
     // Update episodes section
     const contentType = $('#edit_content_type').val();
     if (contentType === 'tv_show') {
         $('#edit_review_episodes_section').show();
         const episodesContainer = $('#edit_review_episodes');
         episodesContainer.empty();
-        
+
         $('#edit_episodes_list .episode-item').each(function(index) {
             const episodeId = $(this).data('episode-id');
-            const title = $(this).find('input[name^="episode_titles"], input[name^="new_episode_titles"]').val();
-            const duration = $(this).find('input[name^="episode_durations"], input[name^="new_episode_durations"]').val();
+            const title = $(this).find('input[name^="episode_titles"], input[name^="new_episode_titles"]')
+                .val();
+            const duration = $(this).find(
+                'input[name^="episode_durations"], input[name^="new_episode_durations"]').val();
             const date = $(this).find('input[name^="episode_dates"], input[name^="new_episode_dates"]').val();
-            
+
             episodesContainer.append(`
                 <div class="episode-item">
                     <strong>Episode ${index + 1}:</strong> ${title} (${duration} min)
@@ -662,7 +678,7 @@ $(document).on('click', '#editSubmitBtn', function() {
     const btn = $(this);
 
     btn.html('<span class="spinner-border spinner-border-sm" role="status"></span> Updating...')
-       .prop('disabled', true);
+        .prop('disabled', true);
 
     $.ajax({
         url: 'update_content.php',
@@ -696,17 +712,18 @@ $(document).on('click', '#editSubmitBtn', function() {
         }
     });
 });
+
 function showAlert(message, type = 'info') {
     const alertContainer = $('.alert-container');
     const alertId = 'alert-' + Date.now();
-    
+
     const iconClass = {
         'success': 'fa-check-circle',
         'danger': 'fa-exclamation-triangle',
         'warning': 'fa-exclamation-circle',
         'info': 'fa-info-circle'
-    }[type] || 'fa-info-circle';
-    
+    } [type] || 'fa-info-circle';
+
     const alertHtml = `
         <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
             <i class="fas ${iconClass} me-2"></i>
@@ -714,17 +731,17 @@ function showAlert(message, type = 'info') {
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     `;
-    
+
     alertContainer.append(alertHtml);
-    
+
     // Auto-hide after 5 seconds
     setTimeout(() => {
         $(`#${alertId}`).alert('close');
     }, 5000);
-    
+
     // Remove from DOM after fade out
     $(`#${alertId}`).on('closed.bs.alert', function() {
         $(this).remove();
     });
-}</script>
-
+}
+</script>

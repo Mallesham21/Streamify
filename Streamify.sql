@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 26, 2025 at 05:47 AM
--- Server version: 5.7.34
--- PHP Version: 8.2.6
+-- Host: 127.0.0.1:3306
+-- Generation Time: Oct 30, 2025 at 09:40 AM
+-- Server version: 11.5.2-MariaDB
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Streamify`
+-- Database: `streamify`
 --
 
 -- --------------------------------------------------------
@@ -27,15 +27,19 @@ SET time_zone = "+00:00";
 -- Table structure for table `activity_logs`
 --
 
-CREATE TABLE `activity_logs` (
-  `log_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `activity_logs`;
+CREATE TABLE IF NOT EXISTS `activity_logs` (
+  `log_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `details` text COLLATE utf8mb4_unicode_ci,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `action` varchar(255) NOT NULL,
+  `details` text DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`log_id`),
+  KEY `user_id` (`user_id`),
+  KEY `created_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `activity_logs`
@@ -78,7 +82,8 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `details`, `ip_addre
 (34, 16, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUakfRe2OtS7Xf\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 15:36:23'),
 (35, 17, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUangEEChsl3w4\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 15:39:12'),
 (36, 29, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUbh8YbkVo0ZT2\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 16:31:56'),
-(37, 12, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUlrKXLdYPimAt\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-18 02:28:20');
+(37, 12, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUlrKXLdYPimAt\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-18 02:28:20'),
+(38, 31, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RZUwsDDVZxoP8b\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-30 01:10:43');
 
 -- --------------------------------------------------------
 
@@ -86,17 +91,19 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `details`, `ip_addre
 -- Table structure for table `banners`
 --
 
-CREATE TABLE `banners` (
-  `banner_id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `image_url` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `target_url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+DROP TABLE IF EXISTS `banners`;
+CREATE TABLE IF NOT EXISTS `banners` (
+  `banner_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `image_url` varchar(500) NOT NULL,
+  `target_url` varchar(500) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`banner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -105,13 +112,17 @@ CREATE TABLE `banners` (
 -- Table structure for table `cancellations`
 --
 
-CREATE TABLE `cancellations` (
-  `cancel_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `cancellations`;
+CREATE TABLE IF NOT EXISTS `cancellations` (
+  `cancel_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `content_id` int(11) DEFAULT NULL,
-  `reason` text,
-  `cancel_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `reason` text DEFAULT NULL,
+  `cancel_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`cancel_id`),
+  KEY `user_id` (`user_id`),
+  KEY `content_id` (`content_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -119,10 +130,13 @@ CREATE TABLE `cancellations` (
 -- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
-  `category_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`category_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `categories`
@@ -148,24 +162,27 @@ INSERT INTO `categories` (`category_id`, `name`) VALUES
 -- Table structure for table `content`
 --
 
-CREATE TABLE `content` (
-  `content_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `content`;
+CREATE TABLE IF NOT EXISTS `content` (
+  `content_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `content_type` enum('movie','tv_show') NOT NULL,
   `release_year` int(11) NOT NULL,
   `thumbnail_url` varchar(255) DEFAULT NULL,
   `banner_url` varchar(255) DEFAULT NULL,
   `rating` decimal(3,1) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `video_path` varchar(255) DEFAULT NULL,
-  `featured` tinyint(1) DEFAULT '0',
-  `is_premium` tinyint(1) DEFAULT '0',
-  `views` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `featured` tinyint(1) DEFAULT 0,
+  `is_premium` tinyint(1) DEFAULT 0,
+  `views` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `duration` int(11) DEFAULT NULL,
   `schedule_date` datetime DEFAULT NULL,
-  `is_scheduled` tinyint(1) DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `is_scheduled` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`content_id`),
+  KEY `idx_scheduled_release` (`is_scheduled`,`schedule_date`)
+) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `content`
@@ -175,13 +192,13 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (1, 'Inception', 'A thief enters dreams to steal secrets, but must plant one instead.', 'movie', 2010, 'thumbnails/inception.jpg', 'banners/inception1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/inception.mp4', 0, 0, 1200006, 148, NULL, 0),
 (2, 'The Dark Knight', 'Batman faces chaos brought by the Joker in Gotham.', 'movie', 2008, 'thumbnails/dark_knight.jpg', 'banners/dark_knight1.jpg', 9.0, '2025-09-02 15:11:19', 'videos/dark_knight.mp4', 0, 0, 1500000, 152, NULL, 0),
 (3, 'Interstellar', 'Astronauts travel through a wormhole to save humanity.', 'movie', 2014, 'thumbnails/interstellar.jpg', 'banners/interstellar1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/interstellar.mp4', 0, 0, 900000, 169, NULL, 0),
-(4, 'Avengers: Endgame', 'The Avengers assemble for the final battle against Thanos.', 'movie', 2019, 'thumbnails/endgame.jpg', 'banners/Avengers__Endgamejpg', 8.4, '2025-09-02 15:11:19', 'videos/endgame.mp4', 1, 0, 2000002, 181, NULL, 0),
+(4, 'Avengers: Endgame', 'The Avengers assemble for the final battle against Thanos.', 'movie', 2019, 'thumbnails/endgame.jpg', 'banners/Avengers__Endgamejpg', 8.4, '2025-09-02 15:11:19', 'videos/endgame.mp4', 1, 0, 2000006, 181, NULL, 0),
 (5, 'Avatar', 'A marine explores Pandora and joins the Na\'vi people.', 'movie', 2009, 'thumbnails/avatar.jpg', 'uploads/banners/banner_5_1760466265.jpg', 7.9, '2025-09-02 15:11:19', 'videos/Avatar_video.mp4', 0, 0, 1800005, 162, NULL, 0),
-(6, 'Titanic', 'A romance blossoms aboard the doomed Titanic.', 'movie', 1997, 'thumbnails/titanic.jpg', 'banners/titanic1.jpg', 7.9, '2025-09-02 15:11:19', 'iUjK28w2', 0, 0, 2200287, 195, NULL, 0),
+(6, 'Titanic', 'A romance blossoms aboard the doomed Titanic.', 'movie', 1997, 'thumbnails/titanic.jpg', 'banners/titanic1.jpg', 7.9, '2025-09-02 15:11:19', 'iUjK28w2', 0, 0, 2200289, 195, NULL, 0),
 (7, 'Gladiator', 'A betrayed general seeks vengeance in the Roman arena.', 'movie', 2000, 'thumbnails/gladiator.jpg', 'banners/gladiator1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/gladiator.mp4', 0, 0, 800000, 155, NULL, 0),
 (8, 'The Matrix', 'A hacker discovers reality is a simulation.', 'movie', 1999, 'thumbnails/matrix.jpg', 'banners/matrix1.jpg', 8.7, '2025-09-02 15:11:19', 'videos/matrix.mp4', 0, 0, 1600000, 136, NULL, 0),
 (9, 'The Godfather', 'The aging patriarch of an organized crime dynasty transfers power.', 'movie', 1972, 'thumbnails/godfather.jpg', 'banners/godfather1.jpg', 9.2, '2025-09-02 15:11:19', 'videos/godfather.mp4', 0, 0, 1400010, 175, NULL, 0),
-(10, 'The Shawshank Redemption', 'A man wrongly imprisoned finds hope and freedom.', 'movie', 1994, 'thumbnails/shawshank.jpg', 'banners/shawshank1.jpg', 9.3, '2025-09-02 15:11:19', 'videos/shawshank.mp4', 0, 0, 1700002, 142, NULL, 0),
+(10, 'The Shawshank Redemption', 'A man wrongly imprisoned finds hope and freedom.', 'movie', 1994, 'thumbnails/shawshank.jpg', 'banners/shawshank1.jpg', 9.3, '2025-09-02 15:11:19', 'videos/shawshank.mp4', 0, 0, 1700003, 142, NULL, 0),
 (11, 'Forrest Gump', 'A man with a kind heart experiences decades of U.S. history.', 'movie', 1994, 'thumbnails/forrest.jpg', 'banners/forrest1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/forrest.mp4', 0, 0, 1000001, 142, NULL, 0),
 (12, 'Fight Club', 'An insomniac and a soap maker start an underground fight club.', 'movie', 1999, 'thumbnails/fight_club.jpg', 'banners/fight_club1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/fight_club.mp4', 0, 0, 1300001, 139, NULL, 0),
 (13, 'Joker', 'A failed comedian spirals into madness in Gotham.', 'movie', 2019, 'thumbnails/joker.jpg', 'banners/joker1.jpg', 8.4, '2025-09-02 15:11:19', 'videos/joker.mp4', 0, 0, 1400000, 122, NULL, 0),
@@ -192,17 +209,17 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (18, 'Spider-Man: No Way Home', 'Peter Parker faces villains from across the multiverse.', 'movie', 2021, 'thumbnails/spiderman_nwh.jpg', 'banners/spiderman_nwh1.jpg', 8.2, '2025-09-02 15:11:19', 'videos/spiderman_nwh.mp4', 0, 0, 1750005, 148, NULL, 0),
 (19, 'Black Panther', 'T’Challa returns to Wakanda to rule as king and Black Panther.', 'movie', 2018, 'thumbnails/blackpanther.jpg', 'banners/blackpanther1.jpg', 7.3, '2025-09-02 15:11:19', '../videos/video_19_1759844209.mp4', 0, 0, 1100001, 134, NULL, 0),
 (20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/avengers.mp4', 0, 0, 1900000, 143, NULL, 0),
-(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/stranger_things1.jpg', 8.7, '2025-09-02 15:11:31', NULL, 0, 1, 2500143, NULL, NULL, 0),
-(22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/breakingbad1.jpg', 9.5, '2025-09-02 15:11:31', NULL, 0, 1, 2200038, NULL, NULL, 0),
-(23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/got1.jpg', 9.3, '2025-09-02 15:11:31', NULL, 0, 0, 3000100, NULL, NULL, 0),
+(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/stranger_things1.jpg', 8.7, '2025-09-02 15:11:31', NULL, 0, 1, 2500145, NULL, NULL, 0),
+(22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/breakingbad1.jpg', 9.5, '2025-09-02 15:11:31', NULL, 1, 1, 2200045, NULL, NULL, 0),
+(23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/got1.jpg', 9.3, '2025-09-02 15:11:31', NULL, 1, 0, 3000100, NULL, NULL, 0),
 (24, 'The Witcher', 'A monster hunter struggles with destiny and politics.', 'tv_show', 2019, 'thumbnails/witcher.jpg', 'banners/witcher1.jpg', 8.2, '2025-09-02 15:11:31', NULL, 0, 0, 1400000, NULL, NULL, 0),
 (25, 'The Crown', 'Chronicles the reign of Queen Elizabeth II.', 'tv_show', 2016, 'thumbnails/crown.jpg', 'banners/crown1.jpg', 8.6, '2025-09-02 15:11:31', NULL, 0, 0, 800000, NULL, NULL, 0),
 (26, 'Money Heist', 'A group of robbers attempt daring heists in Spain.', 'tv_show', 2017, 'thumbnails/moneyheist.jpg', 'banners/moneyheist1.jpg', 8.2, '2025-09-02 15:11:31', NULL, 0, 0, 2000002, NULL, NULL, 0),
 (27, 'Dark', 'A German town unravels a time-travel mystery.', 'tv_show', 2017, 'thumbnails/dark.jpg', 'banners/dark1.jpg', 8.8, '2025-09-02 15:11:31', NULL, 0, 0, 1200003, NULL, NULL, 0),
-(28, 'The Boys', 'Anti-heroes fight corrupt superheroes.', 'tv_show', 2019, 'thumbnails/boys.jpg', 'banners/boys1.jpg', 8.7, '2025-09-02 15:11:31', NULL, 0, 0, 1000001, NULL, NULL, 0),
-(29, 'Squid Game', 'Hundreds compete in deadly games for money.', 'tv_show', 2021, 'thumbnails/squidgame.jpg', 'banners/squidgame1.jpg', 8.0, '2025-09-02 15:11:31', NULL, 0, 0, 2700021, NULL, NULL, 0),
+(28, 'The Boys', 'Anti-heroes fight corrupt superheroes.', 'tv_show', 2019, 'thumbnails/boys.jpg', 'banners/boys1.jpg', 8.7, '2025-09-02 15:11:31', NULL, 0, 0, 1000002, NULL, NULL, 0),
+(29, 'Squid Game', 'Hundreds compete in deadly games for money.', 'tv_show', 2021, 'thumbnails/squidgame.jpg', 'banners/squidgame1.jpg', 8.0, '2025-09-02 15:11:31', NULL, 0, 0, 2700023, NULL, NULL, 0),
 (30, 'Peaky Blinders', 'A gangster family in 1900s Birmingham, England.', 'tv_show', 2013, 'thumbnails/peaky.jpg', 'banners/peaky1.jpg', 8.8, '2025-09-02 15:11:31', NULL, 0, 0, 1100000, NULL, NULL, 0),
-(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_10.jpg', 9.0, '2025-10-15 04:27:08', 'videos/Coolie_10.mp4', 0, 1, 31, 168, '2025-10-15 15:11:00', 1);
+(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_10.jpg', 9.0, '2025-10-15 04:27:08', 'videos/Coolie_10.mp4', 0, 1, 33, 168, '2025-10-31 15:11:00', 1);
 
 -- --------------------------------------------------------
 
@@ -210,10 +227,13 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 -- Table structure for table `content_categories`
 --
 
-CREATE TABLE `content_categories` (
+DROP TABLE IF EXISTS `content_categories`;
+CREATE TABLE IF NOT EXISTS `content_categories` (
   `content_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`content_id`,`category_id`),
+  KEY `category_id` (`category_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `content_categories`
@@ -313,19 +333,23 @@ INSERT INTO `content_categories` (`content_id`, `category_id`) VALUES
 -- Table structure for table `episodes`
 --
 
-CREATE TABLE `episodes` (
-  `episode_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `episodes`;
+CREATE TABLE IF NOT EXISTS `episodes` (
+  `episode_id` int(11) NOT NULL AUTO_INCREMENT,
   `content_id` int(11) DEFAULT NULL,
   `episode_number` int(11) DEFAULT NULL,
   `title` varchar(100) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `duration_minutes` int(11) DEFAULT NULL,
   `release_date` date DEFAULT NULL,
   `rating` decimal(3,1) DEFAULT NULL,
   `video_path` varchar(255) DEFAULT NULL,
-  `is_scheduled` tinyint(1) DEFAULT '0',
-  `scheduled_release_date` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `is_scheduled` tinyint(1) DEFAULT 0,
+  `scheduled_release_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`episode_id`),
+  KEY `content_id` (`content_id`),
+  KEY `idx_scheduled_release` (`is_scheduled`,`scheduled_release_date`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `episodes`
@@ -352,14 +376,18 @@ INSERT INTO `episodes` (`episode_id`, `content_id`, `episode_number`, `title`, `
 -- Table structure for table `feedback`
 --
 
-CREATE TABLE `feedback` (
-  `feedback_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `feedback_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
   `rating` tinyint(4) DEFAULT NULL,
-  `review_text` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `review_text` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`feedback_id`),
+  KEY `user_id` (`user_id`),
+  KEY `content_id` (`content_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `feedback`
@@ -390,16 +418,24 @@ INSERT INTO `feedback` (`feedback_id`, `user_id`, `content_id`, `rating`, `revie
 -- Table structure for table `notifications`
 --
 
-CREATE TABLE `notifications` (
-  `notification_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `type` enum('welcome','subscription_success','subscription_ending','subscription_expired','content_available','reminder_set','new_episode','recommendation','system','watchlist_reminder','general') NOT NULL DEFAULT 'general',
   `title` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `related_id` int(11) DEFAULT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`notification_id`),
+  KEY `user_id` (`user_id`),
+  KEY `idx_user_read` (`user_id`,`is_read`),
+  KEY `idx_type` (`type`),
+  KEY `idx_created_at` (`created_at`),
+  KEY `idx_notifications_user_type` (`user_id`,`type`),
+  KEY `idx_notifications_created_read` (`created_at`,`is_read`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `notifications`
@@ -439,7 +475,9 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `type`, `title`, `mes
 (39, 12, 'subscription_success', 'Subscription Activated', 'Your 3 Month Plan has been successfully activated! Your subscription is valid until Jan 16, 2026.', NULL, 0, '2025-10-18 02:28:20'),
 (40, 30, 'welcome', 'Welcome to Streamify!', 'Welcome aboard, Ashish! Start exploring thousands of movies and TV shows.', NULL, 0, '2025-10-26 04:40:22'),
 (41, 30, 'recommendation', 'Recommended for You', 'You might like \"Game of Thrones\" trending right now.', 23, 0, '2025-10-26 04:40:22'),
-(42, 30, 'recommendation', 'Recommended for You', 'You might like \"Squid Game\" popular among new users.', 29, 0, '2025-10-26 04:40:22');
+(42, 30, 'recommendation', 'Recommended for You', 'You might like \"Squid Game\" popular among new users.', 29, 0, '2025-10-26 04:40:22'),
+(47, 31, 'reminder_set', 'Reminder Set', 'You will be notified when \"Coolie\" releases on Oct 15, 2025', 62, 0, '2025-10-30 01:16:30'),
+(48, 31, 'content_available', 'New Content Available', 'The content \"Coolie\" you were waiting for is now available to watch.', 62, 0, '2025-10-30 01:16:39');
 
 -- --------------------------------------------------------
 
@@ -447,18 +485,23 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `type`, `title`, `mes
 -- Table structure for table `payments`
 --
 
-CREATE TABLE `payments` (
-  `payment_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `subscription_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `currency` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'USD',
-  `payment_method` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('pending','completed','failed','refunded') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `currency` varchar(10) NOT NULL DEFAULT 'USD',
+  `payment_method` varchar(50) NOT NULL,
+  `status` enum('pending','completed','failed','refunded') NOT NULL DEFAULT 'pending',
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`payment_id`),
+  KEY `user_id` (`user_id`),
+  KEY `subscription_id` (`subscription_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `payments`
@@ -471,7 +514,8 @@ INSERT INTO `payments` (`payment_id`, `user_id`, `subscription_id`, `amount`, `c
 (4, 16, 9, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUakfRe2OtS7Xf', '2025-10-17 15:36:23', '2025-10-17 15:36:23'),
 (5, 17, 10, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUangEEChsl3w4', '2025-10-17 15:39:12', '2025-10-17 15:39:12'),
 (6, 29, 11, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUbh8YbkVo0ZT2', '2025-10-17 16:31:56', '2025-10-17 16:31:56'),
-(7, 12, 12, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUlrKXLdYPimAt', '2025-10-18 02:28:20', '2025-10-18 02:28:20');
+(7, 12, 12, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUlrKXLdYPimAt', '2025-10-18 02:28:20', '2025-10-18 02:28:20'),
+(8, 31, 13, 499.00, 'INR', 'razorpay', 'completed', 'pay_RZUwsDDVZxoP8b', '2025-10-30 01:10:43', '2025-10-30 01:10:43');
 
 -- --------------------------------------------------------
 
@@ -479,15 +523,21 @@ INSERT INTO `payments` (`payment_id`, `user_id`, `subscription_id`, `amount`, `c
 -- Table structure for table `reminders`
 --
 
-CREATE TABLE `reminders` (
-  `reminder_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `reminders`;
+CREATE TABLE IF NOT EXISTS `reminders` (
+  `reminder_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
   `status` enum('active','cancelled','notified') NOT NULL DEFAULT 'active',
   `reminder_date` datetime DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`reminder_id`),
+  UNIQUE KEY `unique_user_content` (`user_id`,`content_id`),
+  KEY `content_id` (`content_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_reminder_date` (`reminder_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `reminders`
@@ -496,7 +546,8 @@ CREATE TABLE `reminders` (
 INSERT INTO `reminders` (`reminder_id`, `user_id`, `content_id`, `status`, `reminder_date`, `created_at`, `updated_at`) VALUES
 (2, 12, 62, 'notified', '2025-10-15 15:11:00', '2025-10-16 07:43:57', '2025-10-16 16:36:53'),
 (4, 10, 62, 'notified', '2025-10-15 15:11:00', '2025-10-16 08:18:59', '2025-10-16 16:36:53'),
-(5, 28, 62, 'notified', '2025-10-15 15:11:00', '2025-10-17 14:45:40', '2025-10-17 14:54:46');
+(5, 28, 62, 'notified', '2025-10-15 15:11:00', '2025-10-17 14:45:40', '2025-10-17 14:54:46'),
+(6, 31, 62, 'notified', '2025-10-15 15:11:00', '2025-10-30 01:16:30', '2025-10-30 01:16:39');
 
 -- --------------------------------------------------------
 
@@ -504,15 +555,17 @@ INSERT INTO `reminders` (`reminder_id`, `user_id`, `content_id`, `status`, `remi
 -- Table structure for table `subscriptions`
 --
 
-CREATE TABLE `subscriptions` (
-  `sub_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `subscriptions`;
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `sub_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `duration_days` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `features` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `features` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`sub_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `subscriptions`
@@ -529,8 +582,9 @@ INSERT INTO `subscriptions` (`sub_id`, `name`, `price`, `duration_days`, `descri
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `mobile_no` varchar(15) DEFAULT NULL,
@@ -538,10 +592,13 @@ CREATE TABLE `users` (
   `profile_pic` varchar(255) DEFAULT NULL,
   `role` enum('user','admin') DEFAULT 'user',
   `subscription_type` enum('free','premium') DEFAULT 'free',
-  `is_premium` tinyint(1) DEFAULT '0',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_login` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `is_premium` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `last_login` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `users`
@@ -571,7 +628,8 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `mobile_no`, `password_hash
 (26, 'Disbbd', 'susg@gmail.com', NULL, '$2y$10$bpoqtRZkgeSry8c40qd9guobiOTDBPxh5W8I92TN2h1W/b1s6KW9G', 'uploads/profile_pics/68f1abe83319d_1760668648.jpg', 'user', 'free', 0, '2025-10-16 23:07:28', NULL),
 (27, 'Pravin', 'pravin@gmail.com', NULL, '$2y$10$8xnWSxkiirEOo73AeVXqDO6zn38ud8KZuesBl8YptsnFVfVvse/1G', 'uploads/profile_pics/68f1ae12696d8_1760669202.jpg', 'user', 'free', 0, '2025-10-16 23:16:42', NULL),
 (28, 'Gagan', 'gagan@gmail.com', NULL, '$2y$10$90zMvLVwmBXlfCbH4.cj9uTnySsgMm4.4bhzuCS0cULXKB4pySeGW', 'uploads/profile_pics/68f255e6e325e_1760712166.jpg', 'user', 'free', 0, '2025-10-17 11:12:47', NULL),
-(29, 'Ravi1234', 'ravi@gmail.com', '9999999996', '$2y$10$v0.a5P2Fx9BYI0VhjrHSK.R3SEIKMFHJ5.c0gmEokrfYmLbB/2jrO', 'uploads/profile_pics/68f2683d4102c_1760716861.jpg', 'user', 'premium', 1, '2025-10-17 12:31:01', NULL);
+(29, 'Ravi1234', 'ravi@gmail.com', '9999999996', '$2y$10$v0.a5P2Fx9BYI0VhjrHSK.R3SEIKMFHJ5.c0gmEokrfYmLbB/2jrO', 'uploads/profile_pics/68f2683d4102c_1760716861.jpg', 'user', 'premium', 1, '2025-10-17 12:31:01', NULL),
+(31, 'Pravin123', 'pravin12@gmail.com', '4567891235', '$2y$10$YuQqEC4uR30zcG2kkoBy..bexmwtr46NdprOj6wD/6VWzaRa7Q6/m', 'uploads/profile_pics/6902ba696e7e5_1761786473.jpg', 'user', 'premium', 1, '2025-10-29 19:37:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -579,14 +637,18 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `mobile_no`, `password_hash
 -- Table structure for table `user_subscriptions`
 --
 
-CREATE TABLE `user_subscriptions` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user_subscriptions`;
+CREATE TABLE IF NOT EXISTS `user_subscriptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `sub_id` int(11) NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
-  `status` enum('active','expired','cancelled') DEFAULT 'active'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `status` enum('active','expired','cancelled') DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `sub_id` (`sub_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `user_subscriptions`
@@ -599,7 +661,8 @@ INSERT INTO `user_subscriptions` (`id`, `user_id`, `sub_id`, `start_date`, `end_
 (9, 16, 2, '2025-10-17 17:36:23', '2026-01-15 17:36:23', 'active'),
 (10, 17, 2, '2025-10-17 17:39:12', '2026-01-15 17:39:12', 'active'),
 (11, 29, 2, '2025-10-17 18:31:56', '2026-01-15 18:31:56', 'active'),
-(12, 12, 2, '2025-10-18 04:28:20', '2026-01-16 04:28:20', 'active');
+(12, 12, 2, '2025-10-18 04:28:20', '2026-01-16 04:28:20', 'active'),
+(13, 31, 2, '2025-10-30 01:10:43', '2026-01-28 01:10:43', 'active');
 
 -- --------------------------------------------------------
 
@@ -607,12 +670,16 @@ INSERT INTO `user_subscriptions` (`id`, `user_id`, `sub_id`, `start_date`, `end_
 -- Table structure for table `watchlist`
 --
 
-CREATE TABLE `watchlist` (
-  `watchlist_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `watchlist`;
+CREATE TABLE IF NOT EXISTS `watchlist` (
+  `watchlist_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `content_id` int(11) NOT NULL,
-  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`watchlist_id`),
+  UNIQUE KEY `unique_watchlist` (`user_id`,`content_id`),
+  KEY `content_id` (`content_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `watchlist`
@@ -622,7 +689,8 @@ INSERT INTO `watchlist` (`watchlist_id`, `user_id`, `content_id`, `added_at`) VA
 (1, 10, 21, '2025-10-13 16:53:48'),
 (11, 12, 21, '2025-10-18 02:43:56'),
 (9, 12, 22, '2025-10-15 09:30:09'),
-(8, 12, 23, '2025-10-14 17:39:09');
+(8, 12, 23, '2025-10-14 17:39:09'),
+(14, 31, 22, '2025-10-30 01:09:57');
 
 -- --------------------------------------------------------
 
@@ -630,14 +698,18 @@ INSERT INTO `watchlist` (`watchlist_id`, `user_id`, `content_id`, `added_at`) VA
 -- Table structure for table `watch_history`
 --
 
-CREATE TABLE `watch_history` (
-  `history_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `watch_history`;
+CREATE TABLE IF NOT EXISTS `watch_history` (
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `content_id` int(11) DEFAULT NULL,
-  `progress_percent` decimal(5,2) DEFAULT '0.00',
-  `last_watched` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `rating` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `progress_percent` decimal(5,2) DEFAULT 0.00,
+  `last_watched` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `rating` int(11) DEFAULT NULL,
+  PRIMARY KEY (`history_id`),
+  KEY `user_id` (`user_id`),
+  KEY `content_id` (`content_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `watch_history`
@@ -651,233 +723,8 @@ INSERT INTO `watch_history` (`history_id`, `user_id`, `content_id`, `progress_pe
 (5, 3, 5, 88.90, '2025-07-15 14:38:07', NULL),
 (6, 6, 4, 2.73, '2025-08-09 04:47:30', NULL),
 (7, 9, 6, 0.00, '2025-10-02 07:36:40', NULL),
-(8, 12, 21, 75.50, '2025-10-18 15:11:56', NULL);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `activity_logs`
---
-ALTER TABLE `activity_logs`
-  ADD PRIMARY KEY (`log_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `created_at` (`created_at`);
-
---
--- Indexes for table `banners`
---
-ALTER TABLE `banners`
-  ADD PRIMARY KEY (`banner_id`);
-
---
--- Indexes for table `cancellations`
---
-ALTER TABLE `cancellations`
-  ADD PRIMARY KEY (`cancel_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `content_id` (`content_id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`category_id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `content`
---
-ALTER TABLE `content`
-  ADD PRIMARY KEY (`content_id`),
-  ADD KEY `idx_scheduled_release` (`is_scheduled`,`schedule_date`);
-
---
--- Indexes for table `content_categories`
---
-ALTER TABLE `content_categories`
-  ADD PRIMARY KEY (`content_id`,`category_id`),
-  ADD KEY `category_id` (`category_id`);
-
---
--- Indexes for table `episodes`
---
-ALTER TABLE `episodes`
-  ADD PRIMARY KEY (`episode_id`),
-  ADD KEY `content_id` (`content_id`),
-  ADD KEY `idx_scheduled_release` (`is_scheduled`,`scheduled_release_date`);
-
---
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`feedback_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `content_id` (`content_id`);
-
---
--- Indexes for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`notification_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_user_read` (`user_id`,`is_read`),
-  ADD KEY `idx_type` (`type`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `idx_notifications_user_type` (`user_id`,`type`),
-  ADD KEY `idx_notifications_created_read` (`created_at`,`is_read`);
-
---
--- Indexes for table `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`payment_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `subscription_id` (`subscription_id`),
-  ADD KEY `status` (`status`);
-
---
--- Indexes for table `reminders`
---
-ALTER TABLE `reminders`
-  ADD PRIMARY KEY (`reminder_id`),
-  ADD UNIQUE KEY `unique_user_content` (`user_id`,`content_id`),
-  ADD KEY `content_id` (`content_id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_reminder_date` (`reminder_date`);
-
---
--- Indexes for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  ADD PRIMARY KEY (`sub_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- Indexes for table `user_subscriptions`
---
-ALTER TABLE `user_subscriptions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `sub_id` (`sub_id`);
-
---
--- Indexes for table `watchlist`
---
-ALTER TABLE `watchlist`
-  ADD PRIMARY KEY (`watchlist_id`),
-  ADD UNIQUE KEY `unique_watchlist` (`user_id`,`content_id`),
-  ADD KEY `content_id` (`content_id`);
-
---
--- Indexes for table `watch_history`
---
-ALTER TABLE `watch_history`
-  ADD PRIMARY KEY (`history_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `content_id` (`content_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `activity_logs`
---
-ALTER TABLE `activity_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-
---
--- AUTO_INCREMENT for table `banners`
---
-ALTER TABLE `banners`
-  MODIFY `banner_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `cancellations`
---
-ALTER TABLE `cancellations`
-  MODIFY `cancel_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT for table `content`
---
-ALTER TABLE `content`
-  MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
-
---
--- AUTO_INCREMENT for table `episodes`
---
-ALTER TABLE `episodes`
-  MODIFY `episode_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `feedback`
---
-ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `notifications`
---
-ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `payments`
---
-ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `reminders`
---
-ALTER TABLE `reminders`
-  MODIFY `reminder_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  MODIFY `sub_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `user_subscriptions`
---
-ALTER TABLE `user_subscriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `watchlist`
---
-ALTER TABLE `watchlist`
-  MODIFY `watchlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `watch_history`
---
-ALTER TABLE `watch_history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+(8, 12, 21, 75.50, '2025-10-18 15:11:56', NULL),
+(9, 31, 21, 0.80, '2025-10-30 03:49:21', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

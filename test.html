@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMDb Poster & Banner Downloader</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #0e0e0e;
+        color: white;
+        text-align: center;
+        padding: 40px;
+    }
+    input, button {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+    input {
+        width: 260px;
+    }
+    button {
+        background: #e50914;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #b00610;
+    }
+    img {
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(255,255,255,0.15);
+        margin-top: 20px;
+    }
+    .poster {
+        max-width: 250px;
+    }
+    .banner {
+        width: 90%;
+        height: 250px;
+        object-fit: cover;
+    }
+</style>
+</head>
+<body>
+    <h1>🎬 TMDb Poster & Banner Fetcher</h1>
+    <input type="text" id="movieTitle" placeholder="Enter movie title...">
+    <button onclick="fetchMovie()">Fetch</button>
+    <div id="result"></div>
+
+<script>
+async function fetchMovie() {
+    const title = document.getElementById('movieTitle').value.trim();
+    const resultDiv = document.getElementById('result');
+
+    if (!title) {
+        resultDiv.innerHTML = "<p>Enter a movie title, Sherlock.</p>";
+        return;
+    }
+
+    const apiKey = "7e1340463fa8af2611d51d91fb7fcc46";
+    const searchUrl = https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)};
+
+    resultDiv.innerHTML = "<p>Fetching from TMDb...</p>";
+
+    try {
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+
+        if (data.results.length === 0) {
+            resultDiv.innerHTML = "<p>No movie found. Maybe check your spelling.</p>";
+            return;
+        }
+
+        const movie = data.results[0];
+        const posterUrl = movie.poster_path
+            ? https://image.tmdb.org/t/p/w500${movie.poster_path}
+            : "";
+        const bannerUrl = movie.backdrop_path
+            ? https://image.tmdb.org/t/p/original${movie.backdrop_path}
+            : "";
+
+        resultDiv.innerHTML = `
+            <h2>${movie.title} (${movie.release_date?.substring(0,4) || 'N/A'})</h2>
+            <div>
+                ${posterUrl ? <img src="${posterUrl}" class="poster"><br> : ""}
+                ${posterUrl ? <a href="${posterUrl}" download="${movie.title}_poster.jpg"><button>Download Thumbnail</button></a> : "<p>No poster available.</p>"}
+            </div>
+            <div>
+                ${bannerUrl ? <img src="${bannerUrl}" class="banner"><br> : ""}
+                ${bannerUrl ? <a href="${bannerUrl}" download="${movie.title}_banner.jpg"><button>Download Banner</button></a> : "<p>No banner available.</p>"}
+            </div>
+        `;
+    } catch (err) {
+        resultDiv.innerHTML = <p>Error fetching data: ${err.message}</p>;
+    }
+}
+</script>
+</body>
+</html>
