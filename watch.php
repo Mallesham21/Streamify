@@ -1186,7 +1186,7 @@ if ($is_scheduled) {
                             <?php foreach ($episodes as $index => $episode): ?>
                                 <div class="episode-item p-3 mb-2 <?= $index === 0 ? 'active' : '' ?>" 
                                      data-episode-id="<?= $episode['episode_id'] ?>" 
-                                     data-video-src="<?= "admin/" . htmlspecialchars($episode['video_path']) ?>">
+                                    data-video-src="<?= !empty($episode['video_path']) ? 'admin/' . htmlspecialchars($episode['video_path']) : 'admin/default.mp4' ?>">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>

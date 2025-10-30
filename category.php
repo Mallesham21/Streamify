@@ -40,7 +40,7 @@ $categories_sql = "SELECT category_id, name FROM categories ORDER BY name";
 $categories_result = $conn->query($categories_sql);
 $all_categories = $categories_result->fetch_all(MYSQLI_ASSOC);
 
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
