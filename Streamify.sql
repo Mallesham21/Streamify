@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 31, 2025 at 10:36 AM
+-- Generation Time: Oct 31, 2025 at 02:12 PM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.3.14
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
   PRIMARY KEY (`log_id`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `activity_logs`
@@ -83,7 +83,8 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `details`, `ip_addre
 (35, 17, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUangEEChsl3w4\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 15:39:12'),
 (36, 29, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUbh8YbkVo0ZT2\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 16:31:56'),
 (37, 12, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUlrKXLdYPimAt\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-18 02:28:20'),
-(38, 31, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RZUwsDDVZxoP8b\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-30 01:10:43');
+(38, 31, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RZUwsDDVZxoP8b\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-30 01:10:43'),
+(39, 1, 'content_added', '{\"content_id\":\"95\",\"title\":\"War 2\",\"content_type\":\"movie\"}', '127.0.0.1', 'Admin Panel', '2025-10-31 14:09:17');
 
 -- --------------------------------------------------------
 
@@ -182,63 +183,63 @@ CREATE TABLE IF NOT EXISTS `content` (
   `is_scheduled` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`content_id`),
   KEY `idx_scheduled_release` (`is_scheduled`,`schedule_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `content`
 --
 
 INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `release_year`, `thumbnail_url`, `banner_url`, `rating`, `created_at`, `video_path`, `featured`, `is_premium`, `views`, `duration`, `schedule_date`, `is_scheduled`) VALUES
-(1, 'Inception', 'A thief enters dreams to steal secrets, but must plant one instead.', 'movie', 2010, 'thumbnails/inception.jpg', 'banners/inception1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3431, 148, NULL, 0),
+(1, 'Inception', 'A thief enters dreams to steal secrets, but must plant one instead.', 'movie', 2010, 'thumbnails/inception.jpg', 'banners/Inception1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3431, 148, NULL, 0),
 (2, 'The Dark Knight', 'Batman faces chaos brought by the Joker in Gotham.', 'movie', 2008, 'thumbnails/dark_knight.jpg', 'banners/dark_knight1.jpg', 9.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5561, 152, NULL, 0),
-(3, 'Interstellar', 'Astronauts travel through a wormhole to save humanity.', 'movie', 2014, 'thumbnails/interstellar.jpg', 'banners/interstellar1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7513, 169, NULL, 0),
-(4, 'Avengers: Endgame', 'The Avengers assemble for the final battle against Thanos.', 'movie', 2019, 'thumbnails/endgame.jpg', 'banners/Avengers__Endgamejpg', 8.4, '2025-09-02 15:11:19', 'videos/Avengers__Endgame.mp4', 1, 0, 883, 181, NULL, 0),
-(5, 'Avatar', 'A marine explores Pandora and joins the Na\'vi people.', 'movie', 2009, 'thumbnails/avatar.jpg', 'uploads/banners/banner_5_1760466265.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 1873, 162, NULL, 0),
-(6, 'Titanic', 'A romance blossoms aboard the doomed Titanic.', 'movie', 1997, 'thumbnails/titanic.jpg', 'banners/titanic1.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6718, 195, NULL, 0),
-(7, 'Gladiator', 'A betrayed general seeks vengeance in the Roman arena.', 'movie', 2000, 'thumbnails/gladiator.jpg', 'banners/gladiator1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7973, 155, NULL, 0),
-(8, 'The Matrix', 'A hacker discovers reality is a simulation.', 'movie', 1999, 'thumbnails/matrix.jpg', 'banners/matrix1.jpg', 8.7, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9712, 136, NULL, 0),
-(9, 'The Godfather', 'The aging patriarch of an organized crime dynasty transfers power.', 'movie', 1972, 'thumbnails/godfather.jpg', 'banners/godfather1.jpg', 9.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4642, 175, NULL, 0),
-(10, 'The Shawshank Redemption', 'A man wrongly imprisoned finds hope and freedom.', 'movie', 1994, 'thumbnails/shawshank.jpg', 'banners/shawshank1.jpg', 9.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4075, 142, NULL, 0),
-(11, 'Forrest Gump', 'A man with a kind heart experiences decades of U.S. history.', 'movie', 1994, 'thumbnails/forrest.jpg', 'banners/forrest1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6448, 142, NULL, 0),
-(12, 'Fight Club', 'An insomniac and a soap maker start an underground fight club.', 'movie', 1999, 'thumbnails/fight_club.jpg', 'banners/fight_club1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 15, 139, NULL, 0),
-(13, 'Joker', 'A failed comedian spirals into madness in Gotham.', 'movie', 2019, 'thumbnails/joker.jpg', 'banners/joker1.jpg', 8.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 733, 122, NULL, 0),
-(14, 'Parasite', 'A poor family infiltrates a wealthy household with dark results.', 'movie', 2019, 'thumbnails/parasite.jpg', 'banners/parasite1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3621, 132, NULL, 0),
-(15, 'La La Land', 'An aspiring actress and a jazz musician chase dreams in LA.', 'movie', 2016, 'thumbnails/lalaland.jpg', 'banners/lalaland1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5905, 128, NULL, 0),
-(16, 'The Lion King', 'A lion cub must reclaim his rightful throne.', 'movie', 1994, 'thumbnails/lionking.jpg', 'banners/lionking1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 8662, 88, NULL, 0),
-(17, 'Frozen', 'Two sisters struggle with love, magic, and ice.', 'movie', 2013, 'thumbnails/frozen.jpg', 'banners/frozen1.jpg', 7.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5595, 102, NULL, 0),
-(18, 'Spider-Man: No Way Home', 'Peter Parker faces villains from across the multiverse.', 'movie', 2021, 'thumbnails/spiderman_nwh.jpg', 'banners/spiderman_nwh1.jpg', 8.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 1990, 148, NULL, 0),
-(19, 'Black Panther', 'T’Challa returns to Wakanda to rule as king and Black Panther.', 'movie', 2018, 'thumbnails/blackpanther.jpg', 'banners/blackpanther1.jpg', 7.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3167, 134, NULL, 0),
-(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9865, 143, NULL, 0),
-(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/stranger_things1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9825, NULL, NULL, 0),
-(22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/breakingbad1.jpg', 9.5, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 1, 9531, NULL, NULL, 0),
-(23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/Game_of_Thronesjpg', 9.3, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 0, 8178, NULL, NULL, 0),
-(24, 'The Witcher', 'A monster hunter struggles with destiny and politics.', 'tv_show', 2019, 'thumbnails/witcher.jpg', 'banners/witcher1.jpg', 8.2, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2293, NULL, NULL, 0),
-(25, 'The Crown', 'Chronicles the reign of Queen Elizabeth II.', 'tv_show', 2016, 'thumbnails/crown.jpg', 'banners/crown1.jpg', 8.6, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 6934, NULL, NULL, 0),
-(26, 'Money Heist', 'A group of robbers attempt daring heists in Spain.', 'tv_show', 2017, 'thumbnails/moneyheist.jpg', 'banners/moneyheist1.jpg', 8.2, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 7794, NULL, NULL, 0),
-(27, 'Dark', 'A German town unravels a time-travel mystery.', 'tv_show', 2017, 'thumbnails/dark.jpg', 'banners/dark1.jpg', 8.8, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 8166, NULL, NULL, 0),
-(28, 'The Boys', 'Anti-heroes fight corrupt superheroes.', 'tv_show', 2019, 'thumbnails/boys.jpg', 'banners/boys1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 7451, NULL, NULL, 0),
-(29, 'Squid Game', 'Hundreds compete in deadly games for money.', 'tv_show', 2021, 'thumbnails/squidgame.jpg', 'banners/squidgame1.jpg', 8.0, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2755, NULL, NULL, 0),
-(30, 'Peaky Blinders', 'A gangster family in 1900s Birmingham, England.', 'tv_show', 2013, 'thumbnails/peaky.jpg', 'banners/peaky1.jpg', 8.8, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 1422, NULL, NULL, 0),
-(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_10.jpg', 9.0, '2025-10-15 04:27:08', 'videos/default.mp4', 0, 1, 8849, 168, '2025-10-31 15:11:00', 1),
-(84, 'Sacred Games', 'A cop uncovers a dark conspiracy that threatens Mumbai.', 'tv_show', 2018, 'thumbnails/Sacred_Games.jpg', 'banners/Sacred_Games.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9976, NULL, NULL, 0),
-(83, 'Mirzapur', 'A lawless town ruled by the mafia king Kaleen Bhaiya.', 'tv_show', 2018, 'thumbnails/mirzapur.jpg', 'banners/mirzapur.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3337, NULL, NULL, 0),
-(82, 'The Family Man', 'A middle-class man secretly works as an intelligence officer.', 'tv_show', 2019, 'thumbnails/familyman.jpg', 'banners/familyman.jpg', 8.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6754, NULL, NULL, 0),
-(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3763, NULL, NULL, 0),
+(3, 'Interstellar', 'Astronauts travel through a wormhole to save humanity.', 'movie', 2014, 'thumbnails/interstellar.jpg', 'banners/Interstellar1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7513, 169, NULL, 0),
+(4, 'Avengers: Endgame', 'The Avengers assemble for the final battle against Thanos.', 'movie', 2019, 'thumbnails/endgame.jpg', 'banners/Avengers__Endgame.jpg', 8.4, '2025-09-02 15:11:19', 'videos/Avengers__Endgame.mp4', 1, 0, 883, 181, NULL, 0),
+(5, 'Avatar', 'A marine explores Pandora and joins the Na\'vi people.', 'movie', 2009, 'thumbnails/avatar.jpg', 'banners/Avatar.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 1, 0, 1880, 162, NULL, 0),
+(6, 'Titanic', 'A romance blossoms aboard the doomed Titanic.', 'movie', 1997, 'thumbnails/titanic.jpg', 'banners/Titanic1.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6718, 195, NULL, 0),
+(7, 'Gladiator', 'A betrayed general seeks vengeance in the Roman arena.', 'movie', 2000, 'thumbnails/gladiator.jpg', 'banners/Gladiator1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7973, 155, NULL, 0),
+(8, 'The Matrix', 'A hacker discovers reality is a simulation.', 'movie', 1999, 'thumbnails/matrix.jpg', 'banners/The Matrix1.jpg', 8.7, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9712, 136, NULL, 0),
+(9, 'The Godfather', 'The aging patriarch of an organized crime dynasty transfers power.', 'movie', 1972, 'thumbnails/godfather.jpg', 'banners/GodFather1.jpg', 9.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4642, 175, NULL, 0),
+(10, 'The Shawshank Redemption', 'A man wrongly imprisoned finds hope and freedom.', 'movie', 1994, 'thumbnails/shawshank.jpg', 'banners/shawshank1.jpg', 9.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4077, 142, NULL, 0),
+(11, 'Forrest Gump', 'A man with a kind heart experiences decades of U.S. history.', 'movie', 1994, 'thumbnails/forrest.jpg', 'banners/Forrest Gump1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6448, 142, NULL, 0),
+(12, 'Fight Club', 'An insomniac and a soap maker start an underground fight club.', 'movie', 1999, 'thumbnails/fight_club.jpg', 'banners/Fight Club1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 15, 139, NULL, 0),
+(13, 'Joker', 'A failed comedian spirals into madness in Gotham.', 'movie', 2019, 'thumbnails/joker.jpg', 'banners/Jokar1.jpg', 8.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 733, 122, NULL, 0),
+(14, 'Parasite', 'A poor family infiltrates a wealthy household with dark results.', 'movie', 2019, 'thumbnails/parasite.jpg', 'banners/Praasite1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3621, 132, NULL, 0),
+(15, 'La La Land', 'An aspiring actress and a jazz musician chase dreams in LA.', 'movie', 2016, 'thumbnails/lalaland.jpg', 'banners/La La Land1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5905, 128, NULL, 0),
+(16, 'The Lion King', 'A lion cub must reclaim his rightful throne.', 'movie', 1994, 'thumbnails/lionking.jpg', 'banners/The Lion King1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 8662, 88, NULL, 0),
+(17, 'Frozen', 'Two sisters struggle with love, magic, and ice.', 'movie', 2013, 'thumbnails/frozen.jpg', 'banners/Frozen1.jpg', 7.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5595, 102, NULL, 0),
+(18, 'Spider-Man: No Way Home', 'Peter Parker faces villains from across the multiverse.', 'movie', 2021, 'thumbnails/spiderman_nwh.jpg', 'banners/Spider-Man1.jpg', 8.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 1990, 148, NULL, 0),
+(19, 'Black Panther', 'T’Challa returns to Wakanda to rule as king and Black Panther.', 'movie', 2018, 'thumbnails/blackpanther.jpg', 'banners/Black Panther1.jpg', 7.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3167, 134, NULL, 0),
+(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/The Avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9874, 143, NULL, 0),
+(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/Stranger_Things1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9827, NULL, NULL, 0),
+(22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/BreakingBad1.jpg', 9.5, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9538, NULL, NULL, 0),
+(23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/Game_of_Thrones.jpg', 9.3, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 0, 8178, NULL, NULL, 0),
+(24, 'The Witcher', 'A monster hunter struggles with destiny and politics.', 'tv_show', 2019, 'thumbnails/witcher.jpg', 'banners/The Witcher1.jpg', 8.2, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2293, NULL, NULL, 0),
+(25, 'The Crown', 'Chronicles the reign of Queen Elizabeth II.', 'tv_show', 2016, 'thumbnails/crown.jpg', 'banners/The Crown1.jpg', 8.6, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 6934, NULL, NULL, 0),
+(26, 'Money Heist', 'A group of robbers attempt daring heists in Spain.', 'tv_show', 2017, 'thumbnails/moneyheist.jpg', 'banners/Money Heist1.jpg', 8.2, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 7794, NULL, NULL, 0),
+(27, 'Dark', 'A German town unravels a time-travel mystery.', 'tv_show', 2017, 'thumbnails/dark.jpg', 'banners/Dark1.jpg', 8.8, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 0, 8167, NULL, NULL, 0),
+(28, 'The Boys', 'Anti-heroes fight corrupt superheroes.', 'tv_show', 2019, 'thumbnails/boys.jpg', 'banners/The Boys1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 7451, NULL, NULL, 0),
+(29, 'Squid Game', 'Hundreds compete in deadly games for money.', 'tv_show', 2021, 'thumbnails/squidgame.jpg', 'banners/Squid Game1.jpg', 8.0, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2755, NULL, NULL, 0),
+(30, 'Peaky Blinders', 'A gangster family in 1900s Birmingham, England.', 'tv_show', 2013, 'thumbnails/peaky.jpg', 'banners/Peaky Blinders1.jpg', 8.8, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 1422, NULL, NULL, 0),
+(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_banner.jpg', 9.0, '2025-10-15 04:27:08', 'videos/default.mp4', 0, 1, 8852, 168, '2025-10-31 15:11:00', 0),
+(84, 'Sacred Games', 'A cop uncovers a dark conspiracy that threatens Mumbai.', 'tv_show', 2018, 'thumbnails/Sacred_Games.jpg', 'banners/Sacred_Games.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9980, NULL, NULL, 0),
+(83, 'Mirzapur', 'A lawless town ruled by the mafia king Kaleen Bhaiya.', 'tv_show', 2018, 'thumbnails/mirzapur.jpg', 'banners/Mirzapur.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3337, NULL, NULL, 0),
+(82, 'The Family Man', 'A middle-class man secretly works as an intelligence officer.', 'tv_show', 2019, 'thumbnails/The_Family_Man.jpg', 'banners/The_Family_Man.jpg', 8.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6754, NULL, NULL, 0),
+(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3764, NULL, NULL, 0),
 (81, 'Made in Heaven', 'Wedding planners navigate love and lies in Delhi.', 'tv_show', 2019, 'thumbnails/madeinheaven.jpg', 'banners/madeinheaven.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8543, NULL, NULL, 0),
-(79, 'Chhichhore', 'A tragic event reunites college friends and memories.', 'movie', 2019, 'thumbnails/Chhichhorejpg', 'banners/Chhichhorejpg', 8.1, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1433, NULL, NULL, 0),
-(78, 'Dangal', 'A father trains his daughters to become wrestling champions.', 'movie', 2016, 'thumbnails/Dangaljpg', 'banners/Dangaljpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1537, NULL, NULL, 0),
-(77, '3 Idiots', 'Three friends question the education system in India.', 'movie', 2009, 'thumbnails/3_Idiotsjpg', 'banners/3_Idiotsjpg', 8.4, '2025-10-30 09:41:22', 'videos/3_Idiots.mp4', 0, 0, 3388, NULL, NULL, 0),
-(76, 'Brahmastra', 'A man discovers his connection to powerful celestial weapons.', 'movie', 2022, 'thumbnails/Brahmastrajpg', 'banners/Brahmastrajpg', 6.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 2327, NULL, NULL, 0),
-(74, 'Pathaan', 'An Indian spy races to stop a bio-terror attack.', 'movie', 2023, 'thumbnails/pathaan.jpg', 'banners/pathaan.jpg', 7.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 1473, NULL, NULL, 0),
+(79, 'Chhichhore', 'A tragic event reunites college friends and memories.', 'movie', 2019, 'thumbnails/Chhichhorejpg', 'banners/Chhichhore.jpg', 8.1, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1433, NULL, NULL, 0),
+(78, 'Dangal', 'A father trains his daughters to become wrestling champions.', 'movie', 2016, 'thumbnails/Dangaljpg', 'banners/Dangal.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1537, NULL, NULL, 0),
+(77, '3 Idiots', 'Three friends question the education system in India.', 'movie', 2009, 'thumbnails/3_Idiotsjpg', 'banners/3_Idiots.jpg', 8.4, '2025-10-30 09:41:22', 'videos/3_Idiots.mp4', 0, 0, 3390, NULL, NULL, 0),
+(76, 'Brahmastra', 'A man discovers his connection to powerful celestial weapons.', 'movie', 2022, 'thumbnails/Brahmastrajpg', 'banners/Brahmastra.jpg', 6.8, '2025-10-30 09:41:22', 'videos/Brahmastra.mp4', 0, 0, 2327, NULL, NULL, 0),
+(74, 'Pathaan', 'An Indian spy races to stop a bio-terror attack.', 'movie', 2023, 'thumbnails/pathaan.jpg', 'banners/Pathaan.jpg', 7.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 1473, NULL, NULL, 0),
 (75, 'Gadar 2', 'A father crosses the border to rescue his son from Pakistan.', 'movie', 2023, 'thumbnails/Gadar_2.jpg', 'banners/Gadar_2.jpg', 7.0, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 384, NULL, NULL, 0),
-(73, 'Jawan', 'A soldier turned vigilante takes justice into his own hands.', 'movie', 2023, 'thumbnails/jawan.jpg', 'banners/jawan.jpg', 7.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 7495, NULL, NULL, 0),
-(85, 'Devara', 'A gritty tale of revenge set against the sea.', 'movie', 2025, 'thumbnails/Devarajpg', 'banners/Devarajpg', 8.2, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6327, NULL, NULL, 0),
+(73, 'Jawan', 'A soldier turned vigilante takes justice into his own hands.', 'movie', 2023, 'thumbnails/jawan.jpg', 'banners/Jawan.jpg', 7.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 7495, NULL, NULL, 0),
+(85, 'Devara', 'A gritty tale of revenge set against the sea.', 'movie', 2025, 'thumbnails/Devarajpg', 'banners/Devara.jpg', 8.2, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6327, NULL, NULL, 0),
 (86, 'Pushpa 2: The Rule', 'Pushpa continues his rebellion against the red sandalwood syndicate.', 'movie', 2024, 'thumbnails/pushpa2.jpg', 'banners/pushpa2.jpg', 8.7, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9152, NULL, NULL, 0),
 (87, 'Salaar', 'A power struggle between friends turned enemies.', 'movie', 2023, 'thumbnails/salaar.jpg', 'banners/salaar.jpg', 7.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6773, NULL, NULL, 0),
 (88, 'Bahubali: The Beginning', 'A prince raised in exile discovers his royal legacy.', 'movie', 2015, 'thumbnails/Bahubali__The_Beginningjpg', 'banners/Bahubali__The_Beginningjpg', 8.1, '2025-10-30 09:41:22', 'videos/Bahubali__The_Beginning.mp4', 0, 0, 6415, NULL, NULL, 0),
 (89, 'Bahubali: The Conclusion', 'The epic conclusion to the Mahishmati saga.', 'movie', 2017, 'thumbnails/Bahubali__The_Conclusionjpg', 'banners/Bahubali__The_Conclusionjpg', 8.2, '2025-10-30 09:41:22', 'videos/Bahubali__The_Conclusion.mp4', 0, 0, 1755, NULL, NULL, 0),
 (90, 'Ala Vaikunthapurramuloo', 'A young man discovers his real parentage in a wealthy family.', 'movie', 2020, 'thumbnails/Ala_Vaikunthapurramuloojpg', 'banners/Ala_Vaikunthapurramuloojpg', 7.9, '2025-10-30 09:41:22', 'videos/Ala_Vaikunthapurramuloo.mp4', 0, 0, 9534, NULL, NULL, 0),
-(91, 'Sita Ramam', 'An orphaned soldier receives mysterious love letters.', 'movie', 2022, 'thumbnails/sitaramam.jpg', 'banners/sitaramam.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 2394, NULL, NULL, 0),
+(91, 'Sita Ramam', 'An orphaned soldier receives mysterious love letters.', 'movie', 2022, 'thumbnails/Sita_Ramam.jpg', 'banners/Sita_Ramam.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 2394, NULL, NULL, 0),
 (92, 'Jersey', 'A struggling cricketer makes an emotional comeback.', 'movie', 2019, 'thumbnails/jersey.jpg', 'banners/jersey.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 3374, NULL, NULL, 0),
 (93, 'Eega', 'A man reincarnates as a fly to take revenge.', 'movie', 2012, 'thumbnails/eega.jpg', 'banners/eega.jpg', 7.7, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 9685, NULL, NULL, 0),
 (94, 'Vikram', 'A black-ops squad hunts a masked serial killer.', 'movie', 2022, 'thumbnails/vikram.jpg', 'banners/vikram.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8308, NULL, NULL, 0);
@@ -516,7 +517,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   KEY `idx_created_at` (`created_at`),
   KEY `idx_notifications_user_type` (`user_id`,`type`),
   KEY `idx_notifications_created_read` (`created_at`,`is_read`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `notifications`
@@ -558,7 +559,10 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `type`, `title`, `mes
 (41, 30, 'recommendation', 'Recommended for You', 'You might like \"Game of Thrones\" trending right now.', 23, 0, '2025-10-26 04:40:22'),
 (42, 30, 'recommendation', 'Recommended for You', 'You might like \"Squid Game\" popular among new users.', 29, 0, '2025-10-26 04:40:22'),
 (47, 31, 'reminder_set', 'Reminder Set', 'You will be notified when \"Coolie\" releases on Oct 15, 2025', 62, 0, '2025-10-30 01:16:30'),
-(48, 31, 'content_available', 'New Content Available', 'The content \"Coolie\" you were waiting for is now available to watch.', 62, 0, '2025-10-30 01:16:39');
+(48, 31, 'content_available', 'New Content Available', 'The content \"Coolie\" you were waiting for is now available to watch.', 62, 0, '2025-10-30 01:16:39'),
+(49, 32, 'welcome', 'Welcome to Streamify!', 'Welcome aboard, Manoj! Start exploring thousands of movies and TV shows.', NULL, 1, '2025-10-31 13:41:22'),
+(50, 32, 'recommendation', 'Recommended for You', 'You might like \"Sacred Games\" trending right now.', 84, 0, '2025-10-31 13:41:22'),
+(51, 32, 'recommendation', 'Recommended for You', 'You might like \"The Avengers\" popular among new users.', 20, 0, '2025-10-31 13:41:22');
 
 -- --------------------------------------------------------
 
@@ -679,7 +683,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `users`
@@ -710,7 +714,8 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `mobile_no`, `password_hash
 (27, 'Pravin', 'pravin@gmail.com', NULL, '$2y$10$8xnWSxkiirEOo73AeVXqDO6zn38ud8KZuesBl8YptsnFVfVvse/1G', 'uploads/profile_pics/68f1ae12696d8_1760669202.jpg', 'user', 'free', 0, '2025-10-16 23:16:42', NULL),
 (28, 'Gagan', 'gagan@gmail.com', NULL, '$2y$10$90zMvLVwmBXlfCbH4.cj9uTnySsgMm4.4bhzuCS0cULXKB4pySeGW', 'uploads/profile_pics/68f255e6e325e_1760712166.jpg', 'user', 'free', 0, '2025-10-17 11:12:47', NULL),
 (29, 'Ravi1234', 'ravi@gmail.com', '9999999996', '$2y$10$v0.a5P2Fx9BYI0VhjrHSK.R3SEIKMFHJ5.c0gmEokrfYmLbB/2jrO', 'uploads/profile_pics/68f2683d4102c_1760716861.jpg', 'user', 'premium', 1, '2025-10-17 12:31:01', NULL),
-(31, 'Pravin123', 'pravin12@gmail.com', '4567891235', '$2y$10$YuQqEC4uR30zcG2kkoBy..bexmwtr46NdprOj6wD/6VWzaRa7Q6/m', 'uploads/profile_pics/6902ba696e7e5_1761786473.jpg', 'user', 'premium', 1, '2025-10-29 19:37:53', NULL);
+(31, 'Pravin123', 'pravin12@gmail.com', '4567891235', '$2y$10$YuQqEC4uR30zcG2kkoBy..bexmwtr46NdprOj6wD/6VWzaRa7Q6/m', 'uploads/profile_pics/6902ba696e7e5_1761786473.jpg', 'user', 'premium', 1, '2025-10-29 19:37:53', NULL),
+(32, 'Manoj', 'manoj@gmail.com', '4564861315', '$2y$10$hyypvdmf5a6bcGzHIg0Gpu8SJmAKR9Sg1oTBuCQhA0GWLdUkSLtyC', 'uploads/profile_pics/6904bc82a36ed_1761918082.jpg', 'user', 'free', 0, '2025-10-31 08:11:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -790,7 +795,7 @@ CREATE TABLE IF NOT EXISTS `watch_history` (
   PRIMARY KEY (`history_id`),
   KEY `user_id` (`user_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `watch_history`
@@ -810,7 +815,11 @@ INSERT INTO `watch_history` (`history_id`, `user_id`, `content_id`, `progress_pe
 (11, 31, 77, 96.27, '2025-10-31 09:28:50', NULL),
 (12, 31, 22, 14.45, '2025-10-31 09:40:46', NULL),
 (13, 31, 23, 7.43, '2025-10-31 09:32:47', NULL),
-(14, 31, 29, 7.47, '2025-10-31 09:33:03', NULL);
+(14, 31, 29, 7.47, '2025-10-31 09:33:03', NULL),
+(15, 32, 20, 35.04, '2025-10-31 13:57:34', NULL),
+(16, 32, 27, 0.52, '2025-10-31 13:52:08', NULL),
+(17, 32, 5, 0.51, '2025-10-31 13:57:08', NULL),
+(18, 32, 10, 0.49, '2025-10-31 13:57:52', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
