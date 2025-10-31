@@ -369,14 +369,29 @@ $conn->close();
             </div>
             <div class="col-md-6">
                 <h6>Media Preview</h6>
-                <div class="content-preview mb-3">
-                    <img id="edit_review_thumbnail" src="<?php echo $content['thumbnail_url']; ?>"
-                        alt="Thumbnail Preview" style="width: 100%; max-height: 150px; object-fit: cover;">
+                <div class="card mb-3">
+                    <div class="card-header bg-light">
+                        <strong><i class="fas fa-image me-2"></i>Thumbnail</strong>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="content-preview" style="background-color: #f8f9fa; padding: 10px; border-radius: 4px;">
+                            <img id="edit_review_thumbnail" src="<?php echo $content['thumbnail_url']; ?>"
+                                alt="Thumbnail Preview" style="width: 100%; height: 200px; object-fit: contain; border-radius: 4px;">
+                        </div>
+                    </div>
                 </div>
+
                 <?php if ($content['banner_url']): ?>
-                <div class="content-preview">
-                    <img id="edit_review_banner" src="<?php echo $content['banner_url']; ?>" alt="Banner Preview"
-                        style="width: 100%; max-height: 150px; object-fit: cover;">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <strong><i class="fas fa-panorama me-2"></i>Banner</strong>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="content-preview" style="background-color: #f8f9fa; padding: 10px; border-radius: 4px;">
+                            <img id="edit_review_banner" src="<?php echo $content['banner_url']; ?>" alt="Banner Preview"
+                                style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+                        </div>
+                    </div>
                 </div>
                 <?php endif; ?>
             </div>

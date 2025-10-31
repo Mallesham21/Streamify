@@ -34,15 +34,32 @@ if ($content_id > 0) {
     $stmt->close();
 
     if ($content) {
-        // Check if content is scheduled
-        $is_scheduled = $content['is_scheduled'] && $content['schedule_date'] > date('Y-m-d H:i:s');
+        // Check if content is scheduled AND schedule date is in the future
+        $current_time = time();
+        $schedule_timestamp = !empty($content['schedule_date']) ? strtotime($content['schedule_date']) : 0;
+        $is_scheduled = $content['is_scheduled'] && $schedule_timestamp > $current_time;
+        
         if ($is_scheduled) {
             $schedule_date = new DateTime($content['schedule_date']);
             $current_date = new DateTime();
             $time_until_release = $current_date->diff($schedule_date);
         } else {
-            // Increment view count only for available content
-            $conn->query("UPDATE content SET views = views + 1 WHERE content_id = $content_id");
+            // If schedule date has passed, update the database to mark it as no longer scheduled
+            if ($content['is_scheduled'] && $schedule_timestamp <= $current_time) {
+                $update_stmt = $conn->prepare("UPDATE content SET is_scheduled = 0 WHERE content_id = ?");
+                $update_stmt->bind_param('i', $content_id);
+                $update_stmt->execute();
+                $update_stmt->close();
+                
+                // Refresh the content data
+                $content['is_scheduled'] = 0;
+                $is_scheduled = false;
+            }
+            
+            // Increment view count only for available content that's not scheduled
+            if (!$is_scheduled) {
+                $conn->query("UPDATE content SET views = views + 1 WHERE content_id = $content_id");
+            }
         }
 
         // Determine if user can watch the video
@@ -51,7 +68,8 @@ if ($content_id > 0) {
         // Use local video files from database with  prefix for images
         $thumbnail = 'admin/' . $content['thumbnail_url'];
         $banner = 'admin/' . $content['banner_url'];
-        $video =  'admin/' . $content['video_path'];
+        $video =   $content['video_path'];
+        echo "<script>console.log('Video Path: " . addslashes($video) . "');</script>"; 
 
         // Fetch categories
         $cat_stmt = $conn->prepare("SELECT cat.name, cat.category_id FROM categories cat JOIN content_categories cc ON cc.category_id = cat.category_id WHERE cc.content_id = ?");
@@ -197,7 +215,6 @@ if (!empty($category_ids)) {
     $related_content = $related_result->fetch_all(MYSQLI_ASSOC);
     $related_stmt->close();
 }
-
 // Determine video container state
 $video_state = 'available';
 if ($is_scheduled) {
@@ -2032,34 +2049,33 @@ if ($is_scheduled) {
             console.log('Video player initialized successfully for state:', videoState);
         }
 
-        // Countdown Timer for Scheduled Content
-        <?php if ($is_scheduled && $time_until_release): ?>
-        function updateCountdown() {
-            const scheduleDate = new Date('<?= $content['schedule_date'] ?>').getTime();
-            const now = new Date().getTime();
-            const distance = scheduleDate - now;
-            
-            if (distance < 0) {
-                // Content is now available, reload page
-                location.reload();
-                return;
-            }
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-        
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-        <?php endif; ?>
+       // Countdown Timer for Scheduled Content
+<?php if ($is_scheduled && $time_until_release): ?>
+function updateCountdown() {
+    const scheduleDate = new Date('<?= $content['schedule_date'] ?>').getTime();
+    const now = new Date().getTime();
+    const distance = scheduleDate - now;
+    
+    if (distance < 0) {
+        // Content is now available, reload page
+        location.reload();
+        return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+}
 
+updateCountdown();
+setInterval(updateCountdown, 1000);
+<?php endif; ?>
         // Initialize video player
         initializeVideoPlayer();
 

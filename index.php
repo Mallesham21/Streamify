@@ -2,12 +2,12 @@
 // index.php (Dynamic Home - Hero Carousel)
 require_once "db.php";
 
-// Fetch top 3 featured movies (customize by adding is_featured or is_banner flag later)
+// Fetch top 5 featured movies (customize by adding is_featured or is_banner flag later)
 $sql = "
 SELECT *
 FROM content
 WHERE featured = 1
-ORDER BY created_at DESC
+ORDER BY views 
 LIMIT 5";
 $result = $conn->query($sql);
 $featured = $result->fetch_all(MYSQLI_ASSOC);
@@ -100,7 +100,7 @@ LIMIT 5";
 $topRatedResult = $conn->query($topRatedSql);
 $topRated = $topRatedResult->fetch_all(MYSQLI_ASSOC);
 
-// Fetch scheduled content
+// Fetch scheduled content that hasn't been released yet
 $scheduledSql = "
 SELECT c.content_id,
        c.title,
@@ -114,8 +114,9 @@ FROM content c
 LEFT JOIN content_categories cc ON cc.content_id = c.content_id
 LEFT JOIN categories cat ON cat.category_id = cc.category_id
 WHERE c.is_scheduled = 1
+AND c.schedule_date > NOW()
 GROUP BY c.content_id
-ORDER BY c.created_at DESC
+ORDER BY c.schedule_date ASC
 LIMIT 10";
 $scheduledResult = $conn->query($scheduledSql);
 $scheduledContent = $scheduledResult->fetch_all(MYSQLI_ASSOC);
