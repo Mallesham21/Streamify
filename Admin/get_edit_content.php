@@ -391,12 +391,14 @@ $conn->close();
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" id="editPrevStepBtn" style="display: none;">Previous</button>
-    <button type="button" class="btn btn-primary" id="editNextStepBtn">Next</button>
+    <button type="button" class="btn btn-primary" id="editNextStepBtn" autofocus>Next</button>
     <button type="submit" form="editContentForm" class="btn btn-success" id="editSubmitBtn"
         style="display: none;">Update Content</button>
 </div>
 
 <script>
+    (function() {
+  
 let editCurrentStep = 1;
 
 $(document).ready(function() {
@@ -743,5 +745,6 @@ function showAlert(message, type = 'info') {
     $(`#${alertId}`).on('closed.bs.alert', function() {
         $(this).remove();
     });
-}
+
+    }})();
 </script>

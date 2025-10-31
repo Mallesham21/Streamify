@@ -208,13 +208,13 @@ function uploadFile($file, $target_dir, $content_title, $file_type) {
     $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     
     if ($file_type === 'thumbnail') {
-        $file_name = $content_title_clean . $file_extension;
+        $file_name = $content_title_clean . '.' .$file_extension;
     } elseif ($file_type === 'banner') {
-        $file_name = $content_title_clean . $file_extension;
+        $file_name = $content_title_clean . '.' .$file_extension;
     } elseif ($file_type === 'video') {
-        $file_name = $content_title_clean .  $file_extension;
+        $file_name = $content_title_clean . '.' . $file_extension;
     } elseif ($file_type === 'episode') {
-        $file_name = $content_title_clean .  $file_extension;
+        $file_name = $content_title_clean . '.' . $file_extension;
     } else {
         $file_name = $content_title_clean . '.' . $file_extension;
     }
@@ -224,7 +224,7 @@ function uploadFile($file, $target_dir, $content_title, $file_type) {
     // Check if file already exists and generate unique name
     $counter = 1;
     while (file_exists($target_file)) {
-        $file_name = $content_title_clean . $file_extension;
+        $file_name = $content_title_clean . "." . $file_extension;
         $target_file = $target_dir . $file_name;
         $counter++;
     }

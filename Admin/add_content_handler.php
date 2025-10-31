@@ -241,13 +241,13 @@ function uploadFile($file, $target_dir, $content_title, $file_type) {
         $file_name = $content_title_clean . '.' . $file_extension;
     }
     
-    $target_file = $target_dir . $file_name;
+    $target_file = $target_dir . "." . $file_name;
     
     // Check if file already exists and generate unique name
     $counter = 1;
     while (file_exists($target_file)) {
         $file_name = $content_title_clean . '_' . $counter . '.' . $file_extension;
-        $target_file = $target_dir . $file_name;
+        $target_file = $target_dir . "." . $file_name;
         $counter++;
     }
     

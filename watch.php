@@ -48,10 +48,10 @@ if ($content_id > 0) {
         // Determine if user can watch the video
         $can_watch_video = !$is_scheduled && $user_id && (!$content['is_premium'] || $is_premium_user);
 
-        // Use local video files from database with admin/ prefix for images
+        // Use local video files from database with  prefix for images
         $thumbnail = 'admin/' . $content['thumbnail_url'];
         $banner = 'admin/' . $content['banner_url'];
-        $video = 'admin/' . $content['video_path'];
+        $video =  $content['video_path'];
 
         // Fetch categories
         $cat_stmt = $conn->prepare("SELECT cat.name, cat.category_id FROM categories cat JOIN content_categories cc ON cc.category_id = cat.category_id WHERE cc.content_id = ?");
@@ -1106,9 +1106,9 @@ if ($is_scheduled) {
                         <div class="ratio">
                             <video id="player" playsinline controls data-poster="<?= htmlspecialchars($banner) ?? $content["banner_url"] ?>">
                                 <?php if ($content['content_type'] === 'movie' && $content['video_path']): ?>
-                                    <source src="<?= "admin/" . htmlspecialchars($video) ?>" type="video/mp4">
+                                    <source src="<?=  htmlspecialchars($video) ?>" type="video/mp4">
                                 <?php elseif ($content['content_type'] === 'tv_show' && !empty($episodes)): ?>
-                                    <source src="<?= "admin/" . htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
+                                    <source src="<?=  htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
                                 <?php endif; ?>
                             </video>
                         </div>
@@ -1186,7 +1186,7 @@ if ($is_scheduled) {
                             <?php foreach ($episodes as $index => $episode): ?>
                                 <div class="episode-item p-3 mb-2 <?= $index === 0 ? 'active' : '' ?>" 
                                      data-episode-id="<?= $episode['episode_id'] ?>" 
-                                    data-video-src="<?= !empty($episode['video_path']) ? 'admin/' . htmlspecialchars($episode['video_path']) : 'admin/default.mp4' ?>">
+                                    data-video-src="<?= !empty($episode['video_path']) ?  htmlspecialchars($episode['video_path']) : 'admin/default.mp4' ?>">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>
