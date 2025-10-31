@@ -847,7 +847,7 @@
     $(document).ready(function() {
         // Initialize DataTable
         $('#contentTable').DataTable({
-            pageLength: 100,
+            pageLength: 10,
             responsive: true,
             order: [[1, 'asc']],
             drawCallback: function(settings) {

@@ -51,7 +51,7 @@ if ($content_id > 0) {
         // Use local video files from database with  prefix for images
         $thumbnail = 'admin/' . $content['thumbnail_url'];
         $banner = 'admin/' . $content['banner_url'];
-        $video =  $content['video_path'];
+        $video =  'admin/' . $content['video_path'];
 
         // Fetch categories
         $cat_stmt = $conn->prepare("SELECT cat.name, cat.category_id FROM categories cat JOIN content_categories cc ON cc.category_id = cat.category_id WHERE cc.content_id = ?");
