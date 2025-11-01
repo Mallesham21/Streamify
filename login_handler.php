@@ -32,7 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $user['email'];
             $_SESSION['profile_pic'] = $user['profile_pic'];
             $_SESSION['is_premium'] = $user['is_premium'];
-
+            // After successful login verification
+$user_id = $user['user_id'];
+$update_login_query = "UPDATE users SET last_login = NOW() WHERE user_id = ?";
+$stmt = $conn->prepare($update_login_query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
             echo json_encode(['success' => true, 'message' => 'Login successful!']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid username/email or password.']);

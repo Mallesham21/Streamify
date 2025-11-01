@@ -382,7 +382,7 @@
                                                         data-user_id="<?php echo $user['user_id']; ?>"
                                                         data-username="<?php echo htmlspecialchars($user['username']); ?>"
                                                         data-email="<?php echo htmlspecialchars($user['email']); ?>"
-                                                        data-profile_pic="<?php echo $user['profile_pic'] ?: 'https://ui-avatars.com/api/?name=' . urlencode($user['username']) . '&background=b13bff&color=fff'; ?>"
+                                                        data-profile_pic="<?php echo "../" . $user['profile_pic'] ?: 'https://ui-avatars.com/api/?name=' . urlencode($user['username']) . '&background=b13bff&color=fff'; ?>"
                                                         data-subscription="<?php echo $user['is_premium'] ? 'Premium' : 'Free'; ?>"
                                                         data-is_premium="<?php echo $user['is_premium'] ? 'Yes' : 'No'; ?>"
                                                         data-created_at="<?php echo date('M j, Y', strtotime($user['created_at'])); ?>"
