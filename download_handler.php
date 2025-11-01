@@ -1,17 +1,32 @@
 <?php
+// Start output buffering to prevent any accidental output
+ob_start();
 session_start();
 include "db.php";
 
-header('Content-Type: application/json');
+// Don't set JSON header initially - we'll set download headers on success
 
 if (!isset($_SESSION['user_id'])) {
+    ob_clean();
     http_response_code(401);
+    header('Content-Type: application/json');
     echo json_encode(['error' => 'Authentication required']);
     exit;
 }
 
-if (!isset($_SESSION['is_premium']) || !$_SESSION['is_premium']) {
+// Check premium status from database (more reliable than session)
+$user_id = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT is_premium FROM users WHERE user_id = ?");
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
+
+if (!$user || !$user['is_premium']) {
+    ob_clean();
     http_response_code(403);
+    header('Content-Type: application/json');
     echo json_encode(['error' => 'Premium subscription required']);
     exit;
 }
@@ -21,7 +36,9 @@ $type = $_POST['type'] ?? '';
 $episode_id = intval($_POST['episode_id'] ?? 0);
 
 if ($content_id <= 0) {
+    ob_clean();
     http_response_code(400);
+    header('Content-Type: application/json');
     echo json_encode(['error' => 'Invalid content']);
     exit;
 }
@@ -37,7 +54,7 @@ if ($type === 'movie') {
     $result = $stmt->get_result();
     
     if ($row = $result->fetch_assoc()) {
-        $file_path = $row['video_path'];
+        $file_path = "admin/" . $row['video_path'];
         $filename = preg_replace('/[^a-zA-Z0-9]/', '_', $row['title']) . '.mp4';
     }
     $stmt->close();
@@ -59,12 +76,15 @@ if ($type === 'movie') {
 }
 
 if (empty($file_path) || !file_exists($file_path)) {
+    ob_clean(); // Clear any output
     http_response_code(404);
-    echo json_encode(['error' => 'File not found']);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'File not found: ' . $file_path]);
     exit;
 }
 
-// Set headers for download
+// Clear output buffer and set headers for download
+ob_clean();
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -73,7 +93,11 @@ header('Cache-Control: must-revalidate');
 header('Pragma: public');
 header('Content-Length: ' . filesize($file_path));
 
+// Disable time limit for large file downloads
+set_time_limit(0);
+
 // Output file
 readfile($file_path);
+ob_end_flush();
 exit;
 ?>

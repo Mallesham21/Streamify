@@ -400,6 +400,7 @@ if (isset($_SESSION['user_id'])) {
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" href="profile.php"><i class="bi bi-person me-2"></i>Profile</a></li>
                 <li><a class="dropdown-item" href="watchlist.php"><i class="bi bi-bookmark me-2"></i>My Watchlist</a></li>
+                <li><a class="dropdown-item" href="history.php"><i class="bi bi-clock-history me-2"></i>Watch History</a></li>
                 <?php if (!$is_premium): ?>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-warning" href="subscription.php">

@@ -1123,9 +1123,14 @@ if ($is_scheduled) {
                         <div class="ratio">
                             <video id="player" playsinline controls data-poster="<?= htmlspecialchars($banner) ?? $content["banner_url"] ?>">
                                 <?php if ($content['content_type'] === 'movie' && $content['video_path']): ?>
-                                    <source src="<?=  htmlspecialchars($video) ?>" type="video/mp4">
-                                <?php elseif ($content['content_type'] === 'tv_show' && !empty($episodes)): ?>
-                                    <source src="<?=  htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
+                                    <source src="<?= "admin/" . htmlspecialchars($video) ?>" type="video/mp4">
+                                <?php elseif ($content['content_type'] === 'tv_show'): ?>
+                                    <?php if (!empty($episodes) && !empty($episodes[0]['video_path'])): ?>
+                                        <source src="<?= "admin/" . htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
+                                    <?php elseif ($content['video_path']): ?>
+                                        <!-- Fallback to content video_path if no episodes -->
+                                        <source src="<?= "admin/" . htmlspecialchars($video) ?>" type="video/mp4">
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </video>
                         </div>
@@ -1154,8 +1159,13 @@ if ($is_scheduled) {
                             <video id="player" playsinline controls data-poster="<?= htmlspecialchars($banner) ?? $content["banner_url"] ?>">
                                 <?php if ($content['content_type'] === 'movie' && $content['video_path']): ?>
                                     <source src="<?= "admin/" . htmlspecialchars($video) ?>" type="video/mp4">
-                                <?php elseif ($content['content_type'] === 'tv_show' && !empty($episodes)): ?>
-                                    <source src="<?= "admin/" . htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
+                                <?php elseif ($content['content_type'] === 'tv_show'): ?>
+                                    <?php if (!empty($episodes) && !empty($episodes[0]['video_path'])): ?>
+                                        <source src="<?= "admin/" . htmlspecialchars($episodes[0]['video_path']) ?>" type="video/mp4">
+                                    <?php elseif ($content['video_path']): ?>
+                                        <!-- Fallback to content video_path if no episodes -->
+                                        <source src="<?= "admin/" . htmlspecialchars($video) ?>" type="video/mp4">
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </video>
                         </div>
@@ -1203,7 +1213,7 @@ if ($is_scheduled) {
                             <?php foreach ($episodes as $index => $episode): ?>
                                 <div class="episode-item p-3 mb-2 <?= $index === 0 ? 'active' : '' ?>" 
                                      data-episode-id="<?= $episode['episode_id'] ?>" 
-                                    data-video-src="<?= !empty($episode['video_path']) ?  htmlspecialchars($episode['video_path']) : 'admin/default.mp4' ?>">
+                                    data-video-src="<?= !empty($episode['video_path']) ? 'admin/' . htmlspecialchars($episode['video_path']) : 'admin/videos/default.mp4' ?>">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1 text-light">Episode <?= $episode['episode_number'] ?></h6>
@@ -2245,8 +2255,16 @@ function initiateDownload(contentId, type, episodeId = null, episodeTitle = null
         body: formData
     })
     .then(response => {
-        if (response.ok) {
-            throw new Error('Network response was not ok');
+        if (!response.ok) {
+            // Try to get error message
+            return response.text().then(text => {
+                try {
+                    const error = JSON.parse(text);
+                    throw new Error(error.error || 'Download failed');
+                } catch (e) {
+                    throw new Error('Download failed: ' + response.statusText);
+                }
+            });
         }
         return response.blob();
     })

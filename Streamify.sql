@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 31, 2025 at 02:12 PM
+-- Generation Time: Nov 01, 2025 at 12:09 AM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.3.14
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
   PRIMARY KEY (`log_id`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `activity_logs`
@@ -84,7 +84,9 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `details`, `ip_addre
 (36, 29, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUbh8YbkVo0ZT2\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-17 16:31:56'),
 (37, 12, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RUlrKXLdYPimAt\"}', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-18 02:28:20'),
 (38, 31, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RZUwsDDVZxoP8b\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-30 01:10:43'),
-(39, 1, 'content_added', '{\"content_id\":\"95\",\"title\":\"War 2\",\"content_type\":\"movie\"}', '127.0.0.1', 'Admin Panel', '2025-10-31 14:09:17');
+(39, 1, 'content_added', '{\"content_id\":\"95\",\"title\":\"War 2\",\"content_type\":\"movie\"}', '127.0.0.1', 'Admin Panel', '2025-10-31 14:09:17'),
+(40, 1, 'content_added', '{\"content_id\":\"96\",\"title\":\"War 2\",\"content_type\":\"movie\"}', '127.0.0.1', 'Admin Panel', '2025-10-31 23:37:01'),
+(41, 33, 'subscription_purchase', '{\"subscription_id\":\"2\",\"plan_name\":\"3 Month Plan\",\"amount\":\"499.00\",\"payment_id\":\"pay_RaGmrqTl7kV6sg\"}', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', '2025-10-31 23:58:34');
 
 -- --------------------------------------------------------
 
@@ -183,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `content` (
   `is_scheduled` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`content_id`),
   KEY `idx_scheduled_release` (`is_scheduled`,`schedule_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `content`
@@ -194,10 +196,10 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (2, 'The Dark Knight', 'Batman faces chaos brought by the Joker in Gotham.', 'movie', 2008, 'thumbnails/dark_knight.jpg', 'banners/dark_knight1.jpg', 9.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5561, 152, NULL, 0),
 (3, 'Interstellar', 'Astronauts travel through a wormhole to save humanity.', 'movie', 2014, 'thumbnails/interstellar.jpg', 'banners/Interstellar1.jpg', 8.6, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7513, 169, NULL, 0),
 (4, 'Avengers: Endgame', 'The Avengers assemble for the final battle against Thanos.', 'movie', 2019, 'thumbnails/endgame.jpg', 'banners/Avengers__Endgame.jpg', 8.4, '2025-09-02 15:11:19', 'videos/Avengers__Endgame.mp4', 1, 0, 883, 181, NULL, 0),
-(5, 'Avatar', 'A marine explores Pandora and joins the Na\'vi people.', 'movie', 2009, 'thumbnails/avatar.jpg', 'banners/Avatar.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 1, 0, 1880, 162, NULL, 0),
+(5, 'Avatar', 'A marine explores Pandora and joins the Na\'vi people.', 'movie', 2009, 'thumbnails/avatar.jpg', 'banners/Avatar.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 1, 0, 1881, 162, NULL, 0),
 (6, 'Titanic', 'A romance blossoms aboard the doomed Titanic.', 'movie', 1997, 'thumbnails/titanic.jpg', 'banners/Titanic1.jpg', 7.9, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6718, 195, NULL, 0),
 (7, 'Gladiator', 'A betrayed general seeks vengeance in the Roman arena.', 'movie', 2000, 'thumbnails/gladiator.jpg', 'banners/Gladiator1.jpg', 8.5, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 7973, 155, NULL, 0),
-(8, 'The Matrix', 'A hacker discovers reality is a simulation.', 'movie', 1999, 'thumbnails/matrix.jpg', 'banners/The Matrix1.jpg', 8.7, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9712, 136, NULL, 0),
+(8, 'The Matrix', 'A hacker discovers reality is a simulation.', 'movie', 1999, 'thumbnails/matrix.jpg', 'banners/The Matrix1.jpg', 8.7, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9714, 136, NULL, 0),
 (9, 'The Godfather', 'The aging patriarch of an organized crime dynasty transfers power.', 'movie', 1972, 'thumbnails/godfather.jpg', 'banners/GodFather1.jpg', 9.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4642, 175, NULL, 0),
 (10, 'The Shawshank Redemption', 'A man wrongly imprisoned finds hope and freedom.', 'movie', 1994, 'thumbnails/shawshank.jpg', 'banners/shawshank1.jpg', 9.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 4077, 142, NULL, 0),
 (11, 'Forrest Gump', 'A man with a kind heart experiences decades of U.S. history.', 'movie', 1994, 'thumbnails/forrest.jpg', 'banners/Forrest Gump1.jpg', 8.8, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 6448, 142, NULL, 0),
@@ -209,8 +211,8 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (17, 'Frozen', 'Two sisters struggle with love, magic, and ice.', 'movie', 2013, 'thumbnails/frozen.jpg', 'banners/Frozen1.jpg', 7.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5595, 102, NULL, 0),
 (18, 'Spider-Man: No Way Home', 'Peter Parker faces villains from across the multiverse.', 'movie', 2021, 'thumbnails/spiderman_nwh.jpg', 'banners/Spider-Man1.jpg', 8.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 1990, 148, NULL, 0),
 (19, 'Black Panther', 'T’Challa returns to Wakanda to rule as king and Black Panther.', 'movie', 2018, 'thumbnails/blackpanther.jpg', 'banners/Black Panther1.jpg', 7.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3167, 134, NULL, 0),
-(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/The Avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9874, 143, NULL, 0),
-(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/Stranger_Things1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9827, NULL, NULL, 0),
+(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/The Avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9877, 143, NULL, 0),
+(21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/Stranger_Things1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9831, NULL, NULL, 0),
 (22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/BreakingBad1.jpg', 9.5, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9538, NULL, NULL, 0),
 (23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/Game_of_Thrones.jpg', 9.3, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 0, 8178, NULL, NULL, 0),
 (24, 'The Witcher', 'A monster hunter struggles with destiny and politics.', 'tv_show', 2019, 'thumbnails/witcher.jpg', 'banners/The Witcher1.jpg', 8.2, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2293, NULL, NULL, 0),
@@ -220,13 +222,13 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (28, 'The Boys', 'Anti-heroes fight corrupt superheroes.', 'tv_show', 2019, 'thumbnails/boys.jpg', 'banners/The Boys1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 7451, NULL, NULL, 0),
 (29, 'Squid Game', 'Hundreds compete in deadly games for money.', 'tv_show', 2021, 'thumbnails/squidgame.jpg', 'banners/Squid Game1.jpg', 8.0, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 2755, NULL, NULL, 0),
 (30, 'Peaky Blinders', 'A gangster family in 1900s Birmingham, England.', 'tv_show', 2013, 'thumbnails/peaky.jpg', 'banners/Peaky Blinders1.jpg', 8.8, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 0, 1422, NULL, NULL, 0),
-(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_banner.jpg', 9.0, '2025-10-15 04:27:08', 'videos/default.mp4', 0, 1, 8852, 168, '2025-10-31 15:11:00', 0),
-(84, 'Sacred Games', 'A cop uncovers a dark conspiracy that threatens Mumbai.', 'tv_show', 2018, 'thumbnails/Sacred_Games.jpg', 'banners/Sacred_Games.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9980, NULL, NULL, 0),
+(62, 'Coolie', 'Delves into a man\'s relentless quest for vengeance since youth, driven by righting past wrongs, shaping his very existence.', 'movie', 2025, 'thumbnails/Coolie_6.jpg', 'banners/Coolie_banner.jpg', 9.0, '2025-10-15 04:27:08', 'videos/default.mp4', 0, 1, 8854, 168, '2025-10-31 15:11:00', 0),
+(84, 'Sacred Games', 'A cop uncovers a dark conspiracy that threatens Mumbai.', 'tv_show', 2018, 'thumbnails/Sacred_Games.jpg', 'banners/Sacred_Games.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9982, NULL, NULL, 0),
 (83, 'Mirzapur', 'A lawless town ruled by the mafia king Kaleen Bhaiya.', 'tv_show', 2018, 'thumbnails/mirzapur.jpg', 'banners/Mirzapur.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3337, NULL, NULL, 0),
 (82, 'The Family Man', 'A middle-class man secretly works as an intelligence officer.', 'tv_show', 2019, 'thumbnails/The_Family_Man.jpg', 'banners/The_Family_Man.jpg', 8.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6754, NULL, NULL, 0),
-(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3764, NULL, NULL, 0),
+(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3767, NULL, NULL, 0),
 (81, 'Made in Heaven', 'Wedding planners navigate love and lies in Delhi.', 'tv_show', 2019, 'thumbnails/madeinheaven.jpg', 'banners/madeinheaven.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8543, NULL, NULL, 0),
-(79, 'Chhichhore', 'A tragic event reunites college friends and memories.', 'movie', 2019, 'thumbnails/Chhichhorejpg', 'banners/Chhichhore.jpg', 8.1, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1433, NULL, NULL, 0),
+(79, 'Chhichhore', 'A tragic event reunites college friends and memories.', 'movie', 2019, 'thumbnails/Chhichhorejpg', 'banners/Chhichhore.jpg', 8.1, '2025-10-30 09:41:22', 'videos/Chhichhore.mp4', 0, 0, 1433, NULL, NULL, 0),
 (78, 'Dangal', 'A father trains his daughters to become wrestling champions.', 'movie', 2016, 'thumbnails/Dangaljpg', 'banners/Dangal.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1537, NULL, NULL, 0),
 (77, '3 Idiots', 'Three friends question the education system in India.', 'movie', 2009, 'thumbnails/3_Idiotsjpg', 'banners/3_Idiots.jpg', 8.4, '2025-10-30 09:41:22', 'videos/3_Idiots.mp4', 0, 0, 3390, NULL, NULL, 0),
 (76, 'Brahmastra', 'A man discovers his connection to powerful celestial weapons.', 'movie', 2022, 'thumbnails/Brahmastrajpg', 'banners/Brahmastra.jpg', 6.8, '2025-10-30 09:41:22', 'videos/Brahmastra.mp4', 0, 0, 2327, NULL, NULL, 0),
@@ -242,7 +244,8 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (91, 'Sita Ramam', 'An orphaned soldier receives mysterious love letters.', 'movie', 2022, 'thumbnails/Sita_Ramam.jpg', 'banners/Sita_Ramam.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 2394, NULL, NULL, 0),
 (92, 'Jersey', 'A struggling cricketer makes an emotional comeback.', 'movie', 2019, 'thumbnails/jersey.jpg', 'banners/jersey.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 3374, NULL, NULL, 0),
 (93, 'Eega', 'A man reincarnates as a fly to take revenge.', 'movie', 2012, 'thumbnails/eega.jpg', 'banners/eega.jpg', 7.7, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 9685, NULL, NULL, 0),
-(94, 'Vikram', 'A black-ops squad hunts a masked serial killer.', 'movie', 2022, 'thumbnails/vikram.jpg', 'banners/vikram.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8308, NULL, NULL, 0);
+(94, 'Vikram', 'A black-ops squad hunts a masked serial killer.', 'movie', 2022, 'thumbnails/vikram.jpg', 'banners/vikram.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8309, NULL, NULL, 0),
+(96, 'War 2', 'New Movie', 'movie', 2025, 'thumbnails/.War_2_1.jpg', 'banners/.War_2_1.jpg', 1.0, '2025-10-31 23:37:01', 'videos/.War_2_video.mp4', 1, 1, 0, 165, '2025-11-01 10:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -407,7 +410,10 @@ INSERT INTO `content_categories` (`content_id`, `category_id`) VALUES
 (93, 17),
 (94, 1),
 (94, 3),
-(94, 17);
+(94, 17),
+(96, 1),
+(96, 3),
+(96, 18);
 
 -- --------------------------------------------------------
 
@@ -517,7 +523,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   KEY `idx_created_at` (`created_at`),
   KEY `idx_notifications_user_type` (`user_id`,`type`),
   KEY `idx_notifications_created_read` (`created_at`,`is_read`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `notifications`
@@ -562,7 +568,12 @@ INSERT INTO `notifications` (`notification_id`, `user_id`, `type`, `title`, `mes
 (48, 31, 'content_available', 'New Content Available', 'The content \"Coolie\" you were waiting for is now available to watch.', 62, 0, '2025-10-30 01:16:39'),
 (49, 32, 'welcome', 'Welcome to Streamify!', 'Welcome aboard, Manoj! Start exploring thousands of movies and TV shows.', NULL, 1, '2025-10-31 13:41:22'),
 (50, 32, 'recommendation', 'Recommended for You', 'You might like \"Sacred Games\" trending right now.', 84, 0, '2025-10-31 13:41:22'),
-(51, 32, 'recommendation', 'Recommended for You', 'You might like \"The Avengers\" popular among new users.', 20, 0, '2025-10-31 13:41:22');
+(51, 32, 'recommendation', 'Recommended for You', 'You might like \"The Avengers\" popular among new users.', 20, 0, '2025-10-31 13:41:22'),
+(52, 33, 'welcome', 'Welcome to Streamify!', 'Welcome aboard, Aashish! Start exploring thousands of movies and TV shows.', NULL, 0, '2025-10-31 23:57:25'),
+(53, 33, 'recommendation', 'Recommended for You', 'You might like \"Sacred Games\" trending right now.', 84, 0, '2025-10-31 23:57:25'),
+(54, 33, 'recommendation', 'Recommended for You', 'You might like \"The Avengers\" popular among new users.', 20, 0, '2025-10-31 23:57:25'),
+(55, 33, 'reminder_set', 'Reminder Set', 'You will be notified when \"War 2\" releases on Nov 1, 2025', 96, 0, '2025-10-31 23:57:52'),
+(56, 33, 'subscription_success', 'Subscription Activated', 'Your 3 Month Plan has been successfully activated! Your subscription is valid until Jan 29, 2026.', NULL, 0, '2025-10-31 23:58:34');
 
 -- --------------------------------------------------------
 
@@ -586,7 +597,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   KEY `user_id` (`user_id`),
   KEY `subscription_id` (`subscription_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `payments`
@@ -600,7 +611,8 @@ INSERT INTO `payments` (`payment_id`, `user_id`, `subscription_id`, `amount`, `c
 (5, 17, 10, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUangEEChsl3w4', '2025-10-17 15:39:12', '2025-10-17 15:39:12'),
 (6, 29, 11, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUbh8YbkVo0ZT2', '2025-10-17 16:31:56', '2025-10-17 16:31:56'),
 (7, 12, 12, 499.00, 'INR', 'razorpay', 'completed', 'pay_RUlrKXLdYPimAt', '2025-10-18 02:28:20', '2025-10-18 02:28:20'),
-(8, 31, 13, 499.00, 'INR', 'razorpay', 'completed', 'pay_RZUwsDDVZxoP8b', '2025-10-30 01:10:43', '2025-10-30 01:10:43');
+(8, 31, 13, 499.00, 'INR', 'razorpay', 'completed', 'pay_RZUwsDDVZxoP8b', '2025-10-30 01:10:43', '2025-10-30 01:10:43'),
+(9, 33, 14, 499.00, 'INR', 'razorpay', 'completed', 'pay_RaGmrqTl7kV6sg', '2025-10-31 23:58:34', '2025-10-31 23:58:34');
 
 -- --------------------------------------------------------
 
@@ -622,7 +634,7 @@ CREATE TABLE IF NOT EXISTS `reminders` (
   KEY `content_id` (`content_id`),
   KEY `idx_status` (`status`),
   KEY `idx_reminder_date` (`reminder_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `reminders`
@@ -632,7 +644,8 @@ INSERT INTO `reminders` (`reminder_id`, `user_id`, `content_id`, `status`, `remi
 (2, 12, 62, 'notified', '2025-10-15 15:11:00', '2025-10-16 07:43:57', '2025-10-16 16:36:53'),
 (4, 10, 62, 'notified', '2025-10-15 15:11:00', '2025-10-16 08:18:59', '2025-10-16 16:36:53'),
 (5, 28, 62, 'notified', '2025-10-15 15:11:00', '2025-10-17 14:45:40', '2025-10-17 14:54:46'),
-(6, 31, 62, 'notified', '2025-10-15 15:11:00', '2025-10-30 01:16:30', '2025-10-30 01:16:39');
+(6, 31, 62, 'notified', '2025-10-15 15:11:00', '2025-10-30 01:16:30', '2025-10-30 01:16:39'),
+(7, 33, 96, 'active', '2025-11-01 10:00:00', '2025-10-31 23:57:52', '2025-10-31 23:57:52');
 
 -- --------------------------------------------------------
 
@@ -683,39 +696,32 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `mobile_no`, `password_hash`, `profile_pic`, `role`, `subscription_type`, `is_premium`, `created_at`, `last_login`) VALUES
-(6, 'Mallesham22', 'mallesham10@gmail.com', NULL, '$2y$10$uxS3Knrkf7HF8fO1J.HVfe4EPUXY7bgRxIElY2XjF/HWJ0.FJX9Wa', 'uploads/profile_pics/user_6_1754836322.jpg', 'user', 'free', 0, '2025-08-07 03:49:32', NULL),
-(7, 'Kira', 'kira@gmail.com', NULL, '$2y$10$Eap9rsy9RITdNlTX34mE9eMHDrP2FwkeLVNgqygmm8nYdLbBDjSKy', 'uploads/profile_pics/68954fde75b5c_1754615774.jpg', 'user', 'free', 0, '2025-08-07 21:46:14', NULL),
-(8, 'John', 'john@gmail.com', NULL, '$2y$10$Sk5lXDoz1aPUlTa2RXsWmeFjXftwRG3S0vDdi6EMWt.6qVUUIbCOu', 'uploads/profile_pics/6898a7607cfaa_1754834784.png', 'user', 'free', 0, '2025-08-10 10:36:24', NULL),
-(9, 'Sarthak30', 'sarthak@gmail.com', NULL, '$2y$10$M.smIcFmsYdy8iTyKkSKD.rbubmzUMXIDAQYXNX6grXLZiQjka1FG', 'uploads/profile_pics/user_9_1755014412.jpg', 'user', 'premium', 1, '2025-08-10 12:47:36', NULL),
-(10, 'Prem123', 'prem123@gmail.com', '', '$2y$10$ddMZGyo85bYV05sQMZdwMObLSiZkcHCyDPryAtfOoZek5IVJZRyuq', 'uploads/profile_pics/user_10_1760955491.jpg', 'user', 'premium', 1, '2025-10-04 01:30:38', NULL),
-(11, 'admin', 'admin@gmail.com', NULL, '$2y$10$IJBTRBsdzi.ZAhbiYHrhnOmwGrdNl7KKzTiuXvHFamlu3AhFwCgnG', 'uploads/profile_pics/68ed3b2357069_1760377635.jpg', 'admin', 'free', 0, '2025-10-13 14:17:15', NULL),
-(12, 'Mallesham21', 'malleshamkota21@gmail.com', '9049303496', '$2y$10$n324HHcEb9Q0C762CJZzb.YNslhLLcsAaFMBakUijTeJkxoI9k926', 'uploads/profile_pics/user_12_1760463474.jpg', 'user', 'premium', 1, '2025-10-14 14:07:28', NULL),
-(13, 'Raju1234', 'raju@gmail.com', NULL, '$2y$10$akBeE/3TX0Y.4SGs8vXxrOdndq2M9WANgW/ZTTlMkn3KVST1UE5mG', 'uploads/profile_pics/68f0ab22131d4_1760602914.jpg', 'user', 'free', 0, '2025-10-16 04:51:54', NULL),
-(14, 'User123', 'user@gmail.com', NULL, '$2y$10$OkMbVuUalhCoFLdDQe6NMemALgUzOdxj/pUZ2IevQBYyYavRy158K', 'uploads/profile_pics/68f120a2cff79_1760632994.jpg', 'user', 'free', 0, '2025-10-16 13:13:14', NULL),
-(30, 'Ashish', 'ashish@gmail.com', '9999999999', '$2y$10$7Fg1m8DKJrvJ/YywmBX3I.oNgcqpcp4UQJQhY5fXLkmIfPHKZb.Ie', 'uploads/profile_pics/68fda6360e73e_1761453622.jpg', 'user', 'free', 0, '2025-10-26 00:10:22', NULL),
-(16, 'Dygv', 'sarthvvak@gmail.com', NULL, '$2y$10$VqxT/aUCPQC1cYhHOzvsP.C9ONUdfE2vw1.qIA6KPKLpIu/KPokLW', 'uploads/profile_pics/68f12465eeb86_1760633957.jpg', 'user', 'premium', 1, '2025-10-16 13:29:18', NULL),
-(17, 'Pruthviraj', 'ggff@gmyg.uvb', NULL, '$2y$10$u2emIkeeFjl.POIFU9IY8e2RYWTfDcVsMOpfnPiNq3JnT6iX6XeLa', 'uploads/profile_pics/68f124ac2d8fe_1760634028.jpg', 'user', 'premium', 1, '2025-10-16 13:30:28', NULL),
-(18, 'Pruthvirajxx', 'mallesharreem2110@gmail.com', NULL, '$2y$10$yH.3By/X22j4.vwZG1jDyu3/1KnA5aMZDAVxxaQ4sh4x3ovbvTFQW', 'uploads/profile_pics/68f124cb666bd_1760634059.jpg', 'user', 'free', 0, '2025-10-16 13:30:59', NULL),
-(19, 'Mallesham211', 'mallesham21103@gmail.com', NULL, '$2y$10$7Ctp0Et/bRqaWou5UGm0RONywERmmB/P6zVPSYCOM9tN4ULBQr7dy', 'uploads/profile_pics/68f1274905b92_1760634697.jpg', 'user', 'free', 0, '2025-10-16 13:41:37', NULL),
-(20, 'Mallesham2116', 'mallesh55am21103@gmail.com', NULL, '$2y$10$/YUId18pG1VFxDl8YtdPh.mKTvGvhSatyrO6553ov7.EcPobKiEAG', 'uploads/profile_pics/68f1275ba784d_1760634715.jpg', 'user', 'free', 0, '2025-10-16 13:41:55', NULL),
-(21, 'Dygv4', 'sarth55ak@gmail.com', NULL, '$2y$10$YL/oQqxrFh.8RKlV3tKU7Ok7a9dtIM2WiLNm5wHHYPRs/JibaHG.e', 'uploads/profile_pics/68f127fd3e3a3_1760634877.jpg', 'user', 'free', 0, '2025-10-16 13:44:37', NULL),
-(22, 'Sarthak306', 'sartha6k@gmail.com', NULL, '$2y$10$v.1vDMd6LkoNoKHzUy1oMO4DChbsgbHgenFKA9sbipCtLyjPzVEiG', 'uploads/profile_pics/68f128fc26332_1760635132.jpg', 'user', 'free', 0, '2025-10-16 13:48:52', NULL),
-(23, 'Dygvv', 'malleshavmkota21@gmail.com', NULL, '$2y$10$CC5nYA5JxYn810seV8yRauYns4Jf0IebFvyPf9XrfLS7Hpm/41GnW', 'uploads/profile_pics/68f12afdd86dd_1760635645.jpg', 'user', 'free', 0, '2025-10-16 13:57:26', NULL),
-(24, 'Dygvcx', 'sdxarthak@gmail.com', NULL, '$2y$10$47mrL7TPMK3rHz.ECoMWROW9pLY5J75n3y6mOQ9OdghnYe8kvlrrO', 'uploads/profile_pics/68f1a2626195e_1760666210.jpg', 'user', 'free', 0, '2025-10-16 22:26:50', NULL),
-(25, 'Guv55', 'hhb@gmail.com', NULL, '$2y$10$33.B8syeP4Low2plv3enXeYZSJTbRxg9GR0.BNtoBZ5iFbkT0F4KW', 'uploads/profile_pics/68f1aa9745843_1760668311.jpg', 'user', 'free', 0, '2025-10-16 23:01:51', NULL),
-(26, 'Disbbd', 'susg@gmail.com', NULL, '$2y$10$bpoqtRZkgeSry8c40qd9guobiOTDBPxh5W8I92TN2h1W/b1s6KW9G', 'uploads/profile_pics/68f1abe83319d_1760668648.jpg', 'user', 'free', 0, '2025-10-16 23:07:28', NULL),
-(27, 'Pravin', 'pravin@gmail.com', NULL, '$2y$10$8xnWSxkiirEOo73AeVXqDO6zn38ud8KZuesBl8YptsnFVfVvse/1G', 'uploads/profile_pics/68f1ae12696d8_1760669202.jpg', 'user', 'free', 0, '2025-10-16 23:16:42', NULL),
-(28, 'Gagan', 'gagan@gmail.com', NULL, '$2y$10$90zMvLVwmBXlfCbH4.cj9uTnySsgMm4.4bhzuCS0cULXKB4pySeGW', 'uploads/profile_pics/68f255e6e325e_1760712166.jpg', 'user', 'free', 0, '2025-10-17 11:12:47', NULL),
-(29, 'Ravi1234', 'ravi@gmail.com', '9999999996', '$2y$10$v0.a5P2Fx9BYI0VhjrHSK.R3SEIKMFHJ5.c0gmEokrfYmLbB/2jrO', 'uploads/profile_pics/68f2683d4102c_1760716861.jpg', 'user', 'premium', 1, '2025-10-17 12:31:01', NULL),
-(31, 'Pravin123', 'pravin12@gmail.com', '4567891235', '$2y$10$YuQqEC4uR30zcG2kkoBy..bexmwtr46NdprOj6wD/6VWzaRa7Q6/m', 'uploads/profile_pics/6902ba696e7e5_1761786473.jpg', 'user', 'premium', 1, '2025-10-29 19:37:53', NULL),
-(32, 'Manoj', 'manoj@gmail.com', '4564861315', '$2y$10$hyypvdmf5a6bcGzHIg0Gpu8SJmAKR9Sg1oTBuCQhA0GWLdUkSLtyC', 'uploads/profile_pics/6904bc82a36ed_1761918082.jpg', 'user', 'free', 0, '2025-10-31 08:11:22', NULL);
+(6, 'Mallesham22', 'mallesham10@gmail.com', NULL, '$2y$10$uxS3Knrkf7HF8fO1J.HVfe4EPUXY7bgRxIElY2XjF/HWJ0.FJX9Wa', 'uploads/profile_pics/user_6_1754836322.jpg', 'user', 'free', 0, '2025-08-07 03:49:32', '2025-08-07 03:49:32'),
+(7, 'Kira', 'kira@gmail.com', NULL, '$2y$10$Eap9rsy9RITdNlTX34mE9eMHDrP2FwkeLVNgqygmm8nYdLbBDjSKy', 'uploads/profile_pics/68954fde75b5c_1754615774.jpg', 'user', 'free', 0, '2025-08-07 21:46:14', '2025-08-07 21:46:14'),
+(8, 'John', 'john@gmail.com', NULL, '$2y$10$Sk5lXDoz1aPUlTa2RXsWmeFjXftwRG3S0vDdi6EMWt.6qVUUIbCOu', 'uploads/profile_pics/6898a7607cfaa_1754834784.png', 'user', 'free', 0, '2025-08-10 10:36:24', '2025-08-10 10:36:24'),
+(9, 'Sarthak30', 'sarthak@gmail.com', NULL, '$2y$10$M.smIcFmsYdy8iTyKkSKD.rbubmzUMXIDAQYXNX6grXLZiQjka1FG', 'uploads/profile_pics/user_9_1755014412.jpg', 'user', 'premium', 1, '2025-08-10 12:47:36', '2025-08-10 12:47:36'),
+(10, 'Prem123', 'prem123@gmail.com', '', '$2y$10$ddMZGyo85bYV05sQMZdwMObLSiZkcHCyDPryAtfOoZek5IVJZRyuq', 'uploads/profile_pics/user_10_1760955491.jpg', 'user', 'premium', 1, '2025-10-04 01:30:38', '2025-10-04 01:30:38'),
+(11, 'admin', 'admin@gmail.com', NULL, '$2y$10$IJBTRBsdzi.ZAhbiYHrhnOmwGrdNl7KKzTiuXvHFamlu3AhFwCgnG', 'uploads/profile_pics/68ed3b2357069_1760377635.jpg', 'admin', 'free', 0, '2025-10-13 14:17:15', '2025-10-13 14:17:15'),
+(12, 'Mallesham21', 'malleshamkota21@gmail.com', '9049303496', '$2y$10$n324HHcEb9Q0C762CJZzb.YNslhLLcsAaFMBakUijTeJkxoI9k926', 'uploads/profile_pics/user_12_1760463474.jpg', 'user', 'premium', 1, '2025-10-14 14:07:28', '2025-10-14 14:07:28'),
+(13, 'Raju1234', 'raju@gmail.com', NULL, '$2y$10$akBeE/3TX0Y.4SGs8vXxrOdndq2M9WANgW/ZTTlMkn3KVST1UE5mG', 'uploads/profile_pics/68f0ab22131d4_1760602914.jpg', 'user', 'free', 0, '2025-10-16 04:51:54', '2025-10-16 04:51:54'),
+(33, 'Aashish', 'aashish@gmail.com', '1448312154', '$2y$10$p6AdLkQSNvXJFNObqBzZbO3zW0mshtn8vWGPzObmXTK0JeWvMdg6S', 'uploads/profile_pics/69054ce51740c_1761955045.jpg', 'user', 'premium', 1, '2025-10-31 18:27:25', NULL),
+(30, 'Ashish', 'ashish@gmail.com', '9999999999', '$2y$10$7Fg1m8DKJrvJ/YywmBX3I.oNgcqpcp4UQJQhY5fXLkmIfPHKZb.Ie', 'uploads/profile_pics/68fda6360e73e_1761453622.jpg', 'user', 'free', 0, '2025-10-26 00:10:22', '2025-10-26 00:10:22'),
+(17, 'Pruthviraj', 'ggff@gmyg.uvb', NULL, '$2y$10$u2emIkeeFjl.POIFU9IY8e2RYWTfDcVsMOpfnPiNq3JnT6iX6XeLa', 'uploads/profile_pics/68f124ac2d8fe_1760634028.jpg', 'user', 'premium', 1, '2025-10-16 13:30:28', '2025-10-16 13:30:28'),
+(19, 'Mallesham211', 'mallesham21103@gmail.com', NULL, '$2y$10$7Ctp0Et/bRqaWou5UGm0RONywERmmB/P6zVPSYCOM9tN4ULBQr7dy', 'uploads/profile_pics/68f1274905b92_1760634697.jpg', 'user', 'free', 0, '2025-10-16 13:41:37', '2025-10-16 13:41:37'),
+(20, 'Mallesham2116', 'mallesh55am21103@gmail.com', NULL, '$2y$10$/YUId18pG1VFxDl8YtdPh.mKTvGvhSatyrO6553ov7.EcPobKiEAG', 'uploads/profile_pics/68f1275ba784d_1760634715.jpg', 'user', 'free', 0, '2025-10-16 13:41:55', '2025-10-16 13:41:55'),
+(22, 'Sarthak306', 'sartha6k@gmail.com', NULL, '$2y$10$v.1vDMd6LkoNoKHzUy1oMO4DChbsgbHgenFKA9sbipCtLyjPzVEiG', 'uploads/profile_pics/68f128fc26332_1760635132.jpg', 'user', 'free', 0, '2025-10-16 13:48:52', '2025-10-16 13:48:52'),
+(27, 'Pravin', 'pravin@gmail.com', NULL, '$2y$10$8xnWSxkiirEOo73AeVXqDO6zn38ud8KZuesBl8YptsnFVfVvse/1G', 'uploads/profile_pics/68f1ae12696d8_1760669202.jpg', 'user', 'free', 0, '2025-10-16 23:16:42', '2025-10-16 23:16:42'),
+(28, 'Gagan', 'gagan@gmail.com', NULL, '$2y$10$90zMvLVwmBXlfCbH4.cj9uTnySsgMm4.4bhzuCS0cULXKB4pySeGW', 'uploads/profile_pics/68f255e6e325e_1760712166.jpg', 'user', 'free', 0, '2025-10-17 11:12:47', '2025-10-17 11:12:47'),
+(29, 'Ravi1234', 'ravi@gmail.com', '9999999996', '$2y$10$v0.a5P2Fx9BYI0VhjrHSK.R3SEIKMFHJ5.c0gmEokrfYmLbB/2jrO', 'uploads/profile_pics/68f2683d4102c_1760716861.jpg', 'user', 'premium', 1, '2025-10-17 12:31:01', '2025-10-17 12:31:01'),
+(31, 'Pravin123', 'pravin12@gmail.com', '4567891235', '$2y$10$YuQqEC4uR30zcG2kkoBy..bexmwtr46NdprOj6wD/6VWzaRa7Q6/m', 'uploads/profile_pics/6902ba696e7e5_1761786473.jpg', 'user', 'premium', 1, '2025-10-29 19:37:53', '2025-10-29 19:37:53'),
+(32, 'Manoj', 'manoj@gmail.com', '4564861315', '$2y$10$hyypvdmf5a6bcGzHIg0Gpu8SJmAKR9Sg1oTBuCQhA0GWLdUkSLtyC', 'uploads/profile_pics/6904bc82a36ed_1761918082.jpg', 'user', 'free', 0, '2025-10-31 08:11:22', '2025-10-31 08:11:22');
 
 -- --------------------------------------------------------
 
@@ -734,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `user_subscriptions` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `sub_id` (`sub_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `user_subscriptions`
@@ -748,7 +754,8 @@ INSERT INTO `user_subscriptions` (`id`, `user_id`, `sub_id`, `start_date`, `end_
 (10, 17, 2, '2025-10-17 17:39:12', '2026-01-15 17:39:12', 'active'),
 (11, 29, 2, '2025-10-17 18:31:56', '2026-01-15 18:31:56', 'active'),
 (12, 12, 2, '2025-10-18 04:28:20', '2026-01-16 04:28:20', 'active'),
-(13, 31, 2, '2025-10-30 01:10:43', '2026-01-28 01:10:43', 'active');
+(13, 31, 2, '2025-10-30 01:10:43', '2026-01-28 01:10:43', 'active'),
+(14, 33, 2, '2025-10-31 23:58:34', '2026-01-29 23:58:34', 'active');
 
 -- --------------------------------------------------------
 
@@ -765,7 +772,7 @@ CREATE TABLE IF NOT EXISTS `watchlist` (
   PRIMARY KEY (`watchlist_id`),
   UNIQUE KEY `unique_watchlist` (`user_id`,`content_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `watchlist`
@@ -776,7 +783,8 @@ INSERT INTO `watchlist` (`watchlist_id`, `user_id`, `content_id`, `added_at`) VA
 (11, 12, 21, '2025-10-18 02:43:56'),
 (9, 12, 22, '2025-10-15 09:30:09'),
 (8, 12, 23, '2025-10-14 17:39:09'),
-(14, 31, 22, '2025-10-30 01:09:57');
+(14, 31, 22, '2025-10-30 01:09:57'),
+(15, 33, 84, '2025-10-31 23:58:03');
 
 -- --------------------------------------------------------
 
@@ -795,7 +803,7 @@ CREATE TABLE IF NOT EXISTS `watch_history` (
   PRIMARY KEY (`history_id`),
   KEY `user_id` (`user_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
 
 --
 -- Dumping data for table `watch_history`
@@ -819,7 +827,11 @@ INSERT INTO `watch_history` (`history_id`, `user_id`, `content_id`, `progress_pe
 (15, 32, 20, 35.04, '2025-10-31 13:57:34', NULL),
 (16, 32, 27, 0.52, '2025-10-31 13:52:08', NULL),
 (17, 32, 5, 0.51, '2025-10-31 13:57:08', NULL),
-(18, 32, 10, 0.49, '2025-10-31 13:57:52', NULL);
+(18, 32, 10, 0.49, '2025-10-31 13:57:52', NULL),
+(19, 33, 20, 0.49, '2025-11-01 00:02:54', NULL),
+(20, 33, 21, 0.48, '2025-11-01 00:03:26', NULL),
+(21, 33, 8, 48.97, '2025-11-01 00:04:32', NULL),
+(22, 33, 80, 0.48, '2025-11-01 00:08:26', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
