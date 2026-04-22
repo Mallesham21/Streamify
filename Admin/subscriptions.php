@@ -11,6 +11,7 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
     <style>
+        /* Your existing CSS styles remain the same */
         :root {
             --primary-color: #6f42c1;
             --secondary-color: #20c997;
@@ -54,12 +55,14 @@
             background-color: var(--card);
             box-shadow: 0 2px 15px rgba(177, 59, 255, 0.1);
         }
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .card {
             background-color: var(--card);
             border: none;
@@ -230,10 +233,225 @@
     $total_plans = $conn->query($total_plans_query)->fetch_assoc()['total'];
     $active_subscriptions = $conn->query($active_subscriptions_query)->fetch_assoc()['active'];
     $total_revenue = $conn->query($total_revenue_query)->fetch_assoc()['revenue'] ?: 0;
+
+    // Handle form submissions
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $action = $_POST['action'] ?? '';
+        
+        if ($action === 'add_subscription') {
+            // Process add subscription
+            $required_fields = ['name', 'price', 'duration_days'];
+            $valid = true;
+            
+            foreach ($required_fields as $field) {
+                if (empty($_POST[$field])) {
+                    $valid = false;
+                    $message = "Field '$field' is required";
+                    $message_type = 'danger';
+                    break;
+                }
+            }
+            
+            if ($valid) {
+                $name = trim($conn->real_escape_string($_POST['name']));
+                $price = floatval($_POST['price']);
+                $duration_days = intval($_POST['duration_days']);
+                $description = isset($_POST['description']) ? trim($conn->real_escape_string($_POST['description'])) : '';
+                
+                // Process features
+                $features = [];
+                if (isset($_POST['features']) && !empty($_POST['features'])) {
+                    $features_text = $_POST['features'];
+                    $features_array = explode("\n", $features_text);
+                    $features = array_filter(array_map('trim', $features_array));
+                }
+                
+                // Check if subscription plan with same name already exists
+                $check_sql = "SELECT sub_id FROM subscriptions WHERE name = ?";
+                $check_stmt = $conn->prepare($check_sql);
+                $check_stmt->bind_param("s", $name);
+                $check_stmt->execute();
+                $check_result = $check_stmt->get_result();
+                
+                if ($check_result->num_rows > 0) {
+                    $message = 'A subscription plan with this name already exists';
+                    $message_type = 'danger';
+                } else {
+                    // Insert new subscription plan
+                    $insert_sql = "INSERT INTO subscriptions (name, price, duration_days, description, features) VALUES (?, ?, ?, ?, ?)";
+                    $insert_stmt = $conn->prepare($insert_sql);
+                    
+                    // Convert features array to JSON string
+                    $features_json = !empty($features) ? json_encode($features) : null;
+                    
+                    $insert_stmt->bind_param("sdiss", $name, $price, $duration_days, $description, $features_json);
+                    
+                    if ($insert_stmt->execute()) {
+                        $message = 'Subscription plan added successfully';
+                        $message_type = 'success';
+                        
+                        // Refresh the page to show updated data
+                        echo '<script>setTimeout(function() { window.location.href = "subscriptions.php"; }, 1500);</script>';
+                    } else {
+                        $message = 'Error adding subscription plan: ' . $insert_stmt->error;
+                        $message_type = 'danger';
+                    }
+                    
+                    $insert_stmt->close();
+                }
+                $check_stmt->close();
+            }
+        }
+        elseif ($action === 'update_subscription') {
+            // Process update subscription
+            $required_fields = ['sub_id', 'name', 'price', 'duration_days'];
+            $valid = true;
+            
+            foreach ($required_fields as $field) {
+                if (empty($_POST[$field])) {
+                    $valid = false;
+                    $message = "Field '$field' is required";
+                    $message_type = 'danger';
+                    break;
+                }
+            }
+            
+            if ($valid) {
+                $sub_id = intval($_POST['sub_id']);
+                $name = trim($conn->real_escape_string($_POST['name']));
+                $price = floatval($_POST['price']);
+                $duration_days = intval($_POST['duration_days']);
+                $description = isset($_POST['description']) ? trim($conn->real_escape_string($_POST['description'])) : '';
+                
+                // Process features
+                $features = [];
+                if (isset($_POST['features']) && !empty($_POST['features'])) {
+                    $features_text = $_POST['features'];
+                    $features_array = explode("\n", $features_text);
+                    $features = array_filter(array_map('trim', $features_array));
+                }
+                
+                // Check if subscription plan exists
+                $check_sql = "SELECT sub_id, name FROM subscriptions WHERE sub_id = ?";
+                $check_stmt = $conn->prepare($check_sql);
+                $check_stmt->bind_param("i", $sub_id);
+                $check_stmt->execute();
+                $check_result = $check_stmt->get_result();
+                
+                if ($check_result->num_rows === 0) {
+                    $message = 'Subscription plan not found';
+                    $message_type = 'danger';
+                } else {
+                    $old_plan = $check_result->fetch_assoc();
+                    
+                    // Check if another subscription plan with same name already exists
+                    $check_name_sql = "SELECT sub_id FROM subscriptions WHERE name = ? AND sub_id != ?";
+                    $check_name_stmt = $conn->prepare($check_name_sql);
+                    $check_name_stmt->bind_param("si", $name, $sub_id);
+                    $check_name_stmt->execute();
+                    $check_name_result = $check_name_stmt->get_result();
+                    
+                    if ($check_name_result->num_rows > 0) {
+                        $message = 'Another subscription plan with this name already exists';
+                        $message_type = 'danger';
+                    } else {
+                        // Update subscription plan
+                        $update_sql = "UPDATE subscriptions SET name = ?, price = ?, duration_days = ?, description = ?, features = ? WHERE sub_id = ?";
+                        $update_stmt = $conn->prepare($update_sql);
+                        
+                        // Convert features array to JSON string
+                        $features_json = !empty($features) ? json_encode($features) : null;
+                        
+                        $update_stmt->bind_param("sdissi", $name, $price, $duration_days, $description, $features_json, $sub_id);
+                        
+                        if ($update_stmt->execute()) {
+                            $message = 'Subscription plan updated successfully';
+                            $message_type = 'success';
+                            
+                            // Refresh the page to show updated data
+                            echo '<script>setTimeout(function() { window.location.href = "subscriptions.php"; }, 1500);</script>';
+                        } else {
+                            $message = 'Error updating subscription plan: ' . $update_stmt->error;
+                            $message_type = 'danger';
+                        }
+                        
+                        $update_stmt->close();
+                    }
+                    $check_name_stmt->close();
+                }
+                $check_stmt->close();
+            }
+        }
+        elseif ($action === 'delete_subscription') {
+            // Process delete subscription
+            if (empty($_POST['sub_id'])) {
+                $message = 'Subscription ID is required';
+                $message_type = 'danger';
+            } else {
+                $sub_id = intval($_POST['sub_id']);
+                
+                // Check if subscription plan exists
+                $check_sql = "SELECT name FROM subscriptions WHERE sub_id = ?";
+                $check_stmt = $conn->prepare($check_sql);
+                $check_stmt->bind_param("i", $sub_id);
+                $check_stmt->execute();
+                $check_result = $check_stmt->get_result();
+                
+                if ($check_result->num_rows === 0) {
+                    $message = 'Subscription plan not found';
+                    $message_type = 'danger';
+                } else {
+                    $plan = $check_result->fetch_assoc();
+                    $plan_name = $plan['name'];
+                    
+                    // Check if there are active subscriptions for this plan
+                    $check_active_sql = "SELECT COUNT(*) as active_count FROM user_subscriptions WHERE sub_id = ? AND status = 'active'";
+                    $check_active_stmt = $conn->prepare($check_active_sql);
+                    $check_active_stmt->bind_param("i", $sub_id);
+                    $check_active_stmt->execute();
+                    $check_active_result = $check_active_stmt->get_result();
+                    $active_count = $check_active_result->fetch_assoc()['active_count'];
+                    $check_active_stmt->close();
+                    
+                    if ($active_count > 0) {
+                        $message = "Cannot delete subscription plan. There are $active_count active subscriptions using this plan.";
+                        $message_type = 'danger';
+                    } else {
+                        // Delete subscription plan
+                        $delete_sql = "DELETE FROM subscriptions WHERE sub_id = ?";
+                        $delete_stmt = $conn->prepare($delete_sql);
+                        $delete_stmt->bind_param("i", $sub_id);
+                        
+                        if ($delete_stmt->execute()) {
+                            $message = 'Subscription plan deleted successfully';
+                            $message_type = 'success';
+                            
+                            // Refresh the page to show updated data
+                            echo '<script>setTimeout(function() { window.location.href = "subscriptions.php"; }, 1500);</script>';
+                        } else {
+                            $message = 'Error deleting subscription plan: ' . $delete_stmt->error;
+                            $message_type = 'danger';
+                        }
+                        
+                        $delete_stmt->close();
+                    }
+                }
+                $check_stmt->close();
+            }
+        }
+    }
     ?>
 
     <!-- Alert Container for Messages -->
-    <div class="alert-container"></div>
+    <div class="alert-container">
+        <?php if (isset($message) && isset($message_type)): ?>
+            <div class="alert alert-<?php echo $message_type; ?> alert-dismissible fade show" role="alert">
+                <i class="fas <?php echo $message_type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'; ?> me-2"></i>
+                <?php echo $message; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
+    </div>
 
     <div class="container-fluid">
         <div class="row">
@@ -242,28 +460,29 @@
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ml-auto p-0">
-            <!-- Top Navbar -->
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <div class="navbar-nav me-auto">
-            <span class="navbar-text">
-                <h4 class="mb-0">Manage Subscriptions</h4>
-            </span>
-        </div>
-        
-        <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=b13bff&color=fff" class="user-avatar me-2">
-                    Admin
-                </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                            </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+                <!-- Top Navbar -->
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-fluid">
+                        <div class="navbar-nav me-auto">
+                            <span class="navbar-text">
+                                <h4 class="mb-0">Manage Subscriptions</h4>
+                            </span>
+                        </div>
+                        
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                                    <img src="https://ui-avatars.com/api/?name=Admin&background=b13bff&color=fff" class="user-avatar me-2">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                
                 <!-- Subscription Content -->
                 <div class="p-4">
                     <!-- Stats Cards -->
@@ -431,7 +650,8 @@
                     <h5 class="modal-title">Add New Subscription Plan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="addSubscriptionForm">
+                <form method="POST" action="subscriptions.php">
+                    <input type="hidden" name="action" value="add_subscription">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="plan_name" class="form-label">Plan Name *</label>
@@ -472,7 +692,8 @@
                     <h5 class="modal-title">Edit Subscription Plan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="editSubscriptionForm">
+                <form method="POST" action="subscriptions.php">
+                    <input type="hidden" name="action" value="update_subscription">
                     <input type="hidden" id="edit_sub_id" name="sub_id">
                     <div class="modal-body">
                         <div class="mb-3">
@@ -514,14 +735,18 @@
                     <h5 class="modal-title">Delete Subscription Plan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete the "<span id="delete_plan_name"></span>" plan?</p>
-                    <p class="text-danger">This action cannot be undone. Users subscribed to this plan will be affected.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteSubscriptionBtn">Delete Plan</button>
-                </div>
+                <form method="POST" action="subscriptions.php">
+                    <input type="hidden" name="action" value="delete_subscription">
+                    <input type="hidden" id="delete_sub_id" name="sub_id">
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete the "<span id="delete_plan_name"></span>" plan?</p>
+                        <p class="text-danger">This action cannot be undone. Users subscribed to this plan will be affected.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete Plan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -535,9 +760,6 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     
     <script>
-        let subscriptionToDelete = null;
-        let subscriptionNameToDelete = null;
-
         $(document).ready(function() {
             // Initialize DataTables
             $('#subscriptionsTable').DataTable({
@@ -568,27 +790,11 @@
 
             // Delete subscription modal
             $(document).on('click', '.delete-subscription-btn', function() {
-                subscriptionToDelete = $(this).data('sub_id');
-                subscriptionNameToDelete = $(this).data('name');
-                $('#delete_plan_name').text(subscriptionNameToDelete);
+                const subId = $(this).data('sub_id');
+                const planName = $(this).data('name');
+                $('#delete_sub_id').val(subId);
+                $('#delete_plan_name').text(planName);
                 $('#deleteSubscriptionModal').modal('show');
-            });
-
-            // Add subscription form
-            $('#addSubscriptionForm').on('submit', function(e) {
-                e.preventDefault();
-                addSubscription();
-            });
-
-            // Edit subscription form
-            $('#editSubscriptionForm').on('submit', function(e) {
-                e.preventDefault();
-                updateSubscription();
-            });
-
-            // Confirm delete subscription
-            $('#confirmDeleteSubscriptionBtn').on('click', function() {
-                deleteSubscription(subscriptionToDelete, subscriptionNameToDelete);
             });
 
             // Auto-hide alerts after 5 seconds
@@ -596,174 +802,6 @@
                 $('.alert').alert('close');
             }, 5000);
         });
-
-        function addSubscription() {
-            const formData = new FormData();
-            formData.append('action', 'add_subscription');
-            formData.append('name', $('#plan_name').val());
-            formData.append('price', $('#plan_price').val());
-            formData.append('duration_days', $('#plan_duration').val());
-            formData.append('description', $('#plan_description').val());
-            
-            // Convert features text to array
-            const featuresText = $('#plan_features').val();
-            const featuresArray = featuresText.split('\n').filter(f => f.trim() !== '');
-            formData.append('features', JSON.stringify(featuresArray));
-
-            $.ajax({
-                url: 'manage_subscription_handler.php',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    let result;
-                    try {
-                        result = typeof response === 'string' ? JSON.parse(response) : response;
-                    } catch (e) {
-                        showAlert('Invalid response from server', 'danger');
-                        return;
-                    }
-                    
-                    if (result.success) {
-                        showAlert(result.message, 'success');
-                        $('#addSubscriptionModal').modal('hide');
-                        $('#addSubscriptionForm')[0].reset();
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1500);
-                    } else {
-                        showAlert(result.message, 'danger');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    showAlert('Error adding subscription: ' + error, 'danger');
-                }
-            });
-        }
-
-        function updateSubscription() {
-            const formData = new FormData();
-            formData.append('action', 'update_subscription');
-            formData.append('sub_id', $('#edit_sub_id').val());
-            formData.append('name', $('#edit_plan_name').val());
-            formData.append('price', $('#edit_plan_price').val());
-            formData.append('duration_days', $('#edit_plan_duration').val());
-            formData.append('description', $('#edit_plan_description').val());
-            
-            // Convert features text to array
-            const featuresText = $('#edit_plan_features').val();
-            const featuresArray = featuresText.split('\n').filter(f => f.trim() !== '');
-            formData.append('features', JSON.stringify(featuresArray));
-
-            $.ajax({
-                url: 'manage_subscription_handler.php',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    let result;
-                    try {
-                        result = typeof response === 'string' ? JSON.parse(response) : response;
-                    } catch (e) {
-                        showAlert('Invalid response from server', 'danger');
-                        return;
-                    }
-                    
-                    if (result.success) {
-                        showAlert(result.message, 'success');
-                        $('#editSubscriptionModal').modal('hide');
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1500);
-                    } else {
-                        showAlert(result.message, 'danger');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    showAlert('Error updating subscription: ' + error, 'danger');
-                }
-            });
-        }
-
-        function deleteSubscription(subId, planName) {
-            $('#confirmDeleteSubscriptionBtn').html('<span class="spinner-border spinner-border-sm" role="status"></span> Deleting...').prop('disabled', true);
-            
-            $.ajax({
-                url: 'manage_subscription_handler.php',
-                type: 'POST',
-                data: {
-                    action: 'delete_subscription',
-                    sub_id: subId
-                },
-                success: function(response) {
-                    let result;
-                    try {
-                        result = typeof response === 'string' ? JSON.parse(response) : response;
-                    } catch (e) {
-                        showAlert('Invalid response from server', 'danger');
-                        resetDeleteSubscriptionButton();
-                        return;
-                    }
-                    
-                    if (result.success) {
-                        showAlert(result.message, 'success');
-                        $('#deleteSubscriptionModal').modal('hide');
-                        
-                        // Remove the row from the table
-                        $(`button.delete-subscription-btn[data-sub_id="${subId}"]`).closest('tr').fadeOut(300, function() {
-                            $(this).remove();
-                            $('#subscriptionsTable').DataTable().draw();
-                        });
-                    } else {
-                        showAlert(result.message, 'danger');
-                    }
-                    
-                    resetDeleteSubscriptionButton();
-                },
-                error: function(xhr, status, error) {
-                    showAlert('Error deleting subscription: ' + error, 'danger');
-                    resetDeleteSubscriptionButton();
-                }
-            });
-        }
-
-        function resetDeleteSubscriptionButton() {
-            $('#confirmDeleteSubscriptionBtn').html('Delete Plan').prop('disabled', false);
-        }
-
-        function showAlert(message, type = 'info') {
-            const alertContainer = $('.alert-container');
-            const alertId = 'alert-' + Date.now();
-            
-            const iconClass = {
-                'success': 'fa-check-circle',
-                'danger': 'fa-exclamation-triangle',
-                'warning': 'fa-exclamation-circle',
-                'info': 'fa-info-circle'
-            }[type] || 'fa-info-circle';
-            
-            const alertHtml = `
-                <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
-                    <i class="fas ${iconClass} me-2"></i>
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-            
-            alertContainer.append(alertHtml);
-            
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                $(`#${alertId}`).alert('close');
-            }, 5000);
-            
-            // Remove from DOM after fade out
-            $(`#${alertId}`).on('closed.bs.alert', function() {
-                $(this).remove();
-            });
-        }
     </script>
 </body>
 </html>

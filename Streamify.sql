@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2025 at 12:09 AM
+-- Generation Time: Nov 01, 2025 at 12:18 AM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.3.14
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
   PRIMARY KEY (`log_id`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `activity_logs`
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `banners` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`banner_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 -- --------------------------------------------------------
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `cancellations` (
   PRIMARY KEY (`cancel_id`),
   KEY `user_id` (`user_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ;
 
 -- --------------------------------------------------------
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `categories`
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `content` (
   `is_scheduled` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`content_id`),
   KEY `idx_scheduled_release` (`is_scheduled`,`schedule_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `content`
@@ -211,7 +211,7 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (17, 'Frozen', 'Two sisters struggle with love, magic, and ice.', 'movie', 2013, 'thumbnails/frozen.jpg', 'banners/Frozen1.jpg', 7.4, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 5595, 102, NULL, 0),
 (18, 'Spider-Man: No Way Home', 'Peter Parker faces villains from across the multiverse.', 'movie', 2021, 'thumbnails/spiderman_nwh.jpg', 'banners/Spider-Man1.jpg', 8.2, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 1990, 148, NULL, 0),
 (19, 'Black Panther', 'T’Challa returns to Wakanda to rule as king and Black Panther.', 'movie', 2018, 'thumbnails/blackpanther.jpg', 'banners/Black Panther1.jpg', 7.3, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 3167, 134, NULL, 0),
-(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/The Avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9877, 143, NULL, 0),
+(20, 'The Avengers', 'Earth’s mightiest heroes unite against Loki.', 'movie', 2012, 'thumbnails/avengers.jpg', 'banners/The Avengers1.jpg', 8.0, '2025-09-02 15:11:19', 'videos/default.mp4', 0, 0, 9879, 143, NULL, 0),
 (21, 'Stranger Things', 'Kids face supernatural horrors in Hawkins.', 'tv_show', 2016, 'thumbnails/stranger_things.jpg', 'banners/Stranger_Things1.jpg', 8.7, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9831, NULL, NULL, 0),
 (22, 'Breaking Bad', 'A chemistry teacher turns to meth production.', 'tv_show', 2008, 'thumbnails/breakingbad.jpg', 'banners/BreakingBad1.jpg', 9.5, '2025-09-02 15:11:31', 'videos/default.mp4', 0, 1, 9538, NULL, NULL, 0),
 (23, 'Game of Thrones', 'Noble families fight for power in Westeros.', 'tv_show', 2011, 'thumbnails/got.jpg', 'banners/Game_of_Thrones.jpg', 9.3, '2025-09-02 15:11:31', 'videos/default.mp4', 1, 0, 8178, NULL, NULL, 0),
@@ -226,7 +226,7 @@ INSERT INTO `content` (`content_id`, `title`, `description`, `content_type`, `re
 (84, 'Sacred Games', 'A cop uncovers a dark conspiracy that threatens Mumbai.', 'tv_show', 2018, 'thumbnails/Sacred_Games.jpg', 'banners/Sacred_Games.jpg', 8.6, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 9982, NULL, NULL, 0),
 (83, 'Mirzapur', 'A lawless town ruled by the mafia king Kaleen Bhaiya.', 'tv_show', 2018, 'thumbnails/mirzapur.jpg', 'banners/Mirzapur.jpg', 8.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3337, NULL, NULL, 0),
 (82, 'The Family Man', 'A middle-class man secretly works as an intelligence officer.', 'tv_show', 2019, 'thumbnails/The_Family_Man.jpg', 'banners/The_Family_Man.jpg', 8.8, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 6754, NULL, NULL, 0),
-(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3767, NULL, NULL, 0),
+(80, 'Scam 1992', 'The rise and fall of stockbroker Harshad Mehta.', 'tv_show', 2020, 'thumbnails/Scam_1992.jpg', 'banners/Scam_1992.jpg', 9.5, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 3769, NULL, NULL, 0),
 (81, 'Made in Heaven', 'Wedding planners navigate love and lies in Delhi.', 'tv_show', 2019, 'thumbnails/madeinheaven.jpg', 'banners/madeinheaven.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 1, 8543, NULL, NULL, 0),
 (79, 'Chhichhore', 'A tragic event reunites college friends and memories.', 'movie', 2019, 'thumbnails/Chhichhorejpg', 'banners/Chhichhore.jpg', 8.1, '2025-10-30 09:41:22', 'videos/Chhichhore.mp4', 0, 0, 1433, NULL, NULL, 0),
 (78, 'Dangal', 'A father trains his daughters to become wrestling champions.', 'movie', 2016, 'thumbnails/Dangaljpg', 'banners/Dangal.jpg', 8.3, '2025-10-30 09:41:22', 'videos/default.mp4', 0, 0, 1537, NULL, NULL, 0),
@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `content_categories` (
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`content_id`,`category_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `content_categories`
@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `episodes` (
   PRIMARY KEY (`episode_id`),
   KEY `content_id` (`content_id`),
   KEY `idx_scheduled_release` (`is_scheduled`,`scheduled_release_date`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `episodes`
@@ -456,7 +456,22 @@ INSERT INTO `episodes` (`episode_id`, `content_id`, `episode_number`, `title`, `
 (10, 30, 1, 'Episode 1', 'Tommy Shelby leads the Peaky Blinders gang in Birmingham.', 57, '2013-09-12', 8.3, 'videos/default.mp4', 0, NULL),
 (12, 22, 2, 'Cat\'s in the bag', 'Cat cat', 48, '2008-01-27', NULL, 'videos/default.mp4', 0, NULL),
 (13, 22, 3, 'Ep3', 'Episode 3', 59, '2025-10-07', NULL, 'videos/default.mp4', 0, NULL),
-(16, 21, 2, 'Chapter Two: The Weirdo on Maple Street', 'Eleven escapes from the lab and meets Mike, Dustin, and Lucas. The boys try to contact Will using a makeshift radio.', 55, '2016-07-15', NULL, 'videos/default.mp4', 0, NULL);
+(16, 21, 2, 'Chapter Two: The Weirdo on Maple Street', 'Eleven escapes from the lab and meets Mike, Dustin, and Lucas. The boys try to contact Will using a makeshift radio.', 55, '2016-07-15', NULL, 'videos/default.mp4', 0, NULL),
+(17, 80, 1, 'The Beginning', 'A young Harshad Mehta arrives in Mumbai with dreams of making it big in the stock market. The episode sets up his ambitious journey from a small town to becoming the Big Bull.', 45, '2020-10-09', 9.2, 'videos/default.mp4', 0, NULL),
+(18, 80, 2, 'The Master Plan', 'Harshad Mehta discovers loopholes in the banking system and starts his master plan to manipulate the stock market. He begins his rise to power and wealth.', 48, '2020-10-09', 9.4, 'videos/default.mp4', 0, NULL),
+(19, 80, 3, 'The Fall', 'The authorities catch wind of Harshad\'s activities. The episode chronicles the beginning of his downfall as investigations begin into his financial manipulations.', 52, '2020-10-09', 9.3, 'videos/default.mp4', 0, NULL),
+(20, 84, 1, 'Kaaliya', 'Inspector Sartaj Singh receives a call from gangster Ganesh Gaitonde warning him about 25 days that will shake Mumbai. The hunt begins.', 55, '2018-07-06', 8.8, 'videos/default.mp4', 0, NULL),
+(21, 84, 2, 'Halahal', 'Sartaj digs deeper into Gaitonde\'s past while flashbacks reveal the criminal\'s rise to power. The conspiracy unfolds.', 52, '2018-07-06', 8.9, 'videos/default.mp4', 0, NULL),
+(22, 84, 3, 'Atapi Vatapi', 'Sartaj discovers connections to a larger conspiracy involving politicians and religious leaders. The mystery deepens.', 58, '2018-07-06', 8.7, 'videos/default.mp4', 0, NULL),
+(23, 83, 1, 'Welcome to Mirzapur', 'Two brothers, Guddu and Bablu, enter the criminal world of Mirzapur ruled by Kaleen Bhaiya. The game of power begins.', 50, '2018-11-16', 8.6, 'videos/default.mp4', 0, NULL),
+(24, 83, 2, 'The Game Begins', 'The brothers start working for Kaleen Bhaiya, but tensions rise. Guddu and Bablu realize the brutal reality of the criminal underworld.', 48, '2018-11-16', 8.5, 'videos/default.mp4', 0, NULL),
+(25, 83, 3, 'Blood and Revenge', 'Violence escalates as Kaleen Bhaiya\'s son crosses paths with the brothers. The episode sets up the path of revenge and bloodshed.', 55, '2018-11-16', 8.7, 'videos/default.mp4', 0, NULL),
+(26, 82, 1, 'The Double Life', 'Srikant Tiwari balances his secret life as an intelligence officer with his family responsibilities. A high-stakes mission begins.', 45, '2019-09-20', 8.8, 'videos/default.mp4', 0, NULL),
+(27, 82, 2, 'The Mission', 'Srikant and his team track down terrorists while he tries to keep his family from discovering his dangerous job.', 50, '2019-09-20', 8.6, 'videos/default.mp4', 0, NULL),
+(28, 82, 3, 'The Conflict', 'Srikant\'s work life and family life collide when his daughter\'s school trip overlaps with a critical intelligence operation.', 48, '2019-09-20', 8.9, 'videos/default.mp4', 0, NULL),
+(29, 81, 1, 'The Perfect Wedding', 'Tara and Karan start their wedding planning business Made in Heaven. They handle their first lavish wedding while navigating personal challenges.', 42, '2019-03-08', 8.4, 'videos/default.mp4', 0, NULL),
+(30, 81, 2, 'Behind the Scenes', 'The episode explores the complexities of Indian weddings while revealing secrets and conflicts within the families they serve.', 45, '2019-03-08', 8.5, 'videos/default.mp4', 0, NULL),
+(31, 81, 3, 'Love and Lies', 'Tara and Karan deal with a wedding that exposes hidden truths about relationships, class, and society in modern Delhi.', 48, '2019-03-08', 8.6, 'videos/default.mp4', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -475,7 +490,7 @@ CREATE TABLE IF NOT EXISTS `feedback` (
   PRIMARY KEY (`feedback_id`),
   KEY `user_id` (`user_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `feedback`
@@ -523,7 +538,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   KEY `idx_created_at` (`created_at`),
   KEY `idx_notifications_user_type` (`user_id`,`type`),
   KEY `idx_notifications_created_read` (`created_at`,`is_read`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `notifications`
@@ -597,7 +612,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   KEY `user_id` (`user_id`),
   KEY `subscription_id` (`subscription_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `payments`
@@ -634,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `reminders` (
   KEY `content_id` (`content_id`),
   KEY `idx_status` (`status`),
   KEY `idx_reminder_date` (`reminder_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `reminders`
@@ -663,7 +678,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
   `features` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`sub_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `subscriptions`
@@ -696,7 +711,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `users`
@@ -740,7 +755,7 @@ CREATE TABLE IF NOT EXISTS `user_subscriptions` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `sub_id` (`sub_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `user_subscriptions`
@@ -772,7 +787,7 @@ CREATE TABLE IF NOT EXISTS `watchlist` (
   PRIMARY KEY (`watchlist_id`),
   UNIQUE KEY `unique_watchlist` (`user_id`,`content_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `watchlist`
@@ -803,7 +818,7 @@ CREATE TABLE IF NOT EXISTS `watch_history` (
   PRIMARY KEY (`history_id`),
   KEY `user_id` (`user_id`),
   KEY `content_id` (`content_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 ;
 
 --
 -- Dumping data for table `watch_history`

@@ -249,10 +249,10 @@ $subscriptions_result = $conn->query($subscriptions_sql);
         
         <?php if ($active_subscription): ?>
             <div class="active-subscription">
-                <h3><i class="fas fa-crown text-warning"></i> You're Already Premium!</h3>
+                <h3><i class="fas fa-crown text-warning"></i> You're Already Premium User!</h3>
                 <p class="lead">You have an active <?php echo htmlspecialchars($active_subscription['name']); ?> subscription until 
                 <?php echo date('F j, Y', strtotime($active_subscription['end_date'])); ?>.</p>
-                <a href="dashboard.php" class="btn btn-primary">Go to Dashboard</a>
+                <a href="index.php" class="btn btn-primary">Go to Home</a>
             </div>
         <?php endif; ?>
         
@@ -286,6 +286,12 @@ $subscriptions_result = $conn->query($subscriptions_sql);
                         $savings = '<span class="savings-badge">Save '.$savings_percentage.'%</span>';
                     }
                 }
+                
+                // Check if this is the user's current active plan
+                $is_current_plan = false;
+                if ($active_subscription && $active_subscription['name'] == $plan['name']) {
+                    $is_current_plan = true;
+                }
             ?>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="subscription-card h-100 <?php echo $is_popular ? 'popular-plan' : ''; ?>">
@@ -295,14 +301,20 @@ $subscriptions_result = $conn->query($subscriptions_sql);
                         
                         <div class="card-header">
                             <div class="icon-container">
-                                <?php 
-                                $icons = [
-                                    1 => 'fas fa-star',
-                                    2 => 'fas fa-gem',
-                                    3 => 'fas fa-crown'
-                                ];
-                                ?>
-                                <i class="<?php echo $icons[$plan['sub_id']]; ?>"></i>
+                            <?php 
+                            $icons = [
+                                1 => 'fas fa-star',
+                                2 => 'fas fa-gem',
+                                3 => 'fas fa-crown'
+                            ];
+            
+                            // Safely get the icon class
+                            $icon_class = 'fas fa-star'; // Default
+                            if (isset($icons[$plan['sub_id']])) {
+                                $icon_class = $icons[$plan['sub_id']];
+                            }
+                            ?>
+                            <i class="<?php echo $icon_class; ?>"></i>
                             </div>
                             <h3><?php echo htmlspecialchars($plan['name']); ?></h3>
                         </div>
@@ -314,17 +326,17 @@ $subscriptions_result = $conn->query($subscriptions_sql);
                             </div>
                             <p class="period">
                                 <?php 
-$days = $plan['duration_days'];
-
-if ($days >= 365) {
-    echo '12 months'; // or '1 year' if you prefer
-} elseif ($days >= 30) {
-    $months = $days / 30;
-    echo ($months == 1) ? '1 month' : intval($months) . ' months';
-} else {
-    echo $days . ' days';
-}
-?>
+                                $days = $plan['duration_days'];
+            
+                                if ($days >= 365) {
+                                    echo '12 months'; // or '1 year' if you prefer
+                                } elseif ($days >= 30) {
+                                    $months = $days / 30;
+                                    echo ($months == 1) ? '1 month' : intval($months) . ' months';
+                                } else {
+                                    echo $days . ' days';
+                                }
+                                ?>
                                 <?php if ($plan['sub_id'] != 1): ?>
                                     <br><small>₹<?php echo number_format($monthly_price, 2); ?>/month</small>
                                 <?php endif; ?>
@@ -350,9 +362,18 @@ if ($days >= 365) {
                                     </button>
                                 </form>
                             <?php else: ?>
-                                <button class="btn btn-secondary mt-auto" disabled>
-                                    <i class="fas fa-check me-2"></i>Current Plan
-                                </button>
+                                <?php if ($is_current_plan): ?>
+                                    <button class="btn btn-success mt-auto" disabled>
+                                        <i class="fas fa-check me-2"></i>Current Plan
+                                    </button>
+                                <?php else: ?>
+                                    <form method="POST" class="mt-auto">
+                                        <input type="hidden" name="sub_id" value="<?php echo $plan['sub_id']; ?>">
+                                        <button type="submit" name="subscribe" class="btn btn-subscribe">
+                                            <i class="fas fa-rocket me-2"></i>Upgrade Now
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>

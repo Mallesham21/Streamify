@@ -21,7 +21,6 @@ if ($conn->connect_error) {
 }
 
 // Check if it's a POST request
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Check if action is set
     if (isset($_POST['action']) && $_POST['action'] === 'add_content') {
@@ -208,13 +207,6 @@ $stmt->bind_param("sssisssdsssss",
             'type' => 'danger'
         ]);
     }
-} else {
-    echo json_encode([
-        'success' => false,
-        'message' => "Invalid request method",
-        'type' => 'danger'
-    ]);
-}
 
 // File upload function (keep this function as is)
 function uploadFile($file, $target_dir, $content_title, $file_type) {
@@ -241,7 +233,7 @@ function uploadFile($file, $target_dir, $content_title, $file_type) {
         $file_name = $content_title_clean . '.' . $file_extension;
     }
     
-    $target_file = $target_dir . $file_name;
+    $target_file = $target_dir . "." . $file_name;
     
     // Check if file already exists and generate unique name
     $counter = 1;
